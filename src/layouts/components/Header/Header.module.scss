@@ -1,0 +1,51 @@
+.wrapper {
+  width: 100%;
+  background-color: var(--white-color);
+
+}
+
+.header-wrapper {
+  width: 100%;
+  height: var(--height-header);
+  display: flex;
+  align-items: center;
+}
+
+.header-height {
+  height: var(--height-header);
+}
+
+.logo-wrapper {
+  display: block;
+  width: 127px;
+  height: 40px;
+  @media only screen and (max-width: 768px) {
+    width: 100px;
+
+  }
+  @media only screen and (max-width: 900px) {
+    width: 120px;
+
+  }
+
+  .logo {
+    line-height: var(--height-header);
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+  }
+}
+
+.menu {
+  border: 0;
+  margin-right: 12px;
+  cursor: pointer;
+  display: flex;
+  line-height: 0;
+
+  svg {
+    width: 36px;
+    height: 40px;
+  }
+}

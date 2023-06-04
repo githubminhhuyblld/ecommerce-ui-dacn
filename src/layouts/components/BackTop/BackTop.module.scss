@@ -1,0 +1,42 @@
+.wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  background-color: var(--primary-color);
+  justify-content: center;
+  border: 1px solid var(--primary-color);
+  border-radius: 50%;
+  transition: all 0.3s linear;
+  cursor: pointer;
+  z-index: 9999;
+
+  &:hover svg {
+    transition: 0.3s linear all;
+    animation: backTop 0.3s linear infinite;
+    color: var(--white-color);
+  }
+  svg {
+    font-size: 3rem;
+    color: var(--white-color);
+  }
+  .go__top-icon {
+    font-size: 2.4rem;
+    font-weight: bold;
+
+  }
+  @keyframes backTop {
+    0% {
+      transform: translateY(1px);
+    }
+    50% {
+      transform: translateY(3px);
+    }
+    100% {
+      transform: translateY(6px);
+    }
+  }
+}

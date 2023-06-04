@@ -1,0 +1,17 @@
+.wrapper{
+  width: 100%;
+  padding-bottom: 30px;
+  padding-top: var(--padding-top);
+  background: var(--background);
+
+}
+.wrapper-product{
+  width: 100%;
+  margin-top: 30px;
+}
+.header-text{
+  text-transform: uppercase;
+  color: var(--primary-color);
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+}

@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+    --primary-color: #f57224;
+    --white-color: #ffffff;
+    --text-color: #212121;
+    --title-color: #333;
+    --background: rgba(0, 0, 0, .03);
+    --text-navbar: #0F1568;
+
+    /*height*/
+    --top-navbar-height: 30px;
+    --height-header: 75px;
+    --height-navbar-wrapper: 34px;
+    --padding-top: 130px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    text-rendering: optimizeSpeed;
+    font-family: Helvetica Neue, Helvetica, Arial, 文泉驛正黑, WenQuanYi Zen Hei,
+    Hiragino Sans GB, 儷黑 Pro, LiHei Pro, Heiti TC, 微軟正黑體,
+    Microsoft JhengHei UI, Microsoft JhengHei, sans-serif;
+
+}
+
+h1.h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+input {
+    font-size: 1.6rem;
+}
+
+
+.box-shadow {
+    box-shadow: 0 3px 10px 0 rgb(22 13 13 / 14%);
+}
+
+/* Scrollbar css */
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(22, 24, 35, 0.06);
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(22, 24, 35, 0.06);
+}
+
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/*class common*/
+
+.arrow {
+    content: "";
+    border-style: solid;
+    border-width: 0 10px 10px;
+    border-color: transparent transparent var(--primary-color);
+    position: absolute;
+}
+
+/*customer material ui*/
+body.MuiContainer-root.MuiContainer-maxWidthLg {
+    max-width: 1188px;
+}
+body span.MuiBadge-badge.MuiBadge-standard.MuiBadge-anchorOriginTopRight.MuiBadge-anchorOriginTopRightRectangular.MuiBadge-overlapRectangular.MuiBadge-colorSecondary.css-jcn4dz-MuiBadge-badge{
+    font-size: 1.2rem;
+    background-color: var(--primary-color);
+
+}
+
+@media only screen and (max-width: 375px) {
+    .css-1oqqzyl-MuiContainer-root {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+}
+
+/*pro-sidebar customer*/
+span.ps-menu-label.ps-active.css-12w9als {
+    color: var(--primary-color) !important;
+}
+
+/* customer react-toastify */
+body .Toastify__toast-body > div:last-child {
+    font-size: 1.2rem;
+}
+/*customer react-slick*/
+body.slick-slide.slick-active.slick-center.slick-current div {
+    display: flex !important;
+}
