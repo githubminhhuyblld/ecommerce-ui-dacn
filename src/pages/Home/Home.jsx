@@ -8,7 +8,7 @@ import styles from "./Home.module.scss";
 import Category from "~/pages/Home/Category/Category.jsx";
 import ProductItem from "~/layouts/components/ProductItem/ProductItem.jsx";
 import BackTop from "~/layouts/components/BackTop/BackTop.jsx";
-import {selectError, selectLoading, selectProducts} from "~/store/reducers/productsSlice.js";
+import { selectProducts} from "~/store/reducers/productsSlice.js";
 import {fetchProducts} from "~/services/workspacesService.jsx";
 
 const cx = classNames.bind(styles);
