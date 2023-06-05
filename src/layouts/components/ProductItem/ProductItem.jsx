@@ -32,7 +32,7 @@ function ProductItem(props) {
         );
     }
     return (
-        <Link to={""} className={cx('wrapper')}>
+        <Link to={`/product-detail/${product.id}`} className={cx('wrapper')}>
             <Card>
                 <div className={cx("product-image")}>
                     <img src={product.mainImage} alt={product.name}/>
