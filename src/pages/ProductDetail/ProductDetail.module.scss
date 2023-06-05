@@ -116,6 +116,9 @@
   &:hover{
     opacity: 0.9;
   }
+  @media only screen and (max-width: 600px) {
+    font-size: 1.2rem;
+  }
 }
 .btn-add-cart{
   width: 50%;
@@ -131,5 +134,8 @@
   border-radius: 4px;
   &:hover{
     opacity: 0.9;
+  }
+  @media only screen and (max-width: 600px) {
+    font-size: 1.2rem;
   }
 }
