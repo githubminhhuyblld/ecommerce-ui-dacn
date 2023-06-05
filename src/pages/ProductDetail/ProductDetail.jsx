@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from "classnames/bind";
 import {useParams} from "react-router-dom";
 import {Container, Grid} from "@mui/material";
+import ReactImageGallery from 'react-image-gallery';
+import 'react-image-gallery/styles/css/image-gallery.css';
 
 
 import styles from "./ProductDetail.module.scss";
@@ -31,7 +33,9 @@ function ProductDetail(props) {
     const colorOptions = productDetail?.colors?.map((item) => {
         return {id: item.id, label: item.colorName};
     });
-
+    const imagesOptions = productDetail?.images?.map((item) => {
+        return {id: item.id, original: item.imgUrl,thumbnail:item.imgUrl};
+    });
 
     const sizeOptions = productDetail?.sizes?.map((item) => {
         return {id: item.id, label: item.name};
@@ -53,6 +57,23 @@ function ProductDetail(props) {
             setCount(count - 1);
         }
     };
+    const renderImageItem = (item) => {
+        return (
+            <div className={cx('main-image')}>
+                <img src={item.original} alt=""/>
+            </div>
+        );
+    };
+    const renderThumbnailItem = (item) => {
+        return (
+            <div className="image-gallery-thumbnail">
+                <img
+                    src={item.thumbnail}
+                    alt=""
+                />
+            </div>
+        );
+    };
 
 
 
@@ -63,7 +84,15 @@ function ProductDetail(props) {
                     <Grid container spacing={2}>
                         <Grid container item sm={12} md={3} lg={4} justifyContent="center">
                             <div className={cx("main-image")}>
-                                <img src={productDetail?.mainImage} alt=""/>
+                                {
+                                    imagesOptions && imagesOptions.length > 0 &&(
+                                        <ReactImageGallery
+                                            items={imagesOptions}
+                                            renderItem={renderImageItem}
+                                            renderThumbInner={renderThumbnailItem}
+                                        />
+                                    )
+                                }
                             </div>
                         </Grid>
                         <Grid item sm={12} md={8} lg={8}>
