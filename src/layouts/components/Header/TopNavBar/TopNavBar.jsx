@@ -19,7 +19,7 @@ const cx = classNames.bind(styles);
 TopNavBar.propTypes = {};
 
 function TopNavBar(props) {
-    const [isUser, setIsUser] = useState(true)
+    const [isUser, setIsUser] = useState(false)
     const isDesktop = useMediaQuery({minWidth: 1024})
     const userDropdown = [
         {id: 1, name: "Thông tin tài khoản", icon: <FiUserPlus/>},
