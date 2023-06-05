@@ -1,3 +1,135 @@
 .wrapper{
   width: 100%;
+  padding-top: var(--padding-top);
+  background-color: var(--background);
+
+}
+.wrapper-content{
+  width: 100%;
+  background-color: var(--white-color);
+  padding: 20px 0;
+}
+.main-image{
+  width: 330px;
+  height: 330px;
+  margin: 12px 0;
+  img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+.product-info{
+  margin: 12px 0;
+}
+.vote{
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+  svg{
+    color: yellow;
+    font-weight: bold;
+  }
+  .rating{
+    font-weight: 400;
+    margin-left: 4px;
+  }
+}
+.product-name{
+  font-size: 2.4rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.new-price{
+  font-size: 2.8rem;
+  color: var(--primary-color);
+}
+.price{
+  display: flex;
+  align-items: center;
+}
+.old-price{
+  font-size: 2rem;
+  font-weight: 400;
+  margin-right: 6px;
+  color: #929292;
+  text-decoration: line-through;
+}
+.options{
+  padding: 4px 0;
+}
+.title{
+  color: var(--text-color);
+  font-weight: 500;
+}
+.amount{
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+}
+.amount-item{
+  padding: 6px 22px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #dadada;
+  opacity: 1;
+  &:hover{
+    opacity: 0.8;
+  }
+}
+.count{
+  padding: 0 8px
+}
+.amount-item-disabled{
+  background-color: #f5f5f5;
+  cursor: default;
+}
+.shop{
+  margin-bottom: 12px;
+}
+.shop-name{
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.shop-address{
+  font-size: 1.4rem;
+}
+.function{
+  display: flex;
+  align-items: center;
+}
+.btn-buy-now{
+  width: 50%;
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  padding: 10px 12px;
+  border: 0;
+  background-color: #ffb916;
+  color: var(--white-color);
+  opacity: 1;
+  margin-right: 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  &:hover{
+    opacity: 0.9;
+  }
+}
+.btn-add-cart{
+  width: 50%;
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  padding: 10px 12px;
+  margin-left: 6px;
+  border: 0;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  opacity: 1;
+  cursor: pointer;
+  border-radius: 4px;
+  &:hover{
+    opacity: 0.9;
+  }
 }

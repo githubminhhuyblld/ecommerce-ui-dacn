@@ -13,7 +13,7 @@
     --top-navbar-height: 30px;
     --height-header: 75px;
     --height-navbar-wrapper: 34px;
-    --padding-top: 130px;
+    --padding-top: 30px;
 }
 
 * {
@@ -82,6 +82,12 @@ html *::-webkit-scrollbar-track {
     border-width: 0 10px 10px;
     border-color: transparent transparent var(--primary-color);
     position: absolute;
+}
+.btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 /*customer material ui*/
