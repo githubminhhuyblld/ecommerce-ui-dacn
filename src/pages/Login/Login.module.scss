@@ -1,0 +1,80 @@
+.wrapper{
+  width: 100%;
+  background-color: var(--background);
+  padding: 60px;
+  height: 100vh;
+}
+.form-login{
+  margin: 0 auto;
+  width: 100%;
+  background-color: var(--white-color);
+  padding: 24px ;
+  border-radius: 4px;
+}
+.title{
+  font-size: 2rem;
+  color: var(--primary-color);
+
+
+}
+body .input-field{
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+body .field-pass{
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.forgot-pass{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 1.4rem;
+  color: #1d4ed8;
+}
+.submit{
+  margin: 12px 0;
+}
+.btn-login{
+  padding: 10px 6px;
+  font-size: 1.8rem;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+  color: var(--white-color);
+  cursor: pointer;
+  border: 0;
+  opacity: 1;
+  text-transform: uppercase;
+  width: 100%;
+  &:hover{
+    opacity: 0.8;
+  }
+}
+.order{
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+}
+.order-item{
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 6px;
+  margin: 4px;
+  border: 1px solid #cccccc;
+  transition: all 0.2s linear;
+  svg{
+    margin-right: 4px;
+    color: #1d4ed8;
+  }
+  &:hover{
+    background-color: rgba(0,0,0,0.08);
+  }
+}
+.error{
+  color: #dc2626;
+  font-size: 1.4rem;
+}

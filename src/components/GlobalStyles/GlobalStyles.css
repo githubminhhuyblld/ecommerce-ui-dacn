@@ -94,10 +94,32 @@ html *::-webkit-scrollbar-track {
 body.MuiContainer-root.MuiContainer-maxWidthLg {
     max-width: 1188px;
 }
+body input.MuiInputBase-input.MuiInput-input {
+    font-size: 1.6rem;
+}
 body span.MuiBadge-badge.MuiBadge-standard.MuiBadge-anchorOriginTopRight.MuiBadge-anchorOriginTopRightRectangular.MuiBadge-overlapRectangular.MuiBadge-colorSecondary.css-jcn4dz-MuiBadge-badge{
     font-size: 1.2rem;
     background-color: var(--primary-color);
 
+}
+body input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputAdornedEnd {
+    font-size: 1.6rem;
+}
+
+
+
+body .MuiInput-underline:after{
+    border-bottom: 0 !important;
+}
+body .MuiInput-underline:hover:not(.Mui-disabled):before{
+    border-bottom: 0;
+}
+body .MuiInput-underline:before{
+    border-bottom: 0;
+}
+
+body .MuiInput-underline:hover:not(.Mui-disabled):before{
+   display: none;
 }
 
 @media only screen and (max-width: 375px) {

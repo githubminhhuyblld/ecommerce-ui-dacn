@@ -66,7 +66,7 @@ function ProductDetail(props) {
     };
     const renderThumbnailItem = (item) => {
         return (
-            <div className="image-gallery-thumbnail">
+            <div className={cx("image-gallery-thumbnail")}>
                 <img
                     src={item.thumbnail}
                     alt=""
