@@ -82,7 +82,7 @@ function ProductDetail(props) {
             <Container>
                 <div className={cx("wrapper-content")}>
                     <Grid container spacing={2}>
-                        <Grid container item sm={12} md={3} lg={4} justifyContent="center">
+                        <Grid container item sm={12} md={3} lg={4} justifyContent="center" style={{marginBottom:"95px"}}>
                             <div className={cx("main-image")}>
                                 {
                                     imagesOptions && imagesOptions.length > 0 &&(
