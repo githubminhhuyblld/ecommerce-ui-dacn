@@ -83,11 +83,17 @@ html *::-webkit-scrollbar-track {
     border-color: transparent transparent var(--primary-color);
     position: absolute;
 }
-.btn{
+.btn {
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+.error {
+    color: #dc2626;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
 }
 
 /*customer material ui*/
