@@ -97,9 +97,10 @@ html *::-webkit-scrollbar-track {
 }
 
 /*customer material ui*/
-body.MuiContainer-root.MuiContainer-maxWidthLg {
-    max-width: 1188px;
+body .MuiContainer-root.MuiContainer-maxWidthLg.css-1oqqzyl-MuiContainer-root {
+    max-width: 1480px;
 }
+
 body input.MuiInputBase-input.MuiInput-input {
     font-size: 1.6rem;
 }
