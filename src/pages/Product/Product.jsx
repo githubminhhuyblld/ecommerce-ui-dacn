@@ -17,19 +17,21 @@ function Product(props) {
     const isTablet = useMediaQuery({minWidth: 900})
     return (
         <div className={cx("wrapper")}>
-            <Grid container spacing={4}>
-                {
-                    isTablet && (
-                        <Grid item md={maxWidthLg ? 3 : 2}>
-                            <Category/>
-                        </Grid>
-                    )
-                }
-                <Grid style={{width: "100%"}} item sm={12} md={maxWidthLg ? 9 : 10}>
-                    <Content/>
-                </Grid>
+            <Container>
+                <Grid container spacing={4}>
+                    {
+                        isTablet && (
+                            <Grid item md={maxWidthLg ? 3 : 2}>
+                                <Category/>
+                            </Grid>
+                        )
+                    }
+                    <Grid style={{width: "100%"}} item sm={12} md={maxWidthLg ? 9 : 10}>
+                        <Content/>
+                    </Grid>
 
-            </Grid>
+                </Grid>
+            </Container>
         </div>
     );
 }
