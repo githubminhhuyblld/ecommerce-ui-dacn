@@ -56,7 +56,7 @@ function CategoryItem(props) {
         return (
             <Link
                 key={item.id}
-                to={``}
+                to={`/product-category/${item.id}`}
                 className={cx("category-item")}
             >
                 <div className={cx("box-image")}>

@@ -127,7 +127,7 @@ function ProductDetail(props) {
                                 {isLoading ? (
                                     <Skeleton animation="wave" height={50} width="100%" style={{marginBottom: 12}}/>
                                 ) : (
-                                    <h3 className={cx("product-name")}>{productDetail?.description}</h3>
+                                    <h3 className={cx("product-name")}>{productDetail?.name}</h3>
                                 )}
 
                                 {

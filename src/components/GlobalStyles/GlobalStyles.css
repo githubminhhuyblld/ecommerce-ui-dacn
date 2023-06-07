@@ -112,6 +112,10 @@ body input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputAdornedEnd {
     font-size: 1.6rem;
 }
 
+body li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button {
+    font-size: 1.6rem;
+}
+
 
 
 body .MuiInput-underline:after{
