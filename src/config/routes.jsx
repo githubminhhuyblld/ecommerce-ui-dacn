@@ -5,6 +5,7 @@ const routes = {
     createAccount:"/create-account",
     account:"/account",
     productDetail:"/product-detail/:id",
+    product: "/product-category/:id"
 
 
 };
