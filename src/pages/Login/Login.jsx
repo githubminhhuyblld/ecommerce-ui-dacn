@@ -32,7 +32,7 @@ function Login(props) {
             username: Yup.string().required('Vui lòng nhập tên tài khoản'),
             password: Yup.string().required('Vui lòng nhập mật khẩu')
                 .min(6, 'Mật khẩu phải chứa ít nhất 6 kí tự')
-                .max(30, 'Mật khẩu không được vượt quá 30 kí tự'),
+                .max(20, 'Mật khẩu không được vượt quá 20 kí tự'),
         }),
         onSubmit: (values) => {
             console.log(values);
@@ -54,7 +54,7 @@ function Login(props) {
                             fullWidth
                             margin="normal"
                         />
-                        <span className={cx('error')}>{formik.touched.username && formik.errors.username}</span>
+                        <span className={`error`}>{formik.touched.username && formik.errors.username}</span>
                         <TextField
                             name="password"
                             value={formik.values.password}
