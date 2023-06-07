@@ -6,11 +6,11 @@ import ProductDetail from "~/pages/ProductDetail/ProductDetail.jsx";
 
 
 const publicRoutes = [
-  { path: "/", component: Home },
-  { path: config.routes.home, component: Home },
-  { path: config.routes.productDetail, component: ProductDetail },
-  { path: config.routes.login, component: Login},
-  { path: config.routes.register, component: Register, layout: null },
+    {path: "/", component: Home},
+    {path: config.routes.home, component: Home},
+    {path: config.routes.productDetail, component: ProductDetail},
+    {path: config.routes.login, component: Login},
+    {path: config.routes.register, component: Register},
 ];
 const privateRoutes = [];
 export { publicRoutes, privateRoutes };

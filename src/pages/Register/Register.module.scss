@@ -1,0 +1,93 @@
+.wrapper {
+  width: 100%;
+  background-color: var(--background);
+  padding: 30px 60px;
+
+}
+
+.form-register {
+  margin: 0 auto;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.form-left {
+  width: 100% !important;
+  background-color: var(--white-color);
+  padding: 20px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  @media only screen and (max-width: 900px) {
+    padding-bottom: 0 !important;
+  }
+
+}
+
+.form-right {
+  background-color: var(--white-color);
+  padding: 20px 20px 45px 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  @media only screen and (max-width: 768px) {
+    padding-top: 0 !important;
+  }
+
+}
+
+.label-item {
+  font-size: 1.4rem;
+  color: #424242;
+
+  span {
+    color: #dc2626;
+  }
+
+}
+
+.title {
+  font-size: 2rem;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 30px;
+
+
+}
+
+body .input-field {
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin: 4px 0;
+}
+
+body .field-pass {
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.label-item {
+
+}
+
+.btn-register {
+  padding: 14px 8px;
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  color: var(--white-color);
+  opacity: 1;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.rule {
+  padding-bottom: 20px;
+  font-size: 1.3rem;
+  color: #929292;
+}

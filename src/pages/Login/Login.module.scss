@@ -2,7 +2,6 @@
   width: 100%;
   background-color: var(--background);
   padding: 60px;
-  height: 100vh;
 }
 .form-login{
   margin: 0 auto;
@@ -73,8 +72,4 @@ body .field-pass{
   &:hover{
     background-color: rgba(0,0,0,0.08);
   }
-}
-.error{
-  color: #dc2626;
-  font-size: 1.4rem;
 }
