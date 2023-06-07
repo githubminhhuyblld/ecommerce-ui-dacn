@@ -139,12 +139,19 @@
     font-size: 1.2rem;
   }
 }
-.image-gallery-thumbnail{
+.image-gallery-thumbnail {
   width: 80px;
   height: 80px;
-  img{
+
+  img {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
+}
+
+.thumbnail-skeleton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
