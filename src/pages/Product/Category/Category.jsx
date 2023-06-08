@@ -19,7 +19,7 @@ function Category(props) {
 
     useEffect(() => {
         dispatch(fetchCategories());
-    }, [dispatch]);
+    }, [dispatch, id]);
     const handleGetData = (data) => {
         setActiveCategoryId(data.id)
 
@@ -33,7 +33,8 @@ function Category(props) {
                 <h3 className={cx('header-text')}>Tất cả danh mục</h3>
             </div>
             <div className={cx('divider')}></div>
-            <CategoryItem activeCategoryId={activeCategoryId} getData={handleGetData} data={categories.data}/>
+            <CategoryItem activeCategoryId={activeCategoryId} getData={handleGetData}
+                          data={categories?.data?.length > 0 ? categories?.data : []}/>
         </div>
     );
 }
