@@ -39,7 +39,7 @@ function ProductItem(props) {
                 </div>
                 <CardContent>
                     <Typography variant="h6" className={cx('product-name')}>
-                        {product.description}
+                        {product.name}
                     </Typography>
                     <div className={cx('price')}>
                         <Typography variant="body1">
