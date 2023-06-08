@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames/bind";
 import {Select, MenuItem, FormControl} from '@material-ui/core';
+import {Grid} from "@mui/material";
 
 import styles from "./Content.module.scss";
+import ProductItem from "~/pages/Product/ProductItem/ProductItem.jsx";
 
 Content.propTypes = {};
 const cx = classNames.bind(styles);
@@ -39,6 +41,32 @@ function Content(props) {
                         </FormControl>
                     </div>
                 </div>
+            </div>
+            <div className={cx("content")}>
+                <Grid container spacing={2}>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                        <ProductItem/>
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                        <ProductItem/>
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                        <ProductItem/>
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                        <ProductItem/>
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                        <ProductItem/>
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                        <ProductItem/>
+                    </Grid>
+                    <Grid item lg={3} md={4} sm={6} xs={12}>
+                        <ProductItem/>
+                    </Grid>
+
+                </Grid>
             </div>
         </div>
     );
