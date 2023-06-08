@@ -17,6 +17,7 @@ CategoryItem.propTypes = {
 
 function CategoryItem(props) {
     const {data, activeCategoryId, getData} = props;
+    console.log(data)
     return (
         <div className={cx("category-content")}>
             {data?.map((item, index) => {
