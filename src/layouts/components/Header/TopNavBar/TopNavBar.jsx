@@ -16,7 +16,6 @@ import {MdOutlineFavoriteBorder} from "react-icons/md"
 import {TbBrandSamsungpass} from "react-icons/tb"
 import {fetchUserInfo, selectUser, setAuthenticated} from "~/store/reducers/userSlice.js";
 import AuthService from "~/services/auth/AuthService.jsx";
-import {fetchProducts} from "~/services/workspacesService.jsx";
 
 
 const cx = classNames.bind(styles);

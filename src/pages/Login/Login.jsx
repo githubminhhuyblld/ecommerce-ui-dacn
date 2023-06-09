@@ -32,13 +32,12 @@ function Login(props) {
         },
         validationSchema: Yup.object().shape({
             username: Yup.string().required('Vui lòng nhập tên tài khoản'),
-            password: Yup.string().required('Vui lòng nhập mật khẩu')
-                .min(6, 'Mật khẩu phải chứa ít nhất 6 kí tự')
-                .max(20, 'Mật khẩu không được vượt quá 20 kí tự'),
+            password: Yup.string().required('Vui lòng nhập mật khẩu'),
+
         }),
         onSubmit: async (values) => {
             try {
-                const response = await AuthService.login(formik.values.username, formik.values.password)
+                const response = await AuthService.login(values.username, values.password)
                 if (response.accessToken) {
                     dispatch(setAuthenticated(true));
                     navigate(config.routes.home)
@@ -75,8 +74,8 @@ function Login(props) {
         <div className={cx('wrapper')}>
             <Grid container alignItems="center" justifyContent="center">
                 <Grid item sm={8} md={6} lg={4}>
+                    <h3 className={cx("title")}>Chào mừng đến với Lazada. Đăng nhập ngay!</h3>
                     <form className={cx("form-login")}>
-                        <h3 className={cx("title")}>Chào mừng đến với Lazada. Đăng nhập ngay!</h3>
                         {
                             errorMessage.length > 0 && (
                                 <span className={cx('error-message')}>{errorMessage}</span>
@@ -130,6 +129,8 @@ function Login(props) {
                                 <BsFacebook/> <span>Facebook</span>
                             </Link>
                         </div>
+                        <p className={cx("register-link")}>Thành viên mới? <Link to={config.routes.register}>Đăng
+                            ký</Link> tại đây</p>
 
                         <div className={cx("submit")}>
                             <button type="button" className={`btn ${cx('btn-login')}`} onClick={formik.handleSubmit}>
