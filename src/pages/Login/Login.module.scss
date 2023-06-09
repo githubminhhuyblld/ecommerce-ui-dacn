@@ -65,11 +65,25 @@ body .field-pass{
   margin: 4px;
   border: 1px solid #cccccc;
   transition: all 0.2s linear;
-  svg{
+
+  svg {
     margin-right: 4px;
     color: #1d4ed8;
   }
-  &:hover{
-    background-color: rgba(0,0,0,0.08);
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.08);
   }
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white-color);
+  text-align: center;
+  background-color: #f87171;
+  opacity: 0.9;
+  border-radius: 4px;
+  padding: 12px;
 }
