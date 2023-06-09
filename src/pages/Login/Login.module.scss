@@ -13,6 +13,7 @@
 .title{
   font-size: 2rem;
   color: var(--primary-color);
+  margin-bottom: 20px;
 
 
 }
@@ -74,6 +75,11 @@ body .field-pass{
   &:hover {
     background-color: rgba(0, 0, 0, 0.08);
   }
+}
+
+.register-link {
+  font-size: 1.4rem;
+
 }
 
 .error-message {
