@@ -1,28 +1,30 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames/bind";
-import { TextField, InputAdornment, IconButton, Grid} from '@material-ui/core';
-import {Link} from "react-router-dom";
-import { useFormik } from 'formik';
+import {TextField, InputAdornment, IconButton, Grid} from '@material-ui/core';
+import {Link, useNavigate} from "react-router-dom";
+import {useFormik} from 'formik';
 import * as Yup from 'yup';
-
-
+import {useDispatch} from "react-redux";
 
 
 import styles from "./Login.module.scss";
-import {MdOutlineVisibilityOff,MdOutlineVisibility} from "react-icons/md";
+import {MdOutlineVisibilityOff, MdOutlineVisibility} from "react-icons/md";
 import {FcGoogle} from "react-icons/fc";
 import {BsFacebook} from "react-icons/bs";
+import AuthService from "~/services/auth/AuthService.jsx";
+import config from "~/config/index.jsx";
+import {fetchUserInfo, setAuthenticated} from "~/store/reducers/userSlice.js";
 
 
 const cx = classNames.bind(styles);
 
-Login.propTypes = {
-
-};
+Login.propTypes = {};
 
 function Login(props) {
-
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [errorMessage, setErrorMessage] = useState("")
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -34,16 +36,52 @@ function Login(props) {
                 .min(6, 'Mật khẩu phải chứa ít nhất 6 kí tự')
                 .max(20, 'Mật khẩu không được vượt quá 20 kí tự'),
         }),
-        onSubmit: (values) => {
-            console.log(values);
+        onSubmit: async (values) => {
+            try {
+                const response = await AuthService.login(formik.values.username, formik.values.password)
+                if (response.accessToken) {
+                    dispatch(setAuthenticated(true));
+                    navigate(config.routes.home)
+                    await dispatch(fetchUserInfo())
+
+                }
+            } catch (error) {
+                if (error.response.status === 400) {
+                    setErrorMessage("Tài khoản hoặc mật khẩu không đúng")
+                }
+            }
+
+
         },
     });
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            formik.handleSubmit()
+        }
+    }
+
+    useEffect(() => {
+        if (formik.values.password.length > 0) {
+            setErrorMessage("")
+        }
+    }, [formik.values.password])
+    useEffect(() => {
+        if (formik.values.username.length > 0) {
+            setErrorMessage("")
+        }
+    }, [formik.values.username])
+
     return (
         <div className={cx('wrapper')}>
             <Grid container alignItems="center" justifyContent="center">
                 <Grid item sm={8} md={6} lg={4}>
                     <form className={cx("form-login")}>
                         <h3 className={cx("title")}>Chào mừng đến với Lazada. Đăng nhập ngay!</h3>
+                        {
+                            errorMessage.length > 0 && (
+                                <span className={cx('error-message')}>{errorMessage}</span>
+                            )
+                        }
                         <TextField
                             name="username"
                             className={cx('input-field')}
@@ -61,6 +99,7 @@ function Login(props) {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             type={formik.values.showPassword ? 'text' : 'password'}
+                            onKeyPress={handleKeyPress}
                             className={cx('input-field')}
                             fullWidth
                             placeholder="Mật khẩu"
@@ -73,7 +112,8 @@ function Login(props) {
                                                 formik.setFieldValue('showPassword', !formik.values.showPassword);
                                             }}
                                         >
-                                            {formik.values.showPassword ? <MdOutlineVisibilityOff /> : <MdOutlineVisibility />}
+                                            {formik.values.showPassword ? <MdOutlineVisibilityOff/> :
+                                                <MdOutlineVisibility/>}
                                         </IconButton>
                                     </InputAdornment>
                                 ),
@@ -91,11 +131,11 @@ function Login(props) {
                             </Link>
                         </div>
 
-                     <div className={cx("submit")}>
-                         <button type="button" className={`btn ${cx('btn-login')}`} onClick={formik.handleSubmit}>
-                             Đăng nhập
-                         </button>
-                     </div>
+                        <div className={cx("submit")}>
+                            <button type="button" className={`btn ${cx('btn-login')}`} onClick={formik.handleSubmit}>
+                                Đăng nhập
+                            </button>
+                        </div>
                     </form>
                 </Grid>
             </Grid>
