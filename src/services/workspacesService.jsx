@@ -19,3 +19,9 @@ export const getProductById = async (id) => {
     const response = await instance.get(`/products/${id}`)
     return response.data
 }
+export const checkUsernameExists = async (username) => {
+    return await instance.get(`/users/check-username?username=${username}`)
+}
+export const checkEmailExists = async (email) => {
+    return await instance.get(`/users/check-email?email=${email}`)
+}
