@@ -25,3 +25,6 @@ export const checkUsernameExists = async (username) => {
 export const checkEmailExists = async (email) => {
     return await instance.get(`/users/check-email?email=${email}`)
 }
+export const loginGoogleService = async (body) => {
+    return await instance.post(`/google/login`, body)
+}
