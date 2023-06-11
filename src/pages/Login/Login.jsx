@@ -6,6 +6,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {useDispatch} from "react-redux";
+import {GoogleOAuthProvider, googleLogout, GoogleLogin, useGoogleLogin} from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
 
 
 import styles from "./Login.module.scss";
@@ -15,6 +17,7 @@ import {BsFacebook} from "react-icons/bs";
 import AuthService from "~/services/auth/AuthService.jsx";
 import config from "~/config/index.jsx";
 import {fetchUserInfo, setAuthenticated} from "~/store/reducers/userSlice.js";
+import {loginGoogleService} from "~/services/workspacesService.jsx";
 
 
 const cx = classNames.bind(styles);
@@ -69,6 +72,36 @@ function Login(props) {
             setErrorMessage("")
         }
     }, [formik.values.username])
+    const handleLogoutGoogle = () => {
+        googleLogout();
+    }
+    const loginSuccessHandler = async (credentialResponse) => {
+        const decoded = jwt_decode(credentialResponse.credential);
+        const body = {
+            email: decoded.email,
+            familyName: decoded.given_name,
+            givenName: decoded.family_name,
+            image: decoded.picture,
+        }
+        console.log(decoded)
+        const response = await loginGoogleService(body)
+        const token = response?.data
+        if (token) {
+            localStorage.setItem("token", JSON.stringify(token));
+            if (token.accessToken) {
+                dispatch(setAuthenticated(true));
+                navigate(config.routes.home)
+                await dispatch(fetchUserInfo())
+
+            }
+        }
+
+    };
+
+    const loginErrorHandler = () => {
+        console.log('Login Failed');
+    };
+
 
     return (
         <div className={cx('wrapper')}>
@@ -122,13 +155,22 @@ function Login(props) {
                         <span className={cx('error')}>{formik.touched.password && formik.errors.password}</span>
                         <a className={cx("forgot-pass")} href="">Quên mật khẩu</a>
                         <div className={cx('order')}>
-                            <Link className={cx('order-item')} to={""}>
-                                <FcGoogle/> <span>Google</span>
-                            </Link>
+                            <GoogleOAuthProvider
+                                clientId="690152027840-d8gf9jqqn4rkdl4osirgt6rg2l8nsdka.apps.googleusercontent.com">
+                                <GoogleLogin
+                                    buttonText="Đăng nhập với Google"
+                                    cookiePolicy="single_host_origin"
+                                    onSuccess={loginSuccessHandler}
+                                    onError={loginErrorHandler}
+                                    logo_alignment="left"
+                                    width={"50%"}
+                                />
+                            </GoogleOAuthProvider>
                             <Link className={cx('order-item')} to={""}>
                                 <BsFacebook/> <span>Facebook</span>
                             </Link>
                         </div>
+
                         <p className={cx("register-link")}>Thành viên mới? <Link to={config.routes.register}>Đăng
                             ký</Link> tại đây</p>
 

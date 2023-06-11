@@ -52,7 +52,7 @@ function Register(props) {
             email: Yup.string()
                 .email('Email không hợp lệ')
                 .required('Vui lòng nhập email')
-                .test('check-username', 'Emai đã được sử dụng', async (value) => {
+                .test('check-email', 'Emai đã được sử dụng', async (value) => {
                     const response = await checkEmailExists(value);
                     const data = response.data;
                     return !data;

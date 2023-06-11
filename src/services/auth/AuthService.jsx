@@ -15,6 +15,19 @@ const login = (username, password) => {
             return response.data;
         });
 };
+// const loginGoogleService = (body) => {
+//     return instance
+//         .post("/google/login", {
+//           body
+//         })
+//         .then((response) => {
+//             if (response.data.accessToken) {
+//                 localStorage.setItem("token", JSON.stringify(response.data));
+//             }
+//
+//             return response.data;
+//         });
+// };
 const register = async (username, password, email, firstName, lastName, numberPhone) => {
     try {
         const response = await instance.post("/auth/signup", {
@@ -66,6 +79,7 @@ const AuthService = {
     getCurrentUser,
     logout,
     register,
+    // loginGoogleService
     // isTokenExpired
 
 };
