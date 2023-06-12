@@ -15,6 +15,18 @@ export const fetchProducts = createAsyncThunk(
         return response.data;
     }
 );
+
+export const searchProducts = createAsyncThunk(
+    'products/search',
+    async ({page, search, size}) => {
+        try {
+            const response = await instance.get(`/products/search?page=${page}&search=${encodeURIComponent(search)}&size=${size}`);
+            return response.data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+);
 export const getProductById = async (id) => {
     const response = await instance.get(`/products/${id}`)
     return response.data

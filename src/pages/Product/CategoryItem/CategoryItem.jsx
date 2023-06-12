@@ -17,13 +17,12 @@ CategoryItem.propTypes = {
 
 function CategoryItem(props) {
     const {data, activeCategoryId, getData} = props;
-    console.log(data)
     return (
         <div className={cx("category-content")}>
             {data?.map((item, index) => {
                 return (
                     <Link
-                        to={``}
+                        to={`/products/${item.id}/${item.name}`}
                         onClick={() => getData(item)}
                         key={item.id}
                         className={cx({
