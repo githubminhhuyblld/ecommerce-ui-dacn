@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import styles from "./Search.module.scss";
 import {AiOutlineSearch} from "react-icons/ai"
-import {searchSlice, selectSearchResults} from "~/store/reducers/searchSlice.js";
+import {selectSearchResults} from "~/store/reducers/searchSlice.js";
 import {searchProducts} from "~/services/workspacesService.jsx";
 import useDebounce from "~/hooks/useDebounce.js";
 
@@ -25,9 +25,9 @@ function Search(props) {
     const dispatch = useDispatch();
     const results = useSelector(selectSearchResults);
     useEffect(() => {
-        dispatch(searchSlice.actions.resetData());
         dispatch(searchProducts({page: 1, search: debouncedValue, size: 5}));
     }, [dispatch, debouncedValue]);
+    console.log(results)
 
     const handleChange = (event) => {
         setSearchValue(event.target.value);
