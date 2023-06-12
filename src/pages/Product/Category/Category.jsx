@@ -24,7 +24,6 @@ function Category(props) {
         setActiveCategoryId(data.id)
 
     }
-    console.log(categories)
 
     return (
         <div className={cx('wrapper')}>
