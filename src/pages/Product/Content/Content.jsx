@@ -1,17 +1,35 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames/bind";
 import {Select, MenuItem, FormControl} from '@material-ui/core';
 import {Grid} from "@mui/material";
+import {useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 import styles from "./Content.module.scss";
 import ProductItem from "~/pages/Product/ProductItem/ProductItem.jsx";
+import {
+    fetchProductsByCategoryId, productsCategorySlice,
+    selectProductsCategory
+} from "~/store/reducers/ProductsCategorySlice.js";
+
 
 Content.propTypes = {};
 const cx = classNames.bind(styles);
 
 function Content(props) {
     const [selectedValue, setSelectedValue] = useState('option1');
+    const {id, search} = useParams()
+
+    const dispatch = useDispatch();
+    const products = useSelector(selectProductsCategory)
+    console.log(search)
+
+    useEffect(() => {
+        dispatch(productsCategorySlice.actions.resetData());
+        dispatch(fetchProductsByCategoryId(id))
+
+    }, [dispatch, id])
 
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
@@ -21,8 +39,8 @@ function Content(props) {
             <div className={cx("filter")}>
                 <h3 className={cx("title")}>Quần áo thể thao nam</h3>
                 <div className={cx("function-header")}>
-                    <p className={cx("result")}>19 mặt hàng được tìm thấy theo Giày Thể Thao Vải Nam Nữ Độn Đế Mũi Viền
-                        Kẻ Caro 2 Màu Siêu</p>
+                    {/*<p className={cx("result")}>19 mặt hàng được tìm thấy theo Giày Thể Thao Vải Nam Nữ Độn Đế Mũi Viền*/}
+                    {/*    Kẻ Caro 2 Màu Siêu</p>*/}
                     <div className={cx("filter-item")}>
                         <span className={cx('label')}>Sắp xếp theo:</span>
                         <FormControl className={cx("item")} variant="outlined">
@@ -42,32 +60,26 @@ function Content(props) {
                     </div>
                 </div>
             </div>
-            <div className={cx("content")}>
-                <Grid container spacing={2}>
-                    <Grid item lg={3} md={4} sm={6} xs={12}>
-                        <ProductItem/>
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6} xs={12}>
-                        <ProductItem/>
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6} xs={12}>
-                        <ProductItem/>
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6} xs={12}>
-                        <ProductItem/>
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6} xs={12}>
-                        <ProductItem/>
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6} xs={12}>
-                        <ProductItem/>
-                    </Grid>
-                    <Grid item lg={3} md={4} sm={6} xs={12}>
-                        <ProductItem/>
-                    </Grid>
+            {
+                products.length > 0 ? (
+                    <div className={cx("content")}>
+                        <Grid container spacing={2}>
+                            {
+                                products?.map((item) => {
+                                    return (
+                                        <Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
+                                            <ProductItem product={item}/>
+                                        </Grid>
+                                    )
+                                })
+                            }
 
-                </Grid>
-            </div>
+                        </Grid>
+                    </div>
+                ) : (
+                    <div className={cx('empty')}>Không tìm thấy sản phẩm</div>
+                )
+            }
         </div>
     );
 }

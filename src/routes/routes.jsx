@@ -10,6 +10,7 @@ const publicRoutes = [
     {path: "/", component: Home},
     {path: config.routes.home, component: Home},
     {path: config.routes.productDetail, component: ProductDetail},
+    // {path: config.routes.searchProduct, component: Product},
     {path: config.routes.login, component: Login},
     {path: config.routes.register, component: Register},
     {path: config.routes.product, component: Product},

@@ -3,12 +3,6 @@ import {fetchProducts} from "~/services/workspacesService.jsx";
 
 
 
-const initialState = {
-    data: [],
-    loading: false,
-    error: null,
-};
-
 const productsSlice = createSlice({
     name: 'products',
     initialState: {

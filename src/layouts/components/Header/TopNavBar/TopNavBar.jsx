@@ -29,10 +29,13 @@ function TopNavBar(props) {
     const user = useSelector(selectUser);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     useEffect(() => {
+
         const token = JSON.parse(localStorage.getItem("token"))
         if (token && token.accessToken) {
             dispatch(setAuthenticated(true));
         }
+
+
         dispatch(fetchUserInfo());
     }, [dispatch]);
 
