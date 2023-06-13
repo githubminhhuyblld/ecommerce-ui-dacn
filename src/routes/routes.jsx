@@ -4,6 +4,7 @@ import Login from "~/pages/Login/Login.jsx";
 import Register from "~/pages/Register/Register.jsx";
 import ProductDetail from "~/pages/ProductDetail/ProductDetail.jsx";
 import Product from "~/pages/Product/Product.jsx";
+import Account from "~/pages/Account/Account.jsx";
 
 
 const publicRoutes = [
@@ -14,6 +15,7 @@ const publicRoutes = [
     {path: config.routes.login, component: Login},
     {path: config.routes.register, component: Register},
     {path: config.routes.product, component: Product},
+    {path: config.routes.account, component: Account},
 ];
 const privateRoutes = [];
-export { publicRoutes, privateRoutes };
+export {publicRoutes, privateRoutes};

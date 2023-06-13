@@ -1,0 +1,94 @@
+.wrapper {
+  width: 100%;
+  background-color: #eff0f4;
+  padding: 10px 15% 100px 15%;
+}
+
+.manageAccount {
+  font-size: 140%;
+  margin: 10px 0;
+}
+
+.item {
+  background-color: #fff;
+  padding-left: 20px;
+  height: 200px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.hl {
+  margin: 0 5px;
+  width: 2px;
+  height: 12px;
+  max-height: 100%;
+  border-left: #dadada solid 2px;
+  display: inline-block;
+}
+
+.edit {
+  color: #1a9cc5;
+}
+
+.colorGray {
+  color: #424242;
+}
+
+.colorGray-75 {
+  color: #757575;
+}
+
+.fontSize70 {
+  font-size: 70%;
+}
+
+.fontSize80 {
+  font-size: 80%;
+}
+
+.fontSize90 {
+  font-size: 90%;
+}
+
+.fontSize110 {
+  font-size: 110%;
+}
+
+.padding-t-b-2 {
+  padding: 2px 0;
+}
+
+.fontBold {
+  font-weight: bold;
+}
+
+.flex {
+  display: flex;
+}
+
+.flexItem {
+  width: 50%;
+}
+
+.padding-l-20 {
+  padding-left: 20px;
+}
+
+.hl-full {
+  width: 1px;
+  margin-top: 15px;
+  height: 170px;
+  background-color: #dadada;
+}
+
+.padding-t-50 {
+  padding-top: 50px;
+}
+
+.hover-pointer {
+  cursor: pointer;
+}
