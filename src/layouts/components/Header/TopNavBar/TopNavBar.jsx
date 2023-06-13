@@ -106,7 +106,8 @@ function TopNavBar(props) {
                                 offset={[12, 1]}
                                 render={attrs => (
                                     <div className={cx('dropdown')} tabIndex="-1" {...attrs}>
-                                        <span className={cx('dropdown-item')}> <FiUserPlus/>Thông tin tài khoản</span>
+                                        <Link to={config.routes.account}><span
+                                            className={cx('dropdown-item')}> <FiUserPlus/>Thông tin tài khoản</span></Link>
                                         <span className={cx('dropdown-item')}> <MdOutlineFavoriteBorder/>Thông tin đơn hàng</span>
                                         <span className={cx('dropdown-item')}> <TbBrandSamsungpass/>Đổi mật khẩu</span>
                                         <span onClick={handleLogout}
