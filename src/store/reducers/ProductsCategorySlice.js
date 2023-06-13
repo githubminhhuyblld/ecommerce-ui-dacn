@@ -1,14 +1,7 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
+import {fetchProductsByCategoryId} from "~/services/workspacesService.jsx";
 
-import instance from "~/interceptors/axios.jsx";
 
-export const fetchProductsByCategoryId = createAsyncThunk(
-    'products/fetchByCategoryId',
-    async (categoryId) => {
-        const response = await instance.get(`/products/${categoryId}/category`);
-        return response.data.data;
-    }
-);
 const initialState = {
     data: [],
     loading: false,
