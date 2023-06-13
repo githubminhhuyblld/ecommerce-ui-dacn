@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import styles from "./Category.module.scss";
 import CategoryItem from "~/pages/Home/Category/CategoryItem/CategoryItem.jsx";
-import {selectCategories, selectCategoriesError, selectCategoriesLoading} from "~/store/reducers/categoriesSlice.js";
+import {selectCategories} from "~/store/reducers/categoriesSlice.js";
 import {fetchCategories} from "~/services/workspacesService.jsx";
 
 
