@@ -15,6 +15,13 @@ export const fetchProducts = createAsyncThunk(
         return response.data;
     }
 );
+export const fetchProductsByCategoryId = createAsyncThunk(
+    'products/fetchByCategoryId',
+    async ({categoryId, page, size}) => {
+        const response = await instance.get(`/products/${categoryId}/category?page=${page}&size=${size}`);
+        return response.data;
+    }
+);
 
 export const searchProducts = createAsyncThunk(
     'products/search',

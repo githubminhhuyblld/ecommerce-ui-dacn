@@ -27,7 +27,6 @@ function Search(props) {
     useEffect(() => {
         dispatch(searchProducts({page: 1, search: debouncedValue, size: 5}));
     }, [dispatch, debouncedValue]);
-    console.log(results)
 
     const handleChange = (event) => {
         setSearchValue(event.target.value);
@@ -67,8 +66,8 @@ function Search(props) {
                                         onClick={() => setShowResult(false)}
                                     >
                                         <Avatar
-                                            variant="square"
-                                            sx={{width: 24, height: 24}}
+                                            variant="rounded"
+                                            sx={{width: 32, height: 32}}
                                             alt="Avatar"
                                             src={item.mainImage}
                                         />

@@ -1,5 +1,6 @@
 import authHeader from "~/services/auth/authHeader.jsx";
 import instance from "~/interceptors/axios.jsx";
+import jwt_decode from "jwt-decode";
 
 const login = (username, password) => {
     return instance
@@ -15,19 +16,7 @@ const login = (username, password) => {
             return response.data;
         });
 };
-// const loginGoogleService = (body) => {
-//     return instance
-//         .post("/google/login", {
-//           body
-//         })
-//         .then((response) => {
-//             if (response.data.accessToken) {
-//                 localStorage.setItem("token", JSON.stringify(response.data));
-//             }
-//
-//             return response.data;
-//         });
-// };
+
 const register = async (username, password, email, firstName, lastName, numberPhone) => {
     try {
         const response = await instance.post("/auth/signup", {
@@ -58,19 +47,18 @@ const getCurrentUser = () => {
 const logout = () => {
     localStorage.removeItem("token");
 };
-// const isTokenExpired = () => {
-//     const token = JSON.parse(localStorage.getItem("token"));
-//     if (!token || !token.accessToken) {
-//         return true;
-//     }
-//     const decodedToken = jwt_decode(token.accessToken);
-//     if (!decodedToken || !decodedToken.exp) {
-//         return true;
-//     }
-//     const expireTime = new Date(decodedToken.exp * 1000);
-//     const currentTime = new Date();
-//     return currentTime > expireTime;
-// };
+const isTokenExpired = (token) => {
+    if (!token || !token.accessToken) {
+        return true;
+    }
+    const decodedToken = jwt_decode(token.accessToken);
+    if (!decodedToken || !decodedToken.exp) {
+        return true;
+    }
+    const expireTime = new Date(decodedToken.exp * 1000);
+    const currentTime = new Date();
+    return currentTime > expireTime;
+};
 
 
 const AuthService = {
@@ -79,8 +67,7 @@ const AuthService = {
     getCurrentUser,
     logout,
     register,
-    // loginGoogleService
-    // isTokenExpired
+    isTokenExpired
 
 };
 export default AuthService;
