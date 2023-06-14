@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames/bind";
 import {Container, Grid} from "@mui/material";
@@ -22,12 +22,12 @@ function Product(props) {
                     {
                         isTablet && (
                             <Grid item md={maxWidthLg ? 3 : 2}>
-                                <Category/>
+                                <Category />
                             </Grid>
                         )
                     }
                     <Grid style={{width: "100%"}} item sm={12} md={maxWidthLg ? 9 : 10}>
-                        <Content/>
+                        <Content />
                     </Grid>
 
                 </Grid>

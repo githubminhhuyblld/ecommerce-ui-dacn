@@ -4,12 +4,10 @@ import classNames from "classnames/bind";
 import Tippy from '@tippyjs/react/headless';
 import {Avatar} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom"
-import {useDispatch, useSelector} from 'react-redux';
 
 import styles from "./Search.module.scss";
 import {AiOutlineSearch} from "react-icons/ai"
-import {selectSearchResults} from "~/store/reducers/searchSlice.js";
-import {searchProducts} from "~/services/workspacesService.jsx";
+import {getProductBySearch} from "~/services/workspacesService.jsx";
 import useDebounce from "~/hooks/useDebounce.js";
 
 
@@ -22,11 +20,17 @@ function Search(props) {
     const [searchValue, setSearchValue] = useState("");
     const [showResult, setShowResult] = useState(false);
     const debouncedValue = useDebounce(searchValue, 500);
-    const dispatch = useDispatch();
-    const results = useSelector(selectSearchResults);
+    const [searchResult, setSearchResults] = useState([])
     useEffect(() => {
-        dispatch(searchProducts({page: 1, search: debouncedValue, size: 5}));
-    }, [dispatch, debouncedValue]);
+        getProductBySearch({page: 0, search: debouncedValue, size: 5})
+            .then((res) => setSearchResults(res))
+            .catch((error) =>{
+                if(error.response.status === 404){
+                    setSearchResults([])
+                }
+            })
+    }, [debouncedValue]);
+
 
     const handleChange = (event) => {
         setSearchValue(event.target.value);
@@ -56,8 +60,8 @@ function Search(props) {
                 placement="bottom-start"
                 render={attrs => (
                     <div className={cx("search-result")} tabIndex="-1" {...attrs}>
-                        {results?.content?.length > 0 ? (
-                            results?.content?.map((item, index) => {
+                        {searchResult?.content?.length > 0 ? (
+                            searchResult?.content?.map((item, index) => {
                                 return (
                                     <Link
                                         key={item.id}

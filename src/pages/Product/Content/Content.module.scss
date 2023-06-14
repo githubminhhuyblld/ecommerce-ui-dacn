@@ -32,7 +32,6 @@
 .function-header {
   display: flex;
   align-items: center;
-  //justify-content: space-between;
   justify-content: flex-end;
 }
 
@@ -53,4 +52,7 @@
 .empty {
   font-size: 2rem;
   color: var(--text-color);
+}
+.pagination{
+  padding: 20px 0;
 }
