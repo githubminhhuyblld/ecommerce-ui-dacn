@@ -14,7 +14,7 @@ export default {
       },
       colors: {
         button: "#2565f5",
-        primary: "#0d9488",
+        primary: "#f57224",
       },
     },
   },

@@ -6,7 +6,8 @@ const routes = {
     account: "/account",
     productDetail: "/product-detail/:id",
     product: "/products/:id/:search",
-    infoOrder:"/info-order"
+    infoOrder:"/info-order",
+    checkout:"/checkout"
 
 
 };

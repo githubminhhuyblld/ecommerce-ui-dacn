@@ -5,7 +5,9 @@ import Register from "~/pages/Register/Register.jsx";
 import ProductDetail from "~/pages/ProductDetail/ProductDetail.jsx";
 import Product from "~/pages/Product/Product.jsx";
 import Account from "~/pages/Account/Account.jsx";
-import InfoOrder from "~/pages/Product/InfoOrder/InfoOrder.jsx";
+import InfoOrder from "~/pages/InfoOrder/InfoOrder";
+import Checkout from "~/pages/Checkout/Checkout";
+
 
 
 const publicRoutes = [
@@ -17,6 +19,7 @@ const publicRoutes = [
     {path: config.routes.product, component: Product},
     {path: config.routes.account, component: Account},
     {path: config.routes.infoOrder, component: InfoOrder},
+    {path: config.routes.checkout, component: Checkout},
 ];
 const privateRoutes = [];
 export {publicRoutes, privateRoutes};
