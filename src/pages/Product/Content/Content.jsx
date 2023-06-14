@@ -21,7 +21,7 @@ Content.propTypes = {
 };
 const cx = classNames.bind(styles);
 
-const PAGE_SIZE = 1;
+const PAGE_SIZE = 8;
 
 function Content(props) {
 
