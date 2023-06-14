@@ -55,7 +55,7 @@ function ProductItem(props) {
         );
     };
     return (
-        <Link to={''} className={cx('wrapper')}>
+        <div className={cx('wrapper')}>
             <div className={cx('product-original-image')}>
                 <ReactImageGallery
                     items={imagesOptions}
@@ -69,7 +69,7 @@ function ProductItem(props) {
                 />
 
             </div>
-            <div className={cx('product-info')}>
+            <Link to={`/product-detail/${product.id}`} className={cx('product-info')}>
 
                 {product.name ? (
                     <h3 className={cx('product-name')}>{product.name}</h3>
@@ -120,8 +120,8 @@ function ProductItem(props) {
                 )}
 
 
-            </div>
-        </Link>
+            </Link>
+        </div>
 
     );
 }

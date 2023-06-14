@@ -143,6 +143,22 @@ body .MuiInput-underline:hover:not(.Mui-disabled):before {
         padding-right: 8px !important;
     }
 }
+body button.MuiButtonBase-root.MuiPaginationItem-root.MuiPaginationItem-sizeLarge.MuiPaginationItem-text.MuiPaginationItem-circular.MuiPaginationItem-textPrimary.Mui-selected.MuiPaginationItem-page.css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root {
+    font-size: 1.6rem;
+}
+body .css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    color: #fff;
+    background-color: var(--primary-color);
+}
+body button.MuiButtonBase-root.MuiPaginationItem-root.MuiPaginationItem-sizeLarge.MuiPaginationItem-text.MuiPaginationItem-circular.MuiPaginationItem-textPrimary.MuiPaginationItem-page.css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root {
+    font-size: 1.6rem;
+}
+body svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.MuiPaginationItem-icon.css-n8417t-MuiSvgIcon-root-MuiPaginationItem-icon {
+    font-size: 2.6rem;
+}
+body .css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected:hover{
+    background-color: var(--primary-color);
+}
 
 /*pro-sidebar customer*/
 span.ps-menu-label.ps-active.css-12w9als {
