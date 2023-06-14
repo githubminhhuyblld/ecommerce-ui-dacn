@@ -30,6 +30,9 @@ export const searchSlice = createSlice({
     },
 });
 export const selectSearchResults = (state) => state.search.data;
+export const selectSearchResultsForSearchBox = (state) => state.search.data;
+export const selectSearchLoadingForSearchBox = (state) => state.search.loading;
+export const selectSearchErrorForSearchBox = (state) => state.search.error;
 export const selectSearchLoading = (state) => state.search.loading;
 export const selectSearchError = (state) => state.search.error;
 export const {resetData} = searchSlice.actions;

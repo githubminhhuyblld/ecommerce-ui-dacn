@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
@@ -8,6 +9,8 @@ import {selectCategories} from "~/store/reducers/categoriesSlice.js";
 import {fetchCategories} from "~/services/workspacesService.jsx";
 import {MenuCategoryIcon} from "~/components/Icon/index.jsx";
 import CategoryItem from "~/pages/Product/CategoryItem/CategoryItem.jsx";
+import Product from "~/pages/Product/Product.jsx";
+
 
 const cx = classNames.bind(styles);
 
@@ -15,7 +18,7 @@ function Category(props) {
     const {id} = useParams()
     const dispatch = useDispatch();
     const categories = useSelector(selectCategories);
-    const [activeCategoryId, setActiveCategoryId] = useState(id);
+    const [activeCategoryId, setActiveCategoryId] = useState(id );
 
     useEffect(() => {
         dispatch(fetchCategories());

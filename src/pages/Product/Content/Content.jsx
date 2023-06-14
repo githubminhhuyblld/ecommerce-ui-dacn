@@ -16,22 +16,25 @@ import {selectSearchResults} from "~/store/reducers/searchSlice.js";
 import {fetchProductsByCategoryId, searchProducts} from "~/services/workspacesService.jsx";
 
 
-Content.propTypes = {};
+Content.propTypes = {
+    setIsCategoryId:PropTypes.func
+};
 const cx = classNames.bind(styles);
 
 const PAGE_SIZE = 1;
 
 function Content(props) {
+
     const [selectedValue, setSelectedValue] = useState('option1');
     const {id, search} = useParams()
-
     const dispatch = useDispatch();
     const products = useSelector(selectProductsCategory)
     const resultsSearch = useSelector(selectSearchResults);
     const [currentPage, setCurrentPage] = useState(0);
     useEffect(() => {
-        dispatch(fetchProductsByCategoryId({categoryId: id, page: currentPage, size: PAGE_SIZE}));
-        dispatch(searchProducts({page: 0, search, size: PAGE_SIZE}));
+       if(id !== "search"){
+           dispatch(fetchProductsByCategoryId({categoryId: id, page: currentPage, size: PAGE_SIZE}));
+       }
     }, [dispatch, id, currentPage, search]);
 
     useEffect(() => {
@@ -42,12 +45,12 @@ function Content(props) {
         } else {
             dispatch(fetchProductsByCategoryId({categoryId: id, page: 0, size: PAGE_SIZE}));
         }
-    }, [dispatch, search]);
+    }, [dispatch, id, search]);
 
     const handleChangePage = (event, newPage) => {
         setCurrentPage(newPage);
         if (id === "search") {
-            dispatch(searchProducts({page: newPage, search, size: PAGE_SIZE}));
+            dispatch(searchProducts({page: newPage, search: search, size: PAGE_SIZE}));
         } else {
             dispatch(fetchProductsByCategoryId({categoryId: id, page: newPage, size: PAGE_SIZE}));
         }
@@ -102,15 +105,19 @@ function Content(props) {
             ) : (
                 <div className={cx("empty")}>Không tìm thấy sản phẩm</div>
             )}
-            <div>
-                <Pagination
-                    count={totalPages || 0}
-                    page={currentPage + 1}
-                    onChange={(event, newPage) => handleChangePage(event, newPage - 1)}
-                    size="large"
-                    color="primary"
-                />
-            </div>
+            {
+                displayProducts?.length > 0 && (
+                    <div className={cx("pagination")}>
+                        <Pagination
+                            count={totalPages || 0}
+                            page={currentPage + 1}
+                            onChange={(event, newPage) => handleChangePage(event, newPage - 1)}
+                            size="large"
+                            color="primary"
+                        />
+                    </div>
+                )
+            }
         </div>
     );
 }
