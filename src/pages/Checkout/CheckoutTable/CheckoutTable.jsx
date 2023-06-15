@@ -11,6 +11,7 @@ import {
   IconButton,
   Grid,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
 import styles from "./CheckoutTable.module.scss";
 import { useTableStyles } from "~/layouts/components/CustomerMaterial";
@@ -18,12 +19,15 @@ import { FiEdit2 } from "react-icons/fi";
 import { BsTrash } from "react-icons/bs";
 import { convertCurrency } from "~/untils/convertCurrency";
 import { Link } from "react-router-dom";
+import { selectCartItems } from "~/store/reducers/cartsSlice";
 
 const cx = classNames.bind(styles);
 
 const CheckoutTable = ({ items }) => {
   const classes = useTableStyles();
+  const carts = useSelector(selectCartItems);
 
+ 
   return (
     <div className={cx("checkout")}>
       <Paper sx={{ width: "100%" }}>
@@ -68,7 +72,7 @@ const CheckoutTable = ({ items }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((item, index) => {
+              {carts?.data?.[0]?.cartItems?.map((item, index) => {
                 return (
                   <TableRow
                     key={index}
@@ -81,7 +85,7 @@ const CheckoutTable = ({ items }) => {
                     </TableCell>
                     <TableCell className={classes.imageCell}>
                       <img
-                        src={item.image}
+                        src={item.mainImage}
                         alt={item.name}
                         className={classes.image}
                       />
@@ -90,7 +94,7 @@ const CheckoutTable = ({ items }) => {
                       {convertCurrency(item.newPrice)}
                     </TableCell>
                     <TableCell className={classes.tableCell}>
-                      {item.quantity}
+                      {item.amount}
                     </TableCell>
                     <TableCell className={classes.tableCell}>
                       <div className={cx("function")}>
@@ -125,7 +129,7 @@ const CheckoutTable = ({ items }) => {
         <Grid item md={4}>
           <div className={cx("total-price")}>
             <p className={cx("title")}>Tổng tiền:</p>
-            <p className={cx("price")}>{convertCurrency(30000)}</p>
+            <p className={cx("price")}>{convertCurrency(carts?.data?.[0]?.totalPrice)}</p>
           </div>
         </Grid>
         <Grid container justifyContent={"flex-end"} item md={3}>
