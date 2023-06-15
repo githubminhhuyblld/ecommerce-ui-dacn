@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 
 import Product from "~/assets/product/product1.jpg";
 import CheckoutTable from "./CheckoutTable/CheckoutTable";
 import { Container } from "@mui/material";
+import {
+  getCartItems,
+  selectCartItems,
+  setSuccess,
+} from "~/store/reducers/cartsSlice";
 
 Checkout.propTypes = {};
 
 function Checkout(props) {
+
+
   const items = [
     {
       name: "Thời Trang JIVIVIL Túi Khoác Vai Dành Cho Nữ Phiên Bản Hàn Quốc Của Màu Trơn Túi Đeo Chéo Chất Liệu Da Pu",
@@ -32,9 +40,7 @@ function Checkout(props) {
   return (
     <div>
       <Container>
-        <h3 className="text-5xl py-6 text-primary">
-          Giỏ hàng
-        </h3>
+        <h3 className="text-5xl py-6 text-primary">Giỏ hàng</h3>
         <CheckoutTable items={items} />
       </Container>
     </div>

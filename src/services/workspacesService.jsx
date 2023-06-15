@@ -1,5 +1,6 @@
 import instance from "~/interceptors/axios";
 import {createAsyncThunk} from "@reduxjs/toolkit";
+import authHeader from "./auth/authHeader";
 
 export const fetchCategories = createAsyncThunk(
     'categories/fetchCategories',
@@ -34,6 +35,10 @@ export const searchProducts = createAsyncThunk(
         }
     }
 );
+export const getAllCartsByUserId = async (userId) => {
+    const result = await instance.get(`/cart/${userId}`, {headers: authHeader()})
+    return result.data
+};
 export const getProductBySearch = async ({page, search, size}) => {
     const response = await instance.get(`/products/search?page=${page}&search=${search}&size=${size}`)
     return response.data
