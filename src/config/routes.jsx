@@ -7,7 +7,8 @@ const routes = {
     productDetail: "/product-detail/:id",
     product: "/products/:id/:search",
     infoOrder:"/info-order",
-    checkout:"/checkout"
+    checkout:"/checkout",
+    order:"/check/order",
 
 
 };
