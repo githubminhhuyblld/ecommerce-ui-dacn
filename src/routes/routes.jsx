@@ -7,6 +7,7 @@ import Product from "~/pages/Product/Product.jsx";
 import Account from "~/pages/Account/Account.jsx";
 import InfoOrder from "~/pages/InfoOrder/InfoOrder";
 import Checkout from "~/pages/Checkout/Checkout";
+import Order from "~/pages/Order/Order";
 
 
 
@@ -20,6 +21,7 @@ const publicRoutes = [
     {path: config.routes.account, component: Account},
     {path: config.routes.infoOrder, component: InfoOrder},
     {path: config.routes.checkout, component: Checkout},
+    {path: config.routes.order, component: Order},
 ];
 const privateRoutes = [];
 export {publicRoutes, privateRoutes};

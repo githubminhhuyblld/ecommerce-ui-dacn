@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { TextField, InputAdornment, IconButton, Grid } from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,7 +10,7 @@ import {
   GoogleLogin,
 } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import styles from "./Login.module.scss";
 import { MdOutlineVisibilityOff, MdOutlineVisibility } from "react-icons/md";
@@ -20,20 +19,14 @@ import AuthService from "~/services/auth/AuthService.jsx";
 import config from "~/config/index.jsx";
 import { fetchUserInfo, setAuthenticated } from "~/store/reducers/userSlice.js";
 import { loginGoogleService } from "~/services/workspacesService.jsx";
-import {
-
-  setSuccess,
-} from "~/store/reducers/cartsSlice";
+import { setSuccess } from "~/store/reducers/cartsSlice";
 
 const cx = classNames.bind(styles);
-
-Login.propTypes = {};
 
 function Login(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
-  
 
   const formik = useFormik({
     initialValues: {

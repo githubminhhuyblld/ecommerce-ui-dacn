@@ -21,7 +21,7 @@ import {
   resetUser,
 } from "~/store/reducers/userSlice.js";
 import AuthService from "~/services/auth/AuthService.jsx";
-import {  clearCart, setSuccess } from "~/store/reducers/cartsSlice";
+import { clearCart, setSuccess } from "~/store/reducers/cartsSlice";
 
 const cx = classNames.bind(styles);
 
@@ -33,9 +33,8 @@ function TopNavBar(props) {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
- 
 
-  useEffect( () => {
+  useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (token && token.accessToken) {
       if (AuthService.isTokenExpired(token)) {
@@ -53,7 +52,7 @@ function TopNavBar(props) {
     AuthService.logout();
     dispatch(setAuthenticated(false));
     dispatch(setSuccess(false));
-    dispatch(clearCart())
+    dispatch(clearCart());
     dispatch(resetUser());
     navigate(config.routes.login);
   };
