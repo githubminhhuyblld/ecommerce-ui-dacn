@@ -16,10 +16,7 @@ import { getProductById } from "~/services/workspacesService.jsx";
 import { convertCurrency } from "~/untils/convertCurrency.js";
 import { selectUser } from "~/store/reducers/userSlice";
 import config from "~/config";
-import {
-  addToCart,
-  setSuccess,
-} from "~/store/reducers/cartsSlice";
+import { addToCart, setSuccess } from "~/store/reducers/cartsSlice";
 
 const cx = classNames.bind(styles);
 

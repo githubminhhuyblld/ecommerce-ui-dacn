@@ -17,9 +17,11 @@ import {
   DialogActions,
   InputBase,
 } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 import styles from "./CheckoutTable.module.scss";
 import { useTableStyles } from "~/layouts/components/CustomerMaterial";
@@ -43,21 +45,15 @@ const CheckoutTable = (props) => {
   const [productId, setProductId] = useState(null);
   const [cartItem, setCartItem] = useState({});
   const [open, setOpen] = useState(false);
-  const [error, setError] = useState("");
+  
 
-  const handleInputChange = (event) => {
-    let newValue = event.target.value;
-    if (newValue < 1) {
-      setError("Số lượng không được dưới 1");
-    }
-    setQuantity(newValue);
-  };
+  const validationSchema = Yup.object().shape({
+    quantity: Yup.number()
+      .min(1, "Số lượng không được nhỏ hơn 1")
+      .max(20, "Số lượng không quá 20")
+      .required("Số lượng cập nhật là bắt buộc"),
+  });
 
-  useEffect(() => {
-    if (quantity) {
-      setError("");
-    }
-  }, [quantity]);
   const handleClose = () => {
     setOpen(false);
   };
@@ -84,12 +80,23 @@ const CheckoutTable = (props) => {
     dispatch(
       updateQuantityCartItem({
         productId: productId,
-        amount: quantity,
+        amount: formik.values.quantity,
         userId: user.userId,
       })
-    );
-    setOpen(false);
+    ).then((response) => {
+      if (response.payload === 200) {
+        setOpen(false);
+      }
+    });
   };
+  const formik = useFormik({
+    initialValues: {
+      quantity: quantity,
+    },
+    enableReinitialize: true,
+    validationSchema: validationSchema,
+    onSubmit: handleAgree,
+  });
 
   return carts?.data?.[0]?.cartItems?.length > 0 ? (
     <div className={cx("checkout")}>
@@ -108,19 +115,22 @@ const CheckoutTable = (props) => {
             className={cx("input-update")}
             margin="dense"
             style={{ fontSize: "16px" }}
-            defaultValue={cartItem.quantity}
+            name="quantity"
             inputProps={{
               min: 1,
               max: 10,
               step: 1,
             }}
-            value={quantity}
-            onChange={handleInputChange}
+            value={formik.values.quantity}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             type="number"
             fullWidth
             variant="standard"
           />
-          <span className={cx("error")}>{error}</span>
+          {formik.touched.quantity && formik.errors.quantity ? (
+            <span className={cx("error")}>{formik.errors.quantity}</span>
+          ) : null}
         </DialogContent>
         <DialogActions style={{ paddingRight: "12px" }}>
           <button className={cx("btn-cancel")} onClick={handleClose}>
@@ -239,8 +249,8 @@ const CheckoutTable = (props) => {
         </Grid>
         <Grid container justifyContent={"flex-end"} item md={3}>
           <div className={cx("payment")}>
-            <Link to={""} className={cx("btn-payment")}>
-              Thanh toán
+            <Link to={config.routes.order} className={cx("btn-payment")}>
+              Xác nhận đơn hàng
             </Link>
           </div>
         </Grid>
