@@ -161,7 +161,13 @@ body svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.MuiPaginationItem-icon.css-n8
 body .css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected:hover{
     background-color: var(--primary-color);
 }
+h2.MuiTypography-root.MuiTypography-h6 {
+    font-size: 2rem !important;
+}
 
+p.MuiTypography-root.MuiDialogContentText-root.MuiTypography-body1.MuiTypography-colorTextSecondary {
+    font-size: 1.8rem !important;
+}
 /*pro-sidebar customer*/
 span.ps-menu-label.ps-active.css-12w9als {
     color: var(--primary-color) !important;
