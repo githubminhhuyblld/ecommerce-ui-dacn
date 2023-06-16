@@ -30,6 +30,39 @@ export const getCartItems = createAsyncThunk(
     }
   }
 );
+export const removeCartItem = createAsyncThunk(
+  "cart/removeCartItem",
+  async ({ userId, itemId }, { rejectWithValue }) => {
+    try {
+      const response = await instance.delete(
+        `/cart/remove/${userId}/items/${itemId}`,
+        {
+          headers: authHeader(),
+        }
+      );
+      return response.status;
+    } catch (error) {
+      return rejectWithValue(error.response.status);
+    }
+  }
+);
+export const updateQuantityCartItem = createAsyncThunk(
+  "cart/updateQuantityCartItem",
+  async ({ productId, amount,userId }, { rejectWithValue }) => {
+    try {
+      const response = await instance.put(
+        `/cart/update/items/${productId}?amount=${amount}&userId=${userId}`,
+        null,
+        {
+          headers: authHeader(),
+        }
+      );
+      return response.status;
+    } catch (error) {
+      return rejectWithValue(error.response.status);
+    }
+  }
+);
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -57,11 +90,25 @@ const cartSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.cartItems = action.payload;
-        
       })
       .addCase(getCartItems.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(removeCartItem.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(removeCartItem.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.success = true;
+      })
+      .addCase(removeCartItem.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.success = false;
       })
       .addCase(addToCart.pending, (state) => {
         state.loading = true;
@@ -74,6 +121,21 @@ const cartSlice = createSlice({
         state.success = true;
       })
       .addCase(addToCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.success = false;
+      })
+      .addCase(updateQuantityCartItem.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(updateQuantityCartItem.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+        state.success = true;
+      })
+      .addCase(updateQuantityCartItem.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.success = false;
