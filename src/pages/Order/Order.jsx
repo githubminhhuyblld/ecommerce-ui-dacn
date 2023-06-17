@@ -12,6 +12,7 @@ import { GiCircle } from "react-icons/gi";
 import { selectCartItems } from "~/store/reducers/cartsSlice";
 import { convertCurrency } from "~/untils/convertCurrency";
 import { selectUser } from "~/store/reducers/userSlice";
+import config from "~/config";
 
 const cx = classNames.bind(styles);
 
@@ -27,10 +28,25 @@ function Order(props) {
   const name =
     user !== null && user?.data?.lastName + " " + user?.data?.firstName;
   const numberPhone = user !== null && user?.data?.numberPhone;
+  const defaultAddress =
+    Array.isArray(address) && address.find((item) => item.type === "DEFAULT");
 
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);
   };
+
+  const handleSaveAddress = (
+    provinceId,
+    districtId,
+    wardId,
+    name,
+    numberPhone,
+    address
+  ) => {
+    console.log(provinceId);
+    console.log(name);
+  };
+
   console.log(selectedValue);
   return (
     <div className={cx("wrapper")}>
@@ -38,34 +54,53 @@ function Order(props) {
         <h2 className="text-4xl text-black py-4">Thông tin giao hàng</h2>
         <Grid container spacing={2}>
           <Grid container item lg={8} md={8} sm={12}>
-            {address ? (
+            {address?.length > 0 ? (
               <div className="w-full">
                 <div className="bg-white p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                      <h3 className="text-3xl mr-5">{name}</h3>
-                      <span>{numberPhone}</span>
+                      <h3 className="text-3xl mr-5">
+                        {defaultAddress
+                          ? defaultAddress.fullName
+                          : address[0]?.fullName}
+                      </h3>
+                      <span>
+                        {defaultAddress
+                          ? defaultAddress.numberPhone
+                          : address[0]?.numberPhone}
+                      </span>
                     </div>
-                    <Link className="text-sky-500" to={""}>
+                    <Link to={config.routes.editAddress} className="text-sky-500">
                       Chỉnh sửa
                     </Link>
                   </div>
                   <div className="mt-4 flex items-center">
-                    <span className="bg-primary  py-1 px-4 uppercase text-white rounded-full">
+                    <span className="bg-primary py-1 px-4 uppercase text-white rounded-full">
                       Nhà riêng
                     </span>
-                    <p className="ml-3">{address}</p>
+                    <p className="ml-3">
+                      {defaultAddress
+                        ? defaultAddress.fullAddress
+                        : address[0]?.fullAddress}
+                    </p>
                   </div>
                 </div>
               </div>
             ) : (
-              <CreateAddress />
+              <CreateAddress
+                handleSaveAddress={handleSaveAddress}
+                provinceDefault="none"
+                districIdDefault="none"
+                wardIdDefault="none"
+                fullNameDefault=""
+                numberPhoneDefault=""
+              />
             )}
           </Grid>
 
-          <Grid item lg={4} md={4} sm={12}>
+          <Grid item lg={4} md={4} xs={12} sm={12}>
             <div className="w-full bg-white px-4 py-4">
-              <ul className="flex flex-col w-full gap-6 md:grid-cols-2 mt-6 mb-10 px-4">
+              <ul className="flex flex-col w-full gap-6 sm:grid-cols-6 md:grid-cols-2 mt-6 mb-10 px-4">
                 <li>
                   <input
                     type="radio"
