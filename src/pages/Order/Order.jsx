@@ -13,6 +13,11 @@ import { selectCartItems } from "~/store/reducers/cartsSlice";
 import { convertCurrency } from "~/untils/convertCurrency";
 import { selectUser } from "~/store/reducers/userSlice";
 import config from "~/config";
+import {
+  selectDistricts,
+  selectProvinces,
+  selectWards,
+} from "~/store/reducers/locationSlice";
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +25,9 @@ Order.propTypes = {};
 
 function Order(props) {
   const [selectedValue, setSelectedValue] = useState("PAYMENT_ON_DELIVERY");
+  const provinces = useSelector(selectProvinces);
+  const districts = useSelector(selectDistricts);
+  const wards = useSelector(selectWards);
   const carts = useSelector(selectCartItems);
   const totalPrice = carts?.data?.[0]?.totalPrice;
   const cartItemsLength = carts?.data?.[0]?.cartItems?.length;
@@ -34,6 +42,21 @@ function Order(props) {
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);
   };
+  const getItemNameById = (items, itemId) => {
+    const item = items.find((item) => item.id === itemId);
+    return item ? item.name : "";
+  };
+  const getProvinceNameById = (provinceId) => {
+    return getItemNameById(provinces, provinceId);
+  };
+
+  const getDistrictNameById = (districtId) => {
+    return getItemNameById(districts, districtId);
+  };
+
+  const getWardNameById = (wardId) => {
+    return getItemNameById(wards, wardId);
+  };
 
   const handleSaveAddress = (
     provinceId,
@@ -43,8 +66,15 @@ function Order(props) {
     numberPhone,
     address
   ) => {
-    console.log(provinceId);
+    const provinceName = getProvinceNameById(provinceId);
+    const districtName = getDistrictNameById(districtId);
+    const wardName = getWardNameById(wardId);
+    console.log(address);
+    console.log(provinceName);
+    console.log(districtName);
+    console.log(wardName);
     console.log(name);
+    console.log(provinceName);
   };
 
   console.log(selectedValue);
@@ -70,7 +100,10 @@ function Order(props) {
                           : address[0]?.numberPhone}
                       </span>
                     </div>
-                    <Link to={config.routes.editAddress} className="text-sky-500">
+                    <Link
+                      to={config.routes.editAddress}
+                      className="text-sky-500"
+                    >
                       Chỉnh sửa
                     </Link>
                   </div>
