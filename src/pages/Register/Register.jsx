@@ -5,10 +5,10 @@ import { Grid } from "@mui/material";
 import { IconButton, InputAdornment, TextField } from "@material-ui/core";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
-import styles from "./Register.module.scss";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+
+import styles from "./Register.module.scss";
 import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 import AuthService from "~/services/auth/AuthService.jsx";
 import config from "~/config/index.jsx";
