@@ -168,6 +168,12 @@ h2.MuiTypography-root.MuiTypography-h6 {
 p.MuiTypography-root.MuiDialogContentText-root.MuiTypography-body1.MuiTypography-colorTextSecondary {
     font-size: 1.8rem !important;
 }
+body .MuiSelect-select.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+    font-size: 1.6rem;
+    color:#929292;
+    display: flex;
+    align-items:center;
+}
 /*pro-sidebar customer*/
 span.ps-menu-label.ps-active.css-12w9als {
     color: var(--primary-color) !important;

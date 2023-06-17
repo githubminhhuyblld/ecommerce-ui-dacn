@@ -26,9 +26,10 @@
   display: flex;
   align-items: center;
   margin: 6px 0;
-  svg{
+  .star{
     color: yellow;
     font-weight: bold;
+    font-size: 2rem;
   }
   .rating{
     font-weight: 400;
