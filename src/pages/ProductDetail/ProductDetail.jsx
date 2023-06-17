@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { useNavigate, useParams } from "react-router-dom";
-import { Container, Grid, Skeleton } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Skeleton,
+  Rating,
+} from "@mui/material";
 import ReactImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +15,7 @@ import { toast } from "react-toastify";
 
 import styles from "./ProductDetail.module.scss";
 import ButtonList from "~/layouts/components/ButtonList/ButtonList.jsx";
-import { AiFillStar, AiOutlinePlus } from "react-icons/ai";
+import {  AiOutlinePlus } from "react-icons/ai";
 import { IoMdRemove } from "react-icons/io";
 import { getProductById } from "~/services/workspacesService.jsx";
 import { convertCurrency } from "~/untils/convertCurrency.js";
@@ -31,6 +36,7 @@ function ProductDetail(props) {
   const [count, setCount] = useState(1);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
+  const [value, setValue] = useState(2);
 
   const isLoading = !productDetail;
   useEffect(() => {
@@ -272,12 +278,12 @@ function ProductDetail(props) {
                   </div>
                 ) : (
                   <div className={cx("vote")}>
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <span className={cx("rating")}>5</span>
+                    <Rating
+                      name="half-rating-read"
+                      className={cx("star")}
+                      defaultValue={productDetail?.rating}
+                      readOnly
+                    />
                   </div>
                 )}
 
