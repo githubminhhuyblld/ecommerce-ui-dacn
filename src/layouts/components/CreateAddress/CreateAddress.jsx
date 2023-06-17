@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Grid, Select, MenuItem } from "@mui/material";
 import { TextField } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./CreateAddress.module.scss";
+import {
+  fetchDistricts,
+  fetchProvinces,
+  fetchWards,
+  selectDistricts,
+  selectProvinces,
+  selectWards,
+} from "~/store/reducers/locationSlice";
 
 const cx = classNames.bind(styles);
 
@@ -21,9 +30,28 @@ function CreateAddress(props) {
     fullNameDefault,
     numberPhoneDefault,
   } = props;
+  const dispatch = useDispatch();
   const [provinceId, setProvinceId] = useState(provinceDefault);
   const [districtId, setDistrictId] = useState(districIdDefault);
   const [wardId, setWardId] = useState(wardIdDefault);
+
+  const provinces = useSelector(selectProvinces);
+  const districts = useSelector(selectDistricts);
+  const wards = useSelector(selectWards);
+  useEffect(() => {
+    dispatch(fetchProvinces());
+  }, []);
+
+  const handleProvinceChange = (provId) => {
+    setProvinceId(provId);
+    dispatch(fetchDistricts(provId));
+  };
+
+  const handleDistrictChange = (distId) => {
+    setDistrictId(distId);
+    dispatch(fetchWards(distId));
+  };
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Vui lòng nhập họ tên"),
     numberPhone: Yup.string().required("Vui lòng nhập số điện thoại"),
@@ -47,6 +75,7 @@ function CreateAddress(props) {
       );
     },
   });
+  console.log(provinceId);
   return (
     <div className={cx("wrapper")}>
       <Grid container>
@@ -119,30 +148,38 @@ function CreateAddress(props) {
             <label className="text-2xl pt-4">Tỉnh/Thành phố</label>
             <Select
               value={provinceId}
-              onChange={(e) => setProvinceId(e.target.value)}
+              onChange={(e) => handleProvinceChange(e.target.value)}
               className={cx("select-field")}
             >
               <MenuItem value="none" disabled sx={{ display: "none" }}>
                 Vui lòng chọn tỉnh thành phố
               </MenuItem>
-              <MenuItem value="1">Option 1</MenuItem>
-              <MenuItem value="2">Option 1</MenuItem>
-              <MenuItem value="3">Option 1</MenuItem>
+              {provinces.map((item, index) => {
+                return (
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </div>
           <div className="flex flex-col">
             <label className="text-2xl pt-4">Quận/Huyện</label>
             <Select
               value={districtId}
-              onChange={(e) => setDistrictId(e.target.value)}
+              onChange={(e) => handleDistrictChange(e.target.value)}
               className={cx("select-field")}
             >
               <MenuItem value="none" disabled sx={{ display: "none" }}>
                 Vui lòng chọn quận/huyện
               </MenuItem>
-              <MenuItem value="1">Option 1</MenuItem>
-              <MenuItem value="2">Option 2</MenuItem>
-              <MenuItem value="3">Option 3</MenuItem>
+              {districts?.map((item, index) => {
+                return (
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </div>
           <div className="flex flex-col w-full">
@@ -156,9 +193,13 @@ function CreateAddress(props) {
               <MenuItem value="none" disabled sx={{ display: "none" }}>
                 Vui lòng chọn phường xã
               </MenuItem>
-              <MenuItem value="1">Option 1</MenuItem>
-              <MenuItem value="2">Option 2</MenuItem>
-              <MenuItem value="3">Option 3</MenuItem>
+              {wards?.map((item, index) => {
+                return (
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </div>
           <button
