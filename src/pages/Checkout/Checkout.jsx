@@ -19,7 +19,7 @@ function Checkout(props) {
     <div>
       <Container>
         <h3 className="text-5xl py-6 text-primary">Giỏ hàng</h3>
-        <CheckoutTable carts={carts} />
+        <CheckoutTable carts={carts} isOrder={false}/>
       </Container>
     </div>
   );
