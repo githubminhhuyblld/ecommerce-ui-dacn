@@ -22,6 +22,7 @@ import {
 } from "~/store/reducers/userSlice.js";
 import AuthService from "~/services/auth/AuthService.jsx";
 import { clearCart, setSuccess } from "~/store/reducers/cartsSlice";
+import { selectSuccessAddress } from "~/store/reducers/locationSlice";
 
 const cx = classNames.bind(styles);
 
@@ -33,6 +34,7 @@ function TopNavBar(props) {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const successAddress = useSelector(selectSuccessAddress)
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -46,7 +48,7 @@ function TopNavBar(props) {
     }
 
     dispatch(fetchUserInfo());
-  }, [dispatch]);
+  }, [dispatch,successAddress]);
 
   const handleLogout = () => {
     AuthService.logout();

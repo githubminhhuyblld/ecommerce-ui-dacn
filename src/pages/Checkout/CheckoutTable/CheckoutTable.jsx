@@ -38,14 +38,13 @@ import config from "~/config";
 const cx = classNames.bind(styles);
 
 const CheckoutTable = (props) => {
-  const { carts } = props;
+  const { carts, isOrder } = props;
   const dispatch = useDispatch();
   const classes = useTableStyles();
   const [quantity, setQuantity] = useState(1);
   const [productId, setProductId] = useState(null);
   const [cartItem, setCartItem] = useState({});
   const [open, setOpen] = useState(false);
-  
 
   const validationSchema = Yup.object().shape({
     quantity: Yup.number()
@@ -100,12 +99,14 @@ const CheckoutTable = (props) => {
 
   return carts?.data?.[0]?.cartItems?.length > 0 ? (
     <div className={cx("checkout")}>
-      <Link
-        to={config.routes.home}
-        className="p-5 mb-12 flex w-1/6 justify-center items-center text-[16px] bg-sky-400 opacity-100 rounded-2xl text-white hover:opacity-80"
-      >
-        <AiOutlineArrowLeft className="text-3xl mr-4" /> Tiếp tục mua hàng
-      </Link>
+      {!isOrder && (
+        <Link
+          to={config.routes.home}
+          className="p-5 mb-12 flex w-1/6 justify-center items-center text-[16px] bg-sky-400 opacity-100 rounded-2xl text-white hover:opacity-80"
+        >
+          <AiOutlineArrowLeft className="text-3xl mr-4" /> Tiếp tục mua hàng
+        </Link>
+      )}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Sửa số lượng sản phẩm</DialogTitle>
         <DialogContent>
@@ -232,29 +233,31 @@ const CheckoutTable = (props) => {
           </Table>
         </TableContainer>
       </Paper>
-      <Grid
-        style={{ paddingTop: "150px" }}
-        container
-        spacing={2}
-        justifyContent={"space-between"}
-        alignItems={"center"}
-      >
-        <Grid item md={4}>
-          <div className={cx("total-price")}>
-            <p className={cx("title")}>Tổng tiền:</p>
-            <p className={cx("price")}>
-              {convertCurrency(carts?.data?.[0]?.totalPrice)}
-            </p>
-          </div>
+      {!isOrder && (
+        <Grid
+          style={{ paddingTop: "150px" }}
+          container
+          spacing={2}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Grid item md={4}>
+            <div className={cx("total-price")}>
+              <p className={cx("title")}>Tổng tiền:</p>
+              <p className={cx("price")}>
+                {convertCurrency(carts?.data?.[0]?.totalPrice)}
+              </p>
+            </div>
+          </Grid>
+          <Grid container justifyContent={"flex-end"} item md={3}>
+            <div className={cx("payment")}>
+              <Link to={config.routes.order} className={cx("btn-payment")}>
+                Xác nhận đơn hàng
+              </Link>
+            </div>
+          </Grid>
         </Grid>
-        <Grid container justifyContent={"flex-end"} item md={3}>
-          <div className={cx("payment")}>
-            <Link to={config.routes.order} className={cx("btn-payment")}>
-              Xác nhận đơn hàng
-            </Link>
-          </div>
-        </Grid>
-      </Grid>
+      )}
     </div>
   ) : (
     <div className={cx("empty-cart")}>
@@ -270,6 +273,7 @@ const CheckoutTable = (props) => {
 };
 CheckoutTable.propTypes = {
   carts: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  isOrder: PropTypes.bool.isRequired,
 };
 
 export default CheckoutTable;

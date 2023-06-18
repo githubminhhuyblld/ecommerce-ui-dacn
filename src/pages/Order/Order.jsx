@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 import styles from "./Order.module.scss";
 import CreateAddress from "~/layouts/components/CreateAddress/CreateAddress";
@@ -14,16 +15,20 @@ import { convertCurrency } from "~/untils/convertCurrency";
 import { selectUser } from "~/store/reducers/userSlice";
 import config from "~/config";
 import {
+  addAddress,
   selectDistricts,
   selectProvinces,
+  selectSuccessAddress,
   selectWards,
 } from "~/store/reducers/locationSlice";
+import CheckoutTable from "../Checkout/CheckoutTable/CheckoutTable";
 
 const cx = classNames.bind(styles);
 
 Order.propTypes = {};
 
 function Order(props) {
+  const dispatch = useDispatch();
   const [selectedValue, setSelectedValue] = useState("PAYMENT_ON_DELIVERY");
   const provinces = useSelector(selectProvinces);
   const districts = useSelector(selectDistricts);
@@ -33,9 +38,6 @@ function Order(props) {
   const cartItemsLength = carts?.data?.[0]?.cartItems?.length;
   const user = useSelector(selectUser);
   const address = user !== null && user?.data?.address;
-  const name =
-    user !== null && user?.data?.lastName + " " + user?.data?.firstName;
-  const numberPhone = user !== null && user?.data?.numberPhone;
   const defaultAddress =
     Array.isArray(address) && address.find((item) => item.type === "DEFAULT");
 
@@ -69,15 +71,37 @@ function Order(props) {
     const provinceName = getProvinceNameById(provinceId);
     const districtName = getDistrictNameById(districtId);
     const wardName = getWardNameById(wardId);
-    console.log(address);
-    console.log(provinceName);
-    console.log(districtName);
-    console.log(wardName);
-    console.log(name);
-    console.log(provinceName);
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const body = {
+      provinceId: provinceId,
+      districtId: districtId,
+      wardId: wardId,
+      fullName: name,
+      numberPhone: numberPhone,
+      address: address,
+      fullAddress:
+        address + "," + wardName + "," + districtName + "," + provinceName,
+    };
+    dispatch(addAddress({ userId: token.userId, body: body }))
+      .then((response) => {
+        if (response.payload === 200) {
+          dispatch(selectSuccessAddress((prev) => !prev));
+          toast.success("Lưu địa chỉ thành công", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      })
+      .catch((error) => {});
   };
 
-  console.log(selectedValue);
+  // console.log(selectedValue);
   return (
     <div className={cx("wrapper")}>
       <Container>
@@ -118,16 +142,21 @@ function Order(props) {
                     </p>
                   </div>
                 </div>
+                <div className="w-full bg-white mt-6 p-6">
+                  <CheckoutTable carts={carts} isOrder={true}/>
+                </div>
               </div>
             ) : (
-              <CreateAddress
-                handleSaveAddress={handleSaveAddress}
-                provinceDefault="none"
-                districIdDefault="none"
-                wardIdDefault="none"
-                fullNameDefault=""
-                numberPhoneDefault=""
-              />
+              <>
+                <CreateAddress
+                  handleSaveAddress={handleSaveAddress}
+                  provinceDefault="none"
+                  districIdDefault="none"
+                  wardIdDefault="none"
+                  fullNameDefault=""
+                  numberPhoneDefault=""
+                />
+              </>
             )}
           </Grid>
 
