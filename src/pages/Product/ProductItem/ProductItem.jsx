@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import ReactImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
+import { animateScroll as scroll } from "react-scroll";
 
 import styles from "./Product.module.scss";
 import { Skeleton } from "@mui/material";
 import { AiFillStar } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { convertCurrency } from "~/untils/convertCurrency.js";
 
 ProductItem.propTypes = {
@@ -17,6 +18,14 @@ const cx = classNames.bind(styles);
 
 function ProductItem(props) {
   const { product } = props;
+  const navigate = useNavigate();
+
+  const handleProductClick = () => {
+    navigate(`/product-detail/${product.id}`);
+    setTimeout(() => {
+      scroll.scrollToTop();
+    }, 100);
+  };
   const imagesOptions = product?.images?.map((item) => {
     return { id: item.id, original: item.imgUrl, thumbnail: item.imgUrl };
   });
@@ -60,7 +69,10 @@ function ProductItem(props) {
           autoPlay={false}
         />
       </div>
-      <Link to={`/product-detail/${product.id}`} className={cx("product-info")}>
+      <span
+        onClick={handleProductClick}
+        className={cx("product-info")}
+      >
         {product.name ? (
           <h3 className={cx("product-name")}>{product.name}</h3>
         ) : (
@@ -98,7 +110,7 @@ function ProductItem(props) {
         ) : (
           <Skeleton variant="text" width="100%" height={30} />
         )}
-      </Link>
+      </span>
     </div>
   );
 }
