@@ -102,7 +102,7 @@ const CheckoutTable = (props) => {
       {!isOrder && (
         <Link
           to={config.routes.home}
-          className="p-5 mb-12 flex w-1/6 justify-center items-center text-[16px] bg-sky-400 opacity-100 rounded-2xl text-white hover:opacity-80"
+          className="p-5 mb-12 block w-1/6 justify-center items-center text-[16px] bg-sky-400 opacity-100 rounded-2xl text-white hover:opacity-80"
         >
           <AiOutlineArrowLeft className="text-3xl mr-4" /> Tiếp tục mua hàng
         </Link>

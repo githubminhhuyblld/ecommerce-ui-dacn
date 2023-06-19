@@ -175,7 +175,7 @@ body .MuiSelect-select.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-in
     align-items:center;
 }
 body li.MuiButtonBase-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiMenuItem-root.MuiMenuItem-gutters.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root{
-    font-size: 1.6rem;
+    font-size: 1.6rem !important;
 }
 /*pro-sidebar customer*/
 span.ps-menu-label.ps-active.css-12w9als {
@@ -184,7 +184,7 @@ span.ps-menu-label.ps-active.css-12w9als {
 
 /* customer react-toastify */
 body .Toastify__toast-body > div:last-child {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 }
 
 /*customer react-slick*/
