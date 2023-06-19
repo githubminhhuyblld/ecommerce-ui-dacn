@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container, Grid } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -10,7 +10,7 @@ import styles from "./Order.module.scss";
 import CreateAddress from "~/layouts/components/CreateAddress/CreateAddress";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { GiCircle } from "react-icons/gi";
-import { selectCartItems } from "~/store/reducers/cartsSlice";
+import { selectCartItems, setSuccess } from "~/store/reducers/cartsSlice";
 import { convertCurrency } from "~/untils/convertCurrency";
 import { selectUser } from "~/store/reducers/userSlice";
 import config from "~/config";
@@ -22,12 +22,14 @@ import {
   selectWards,
 } from "~/store/reducers/locationSlice";
 import CheckoutTable from "../Checkout/CheckoutTable/CheckoutTable";
+import { createOrder } from "~/store/reducers/orderSlice";
 
 const cx = classNames.bind(styles);
 
 Order.propTypes = {};
 
 function Order(props) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedValue, setSelectedValue] = useState("PAYMENT_ON_DELIVERY");
   const provinces = useSelector(selectProvinces);
@@ -35,11 +37,13 @@ function Order(props) {
   const wards = useSelector(selectWards);
   const carts = useSelector(selectCartItems);
   const totalPrice = carts?.data?.[0]?.totalPrice;
-  const cartItemsLength = carts?.data?.[0]?.cartItems?.length;
+  const cartItems = carts?.data?.[0]?.cartItems;
   const user = useSelector(selectUser);
   const address = user !== null && user?.data?.address;
-  const defaultAddress =
-    Array.isArray(address) && address.find((item) => item.type === "DEFAULT");
+  const email = user !== null && user?.data?.email;
+  const userId =user !== null && user?.data?.id
+  const defaultAddress = Array.isArray(address) && address?.find((item) => item.type === "DEFAULT");
+  
 
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);
@@ -95,13 +99,68 @@ function Order(props) {
             pauseOnHover: false,
             draggable: true,
             progress: undefined,
+            bodyClassName: 'toast-message',
           });
+         
         }
       })
       .catch((error) => {});
   };
 
-  // console.log(selectedValue);
+
+  const handleCreateOrder = () => {
+    if(user === null){
+      navigate(config.routes.login);
+    }
+    else if (address !== null){
+      const body ={
+        address: defaultAddress ? defaultAddress.fullAddress : address[0]?.fullAddress,
+        email:email,
+        name:defaultAddress ? defaultAddress.fullName : address[0]?.fullName,
+        numberPhone:defaultAddress ? defaultAddress.numberPhone : address[0]?.numberPhone,
+        totalPrice:totalPrice,
+        userId:userId,
+        cartItems:cartItems
+
+      }
+      console.log(body);
+      dispatch(createOrder({userId:userId,body:body})).then((response)=>{
+        dispatch(setSuccess((prev) => !prev));
+        if (response.payload === 200) {
+          toast.success("Đặt đơn hàng thành công,5s sau sẽ chuyên tới trang xem chi tiết đơn hàng", {
+            position: toast.POSITION.TOP_LEFT,
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            bodyClassName: 'toast-message',
+            onClose: () => {
+              setTimeout(() => {
+                navigate(config.routes.home);
+              }, 5000);
+            }
+          });
+        }
+      })
+    }
+    else{
+      toast.warning("Lưu địa chỉ trước khi đặt hàng", {
+        position: toast.POSITION.TOP_LEFT,
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        bodyClassName: 'toast-message',
+        
+      });
+    }
+   
+  };
+
   return (
     <div className={cx("wrapper")}>
       <Container>
@@ -143,7 +202,7 @@ function Order(props) {
                   </div>
                 </div>
                 <div className="w-full bg-white mt-6 p-6">
-                  <CheckoutTable carts={carts} isOrder={true}/>
+                  <CheckoutTable carts={carts} isOrder={true} />
                 </div>
               </div>
             ) : (
@@ -153,8 +212,8 @@ function Order(props) {
                   provinceDefault="none"
                   districIdDefault="none"
                   wardIdDefault="none"
-                  fullNameDefault=""
-                  numberPhoneDefault=""
+                  fullNameDefault="none"
+                  numberPhoneDefault="none"
                 />
               </>
             )}
@@ -176,7 +235,7 @@ function Order(props) {
                   />
                   <label
                     htmlFor="PAYMENT_ON_DELIVERY"
-                    className={`inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 ${
+                    className={`inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg  cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 ${
                       selectedValue === "PAYMENT_ON_DELIVERY"
                         ? "dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600"
                         : ""
@@ -222,7 +281,7 @@ function Order(props) {
               </ul>
               <h3 className="text-4xl px-4">Thông tin đơn hàng</h3>
               <div className="flex justify-between px-4 py-6 text-gray-500">
-                <p>Tạm tính ({cartItemsLength} Sản phẩm)</p>
+                <p>Tạm tính ({cartItems?.length} Sản phẩm)</p>
                 <span className="text-3xl text-black">
                   {convertCurrency(totalPrice)}
                 </span>
@@ -242,9 +301,11 @@ function Order(props) {
                   {convertCurrency(totalPrice)}
                 </span>
               </div>
+
               <button
                 type="button"
-                className="p-6 mt-8 opacity-100  bg-primary w-full text-white uppercase text-2xl "
+                onClick={handleCreateOrder}
+                className={`p-6 mt-8 opacity-100  cursor-pointer bg-primary w-full text-white uppercase text-2xl `}
               >
                 Đặt hàng
               </button>

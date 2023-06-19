@@ -179,7 +179,7 @@ function Login(props) {
             </div>
 
             <p className={cx("register-link")}>
-              Thành viên mới? <Link to={config.routes.register}>Đăng ký</Link>{" "}
+              Thành viên mới? <Link className="text-sky-600 mr-2" to={config.routes.register}>Đăng ký</Link>
               tại đây
             </p>
 
