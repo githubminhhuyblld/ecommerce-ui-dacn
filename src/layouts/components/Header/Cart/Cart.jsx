@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./Cart.module.scss";
 import { IoMdCart } from "react-icons/io";
 import config from "~/config";
-import { getCartItems, selectSuccess } from "~/store/reducers/cartsSlice";
+import { clearCart, getCartItems, selectSuccess } from "~/store/reducers/cartsSlice";
 import { selectUser } from "~/store/reducers/userSlice";
 
 Cart.propTypes = {};
@@ -24,7 +24,13 @@ function Cart(props) {
   useEffect(() => {
     if (token) {
       dispatch(getCartItems(token.userId)).then((response) => {
-        setCartLength(response.payload?.data[0]?.cartItems?.length);
+        if(response.payload === 404){
+          setCartLength(0);
+          dispatch(clearCart())
+        }
+        else{
+          setCartLength(response.payload?.data[0]?.cartItems?.length);
+        }
       });
     } else if (!token) {
       setCartLength(0);

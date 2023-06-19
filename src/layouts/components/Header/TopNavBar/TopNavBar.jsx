@@ -34,7 +34,7 @@ function TopNavBar(props) {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  const successAddress = useSelector(selectSuccessAddress)
+  const successAddress = useSelector(selectSuccessAddress);
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -48,7 +48,7 @@ function TopNavBar(props) {
     }
 
     dispatch(fetchUserInfo());
-  }, [dispatch,successAddress]);
+  }, [dispatch, successAddress]);
 
   const handleLogout = () => {
     AuthService.logout();
@@ -113,25 +113,21 @@ function TopNavBar(props) {
                 <div className={cx("dropdown")} tabIndex="-1" {...attrs}>
                   <Link to={config.routes.account}>
                     <span className={cx("dropdown-item")}>
-                      {" "}
                       <FiUserPlus />
                       Thông tin tài khoản
                     </span>
                   </Link>
                   <Link to={config.routes.infoOrder}>
                     <span className={cx("dropdown-item")}>
-                      {" "}
                       <MdOutlineFavoriteBorder />
                       Thông tin đơn hàng
                     </span>
                   </Link>
                   <span className={cx("dropdown-item")}>
-                    {" "}
                     <TbBrandSamsungpass />
                     Đổi mật khẩu
                   </span>
                   <span onClick={handleLogout} className={cx("dropdown-item")}>
-                    {" "}
                     <RiLogoutCircleRLine />
                     Đăng xuất
                   </span>

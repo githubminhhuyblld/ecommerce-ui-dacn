@@ -19,7 +19,14 @@ import {
 
 const cx = classNames.bind(styles);
 
-CreateAddress.propTypes = {};
+CreateAddress.propTypes = {
+  handleSaveAddress: PropTypes.func.isRequired,
+  provinceDefault: PropTypes.string.isRequired,
+  districIdDefault: PropTypes.string.isRequired,
+  wardIdDefault: PropTypes.string,
+  fullNameDefault: PropTypes.string,
+  numberPhoneDefault: PropTypes.string,
+};
 
 function CreateAddress(props) {
   const {
@@ -59,8 +66,8 @@ function CreateAddress(props) {
   });
   const formik = useFormik({
     initialValues: {
-      name: "",
-      numberPhone: "",
+      name: fullNameDefault === "none" ? "" : fullNameDefault,
+      numberPhone: numberPhoneDefault === "none" ? "" : numberPhoneDefault,
       address: "",
     },
     validationSchema: validationSchema,
@@ -75,7 +82,6 @@ function CreateAddress(props) {
       );
     },
   });
-  console.log(provinceId);
   return (
     <div className={cx("wrapper")}>
       <Grid container>
@@ -167,11 +173,20 @@ function CreateAddress(props) {
             <label className="text-2xl pt-4">Quận/Huyện</label>
             <Select
               value={districtId}
+              disabled={provinceId === "none"}
               onChange={(e) => handleDistrictChange(e.target.value)}
-              className={cx("select-field")}
+              className={cx("select-field", {
+                "select-field-disabled": provinceId === "none",
+              })}
+              style={provinceId === "none" ? { cursor: "not-allowed" } : {}}
             >
               <MenuItem value="none" disabled sx={{ display: "none" }}>
-                Vui lòng chọn quận/huyện
+                <span
+                  className="w-full"
+                  style={provinceId === "none" ? { cursor: "not-allowed" } : {}}
+                >
+                  Vui lòng chọn quận/huyện
+                </span>
               </MenuItem>
               {districts?.map((item, index) => {
                 return (
@@ -187,11 +202,20 @@ function CreateAddress(props) {
             <Select
               value={wardId}
               onChange={(e) => setWardId(e.target.value)}
-              className={cx("select-field")}
+              disabled={districtId === "none"}
+              className={cx("select-field", {
+                "select-field-disabled": districtId === "none",
+              })}
+              style={districtId === "none" ? { cursor: "not-allowed" } : {}}
               fullWidth
             >
               <MenuItem value="none" disabled sx={{ display: "none" }}>
-                Vui lòng chọn phường xã
+                <span
+                  className="w-full"
+                  style={districtId === "none" ? { cursor: "not-allowed" } : {}}
+                >
+                  Vui lòng chọn phường xã
+                </span>
               </MenuItem>
               {wards?.map((item, index) => {
                 return (
