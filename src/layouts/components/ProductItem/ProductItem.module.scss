@@ -1,7 +1,7 @@
 .wrapper{
   width: 100%;
   cursor: pointer;
-  background-color: var(--white-color);
+  background-color: var(--white-color) !important;
   font-weight: bold;
   display: block;
   &:hover{
@@ -21,6 +21,7 @@
 }
 .product-info{
   padding: 12px 12px;
+  background-color:var(--white-color) !important;
 }
 .product-name {
   font-size: 1.6rem;

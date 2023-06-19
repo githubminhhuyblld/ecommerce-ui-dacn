@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  Container,
-  Grid,
-  Skeleton,
-  Rating,
-} from "@mui/material";
+import { Container, Grid, Skeleton, Rating } from "@mui/material";
 import ReactImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,13 +10,18 @@ import { toast } from "react-toastify";
 
 import styles from "./ProductDetail.module.scss";
 import ButtonList from "~/layouts/components/ButtonList/ButtonList.jsx";
-import {  AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 import { IoMdRemove } from "react-icons/io";
-import { getProductById } from "~/services/workspacesService.jsx";
+import {
+  fetchProductsByCategoryId,
+  getProductById,
+} from "~/services/workspacesService.jsx";
 import { convertCurrency } from "~/untils/convertCurrency.js";
 import { selectUser } from "~/store/reducers/userSlice";
 import config from "~/config";
 import { addToCart, setSuccess } from "~/store/reducers/cartsSlice";
+import { selectProductsCategory } from "~/store/reducers/ProductsCategorySlice";
+import ProductItem from "../Product/ProductItem/ProductItem";
 
 const cx = classNames.bind(styles);
 
@@ -37,11 +37,29 @@ function ProductDetail(props) {
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
   const [value, setValue] = useState(2);
+  const products = useSelector(selectProductsCategory);
 
   const isLoading = !productDetail;
   useEffect(() => {
     getProductById(id).then((res) => setProductDetail(res?.data));
   }, [id]);
+  
+  const fetchData = useCallback(() => {
+    if (!isLoading && productDetail) {
+      dispatch(
+        fetchProductsByCategoryId({
+          categoryId: productDetail.categoryId,
+          page: 0,
+          size: 10,
+        })
+      );
+    }
+  }, [isLoading, productDetail, dispatch]);
+  
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
 
   const colorOptions = productDetail?.colors?.map((item) => {
     return { id: item.id, label: item.colorName };
@@ -281,7 +299,7 @@ function ProductDetail(props) {
                     <Rating
                       name="half-rating-read"
                       className={cx("star")}
-                      defaultValue={productDetail?.rating}
+                      defaultValue={parseInt(productDetail?.rating)}
                       readOnly
                     />
                   </div>
@@ -470,6 +488,43 @@ function ProductDetail(props) {
               </div>
             </Grid>
           </Grid>
+          <div className="w-full mt-20  bg-gray-200">
+            <h3 className="text-3xl p-8">
+              Mô tả sản phẩm {productDetail?.name}
+            </h3>
+            <p className="px-8">
+              Máy pha cà phê tự động là một thiết bị tiện dụng và đa chức năng
+              được thiết kế để tạo ra những tách cà phê chất lượng cao ngay tại
+              nhà hoặc văn phòng. Với công nghệ tiên tiến và tính năng đa dạng,
+              máy pha cà phê tự động mang lại trải nghiệm pha cà phê chuyên
+              nghiệp và thỏa mãn như ở các quán cà phê hàng đầu. Máy pha cà phê
+              tự động có một loạt các chức năng và điều khiển thông minh, cho
+              phép người dùng tùy chỉnh và lựa chọn theo sở thích cá nhân. Máy
+              được trang bị một hệ thống pha cà phê tự động với một nắp chứa cà
+              phê, một bình chứa nước, và một bộ lọc. Người dùng chỉ cần đổ cà
+              phê và nước vào máy, lựa chọn các thiết lập và một nút nhấn, máy
+              sẽ tự động xử lý quá trình pha cà phê từ việc xay cà phê, nén cà
+              phê, đổ nước nóng và thu hoạch cà phê tươi ngon trong thời gian
+              ngắn. Máy pha cà phê tự động cung cấp một loạt các loại cà phê
+              khác nhau để đáp ứng nhu cầu đa dạng của người dùng. Người dùng có
+              thể lựa chọn từ cà phê đen, cà phê sữa, espresso, cappuccino và
+              nhiều hơn nữa. Ngoài ra, máy còn cho phép điều chỉnh độ mịn của cà
+              phê xay, nhiệt độ nước, và tỷ lệ cà phê-nước để tạo ra ly cà phê
+              hoàn hảo theo sở thích cá nhân.
+            </p>
+          </div>
+          <div className="px-8 mt-20 bg-gray-200 p-8">
+            <h3 className="text-4xl text-black mb-10">
+              Sản phẩm bạn có thể biết
+            </h3>
+            <Grid container spacing={2}>
+            {products?.content?.map((item) => (
+              <Grid key={item.id} item lg={12/5} md={4} sm={6} xs={12}>
+                <ProductItem product={item} />
+              </Grid>
+            ))}
+            </Grid>
+          </div>
         </div>
       </Container>
     </div>
