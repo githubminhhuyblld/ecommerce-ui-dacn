@@ -12,6 +12,7 @@ import {
   fetchDistricts,
   fetchProvinces,
   fetchWards,
+  selectDataProvinces,
   selectDistricts,
   selectProvinces,
   selectWards,
@@ -42,12 +43,14 @@ function CreateAddress(props) {
   const [districtId, setDistrictId] = useState(districIdDefault);
   const [wardId, setWardId] = useState(wardIdDefault);
 
-  const provinces = useSelector(selectProvinces);
+  const provinces = useSelector(selectDataProvinces);
   const districts = useSelector(selectDistricts);
   const wards = useSelector(selectWards);
+
   useEffect(() => {
     dispatch(fetchProvinces());
   }, []);
+  
 
   const handleProvinceChange = (provId) => {
     setProvinceId(provId);
@@ -162,7 +165,7 @@ function CreateAddress(props) {
               </MenuItem>
               {provinces.map((item, index) => {
                 return (
-                  <MenuItem key={item.id} value={item.id}>
+                  <MenuItem key={item.code} value={item.code}>
                     {item.name}
                   </MenuItem>
                 );
@@ -188,9 +191,9 @@ function CreateAddress(props) {
                   Vui lòng chọn quận/huyện
                 </span>
               </MenuItem>
-              {districts?.map((item, index) => {
+              {districts?.districts?.map((item, index) => {
                 return (
-                  <MenuItem key={item.id} value={item.id}>
+                  <MenuItem key={item.code} value={item.code}>
                     {item.name}
                   </MenuItem>
                 );
@@ -217,9 +220,9 @@ function CreateAddress(props) {
                   Vui lòng chọn phường xã
                 </span>
               </MenuItem>
-              {wards?.map((item, index) => {
+              {wards?.wards?.map((item, index) => {
                 return (
-                  <MenuItem key={item.id} value={item.id}>
+                  <MenuItem key={item.code} value={item.code}>
                     {item.name}
                   </MenuItem>
                 );
