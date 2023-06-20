@@ -49,7 +49,7 @@ function Order(props) {
     setSelectedValue(event.target.value);
   };
   const getItemNameById = (items, itemId) => {
-    const item = items.find((item) => item.id === itemId);
+    const item = items.find((item) => item.code === itemId);
     return item ? item.name : "";
   };
   const getProvinceNameById = (provinceId) => {
@@ -57,11 +57,11 @@ function Order(props) {
   };
 
   const getDistrictNameById = (districtId) => {
-    return getItemNameById(districts, districtId);
+    return getItemNameById(districts?.districts, districtId);
   };
 
   const getWardNameById = (wardId) => {
-    return getItemNameById(wards, wardId);
+    return getItemNameById(wards?.wards, wardId);
   };
 
   const handleSaveAddress = (
@@ -76,6 +76,7 @@ function Order(props) {
     const districtName = getDistrictNameById(districtId);
     const wardName = getWardNameById(wardId);
     const token = JSON.parse(localStorage.getItem("token"));
+
 
     const body = {
       provinceId: provinceId,
