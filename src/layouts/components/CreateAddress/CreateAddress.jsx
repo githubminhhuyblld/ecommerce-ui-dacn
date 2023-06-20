@@ -12,7 +12,6 @@ import {
   fetchDistricts,
   fetchProvinces,
   fetchWards,
-  selectDataProvinces,
   selectDistricts,
   selectProvinces,
   selectWards,
@@ -43,7 +42,7 @@ function CreateAddress(props) {
   const [districtId, setDistrictId] = useState(districIdDefault);
   const [wardId, setWardId] = useState(wardIdDefault);
 
-  const provinces = useSelector(selectDataProvinces);
+  const provinces = useSelector(selectProvinces);
   const districts = useSelector(selectDistricts);
   const wards = useSelector(selectWards);
 

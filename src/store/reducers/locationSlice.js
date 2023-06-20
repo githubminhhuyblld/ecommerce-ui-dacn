@@ -124,7 +124,6 @@ const locationSlice = createSlice({
 });
 export default locationSlice.reducer;
 
-export const selectDataProvinces = (state) => state.location.provinces;
 export const selectProvinces = (state) => state.location.provinces;
 export const selectDistricts = (state) => state.location.districts;
 export const selectWards = (state) => state.location.wards;
