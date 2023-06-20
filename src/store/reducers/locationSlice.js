@@ -1,24 +1,25 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import instance from "~/interceptors/axios";
+import instance, { provinces } from "~/interceptors/axios";
 import authHeader from "~/services/auth/authHeader";
 
 export const fetchProvinces = createAsyncThunk(
   "location/fetchProvinces",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await instance.get("/provinces");
-      return response.data.data;
+      const response = await provinces.get("/p");
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
 );
+
 export const fetchDistricts = createAsyncThunk(
   "location/fetchDistricts",
   async (provinceId, { rejectWithValue }) => {
     try {
-      const response = await instance.get(`/${provinceId}/districts`);
-      return response.data.data;
+      const response = await provinces.get(`/p/${provinceId}?depth=3`);
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -28,8 +29,8 @@ export const fetchWards = createAsyncThunk(
   "location/fetchWards",
   async (districtId, { rejectWithValue }) => {
     try {
-      const response = await instance.get(`/${districtId}/wards`);
-    return response.data.data;
+      const response = await provinces.get(`/d/${districtId}?depth=2`);
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -38,7 +39,7 @@ export const fetchWards = createAsyncThunk(
 
 export const addAddress = createAsyncThunk(
   "location/addAddress",
-  async ({userId, body}, { rejectWithValue }) => {
+  async ({ userId, body }, { rejectWithValue }) => {
     try {
       const response = await instance.post(`/users/${userId}/addresses`, body);
       return response.status;
@@ -56,7 +57,7 @@ const locationSlice = createSlice({
     wards: [],
     loading: false,
     error: null,
-    success:false
+    success: false,
   },
   reducers: {
     setSuccess: (state, action) => {
@@ -113,7 +114,6 @@ const locationSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.success = false;
-   
       })
       .addCase(addAddress.rejected, (state, action) => {
         state.loading = false;
@@ -124,6 +124,7 @@ const locationSlice = createSlice({
 });
 export default locationSlice.reducer;
 
+export const selectDataProvinces = (state) => state.location.provinces;
 export const selectProvinces = (state) => state.location.provinces;
 export const selectDistricts = (state) => state.location.districts;
 export const selectWards = (state) => state.location.wards;
