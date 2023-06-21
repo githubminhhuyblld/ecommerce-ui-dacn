@@ -191,7 +191,7 @@ function InfoOrder(props) {
                         <div className="w-full">
                           <h4 className="text-4xl mb-2">Tổng cộng</h4>
                           <div className="flex items-center justify-between">
-                            <p>Tổng tiền:(1 Sản phẩm)</p>
+                            <p>Tổng tiền:({order.cartItems.length} Sản phẩm)</p>
                             <p>{convertCurrency(order.totalPrice)}</p>
                           </div>
                           <div className="flex items-center justify-between mb-4">
