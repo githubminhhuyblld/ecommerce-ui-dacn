@@ -9,6 +9,7 @@ import InfoOrder from "~/pages/InfoOrder/InfoOrder";
 import Checkout from "~/pages/Checkout/Checkout";
 import Order from "~/pages/Order/Order";
 import EditAddress from "~/pages/EditAddress/EditAddress";
+import Seller from "~/pages/Seller/Seller";
 
 
 
@@ -24,6 +25,7 @@ const publicRoutes = [
     {path: config.routes.checkout, component: Checkout},
     {path: config.routes.order, component: Order},
     {path: config.routes.editAddress, component: EditAddress},
+    {path: config.routes.seller, component: Seller},
 ];
 const privateRoutes = [];
 export {publicRoutes, privateRoutes};

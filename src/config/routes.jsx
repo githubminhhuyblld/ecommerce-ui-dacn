@@ -9,7 +9,9 @@ const routes = {
     infoOrder:"/info-order",
     checkout:"/checkout",
     order:"/check/order",
-    editAddress:"/edit-address"
+    editAddress:"/edit-address",
+    seller:"/seller",
+
 
 
 };

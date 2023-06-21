@@ -27,7 +27,7 @@ function InfoOrder(props) {
   const navigate = useNavigate();
   const orders = useSelector(selectOrdersByUserId);
   const user = useSelector(selectUser);
-  const userId = user !== null && user?.data?.id;
+  const userId = user !== null && user?.id;
   useEffect(() => {
     dispatch(fetchOrdersByUserId(userId));
   }, [dispatch, userId]);

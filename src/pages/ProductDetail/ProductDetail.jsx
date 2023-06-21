@@ -94,7 +94,7 @@ function ProductDetail(props) {
     if (null === user) {
       navigate(config.routes.login);
     }
-    const userId = user.data.id;
+    const userId = user.id;
     const cartItem = {
       amount: count,
       categoryId: productDetail?.categoryId,
