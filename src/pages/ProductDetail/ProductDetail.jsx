@@ -89,6 +89,7 @@ function ProductDetail(props) {
     }
   };
 
+
   const handleAddToCart = () => {
     if (null === user) {
       navigate(config.routes.login);
@@ -121,6 +122,7 @@ function ProductDetail(props) {
         description: productDetail?.shop.description,
         id: productDetail?.shop.id,
         name: productDetail?.shop.name,
+        image:productDetail?.shop.image
       },
     };
 
