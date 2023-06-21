@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { IconButton, InputAdornment, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 
 import styles from "./Seller.module.scss";
 import { selectUser } from "~/store/reducers/userSlice";
@@ -38,9 +38,11 @@ function Seller(props) {
       <Container>
         <Grid container justifyContent="flex-end" spacing={8}>
           <Grid item lg={5} md={12} sm={12}>
-            <div className="w-full bg-white mt-24 p-12 rounded-xl">
-              <h3 className="text-5xl mb-12 text-primary">Đăng ký bán hàng cùng Lazada</h3>
-              <div className=" w-[150px] h-[150px] object-cover">
+            <div className="w-full bg-white my-24 p-12 rounded-xl">
+              <h3 className="text-5xl mb-12 text-primary">
+                Đăng ký bán hàng cùng Lazada
+              </h3>
+              <div className=" w-[150px] h-[150px] object-cover mb-8">
                 <UploadSingleImage
                   imageProduct={
                     "https://img.freepik.com/free-vector/cartoon-style-cafe-front-shop-view_134830-697.jpg"
@@ -89,7 +91,7 @@ function Seller(props) {
                   margin="normal"
                 />
               </div>
-              <button className="w-full bg-sky-700 text-3xl mt-8 p-6 rounded-2xl text-white">
+              <button type="button" className="w-full bg-sky-700 text-3xl mt-8 p-6 rounded-2xl text-white">
                 Đăng ký
               </button>
             </div>
