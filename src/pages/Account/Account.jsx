@@ -7,8 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styles from "~/pages/Account/Account.module.scss";
 import { selectUser } from "~/store/reducers/userSlice";
-import { fetchOrdersByUserId, selectOrdersByUserId } from "~/store/reducers/orderSlice";
-
+import {
+  fetchOrdersByUserId,
+  selectOrdersByUserId,
+} from "~/store/reducers/orderSlice";
 
 const cx = classNames.bind(styles);
 
@@ -179,22 +181,26 @@ function Account() {
                   >
                     Địa chỉ nhận hàng mặt định
                   </div>
-                  <div className={cx("fontBold", "padding-t-b-2")}>
-                    {defaultAddress
-                      ? defaultAddress.fullName
-                      : address[0]?.fullName}
-                  </div>
-                  <div className={cx("fontSize80", "colorGray")}>
-                    {defaultAddress
-                      ? defaultAddress.fullAddress
-                      : address[0]?.fullAddress}
-                  </div>
-                  <div className={cx("fontSize80", "colorGray")}>
-                    (+84){" "}
-                    {defaultAddress
-                      ? defaultAddress.numberPhone
-                      : address[0]?.numberPhone}
-                  </div>
+                  {address?.length > 0 && (
+                    <>
+                      <div className={cx("fontBold", "padding-t-b-2")}>
+                        {defaultAddress
+                          ? defaultAddress.fullName
+                          : address[0]?.fullName}
+                      </div>
+                      <div className={cx("fontSize80", "colorGray")}>
+                        {defaultAddress
+                          ? defaultAddress.fullAddress
+                          : address[0]?.fullAddress}
+                      </div>
+                      <div className={cx("fontSize80", "colorGray")}>
+                        (+84){" "}
+                        {defaultAddress
+                          ? defaultAddress.numberPhone
+                          : address[0]?.numberPhone}
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className={cx("hl-full")}></div>
                 <div className={cx("flexItem", "padding-l-20")}>
@@ -209,22 +215,26 @@ function Account() {
                   >
                     Địa chỉ thanh toán mặc định
                   </div>
-                  <div className={cx("fontBold", "padding-t-b-2")}>
-                    {defaultAddress
-                      ? defaultAddress.fullName
-                      : address[0]?.fullName}
-                  </div>
-                  <div className={cx("fontSize80", "colorGray")}>
-                    {defaultAddress
-                      ? defaultAddress.fullAddress
-                      : address[0]?.fullAddress}
-                  </div>
-                  <div className={cx("fontSize80", "colorGray")}>
-                    (+84){" "}
-                    {defaultAddress
-                      ? defaultAddress.numberPhone
-                      : address[0]?.numberPhone}
-                  </div>
+                  {address?.length > 0 && (
+                    <>
+                      <div className={cx("fontBold", "padding-t-b-2")}>
+                        {defaultAddress
+                          ? defaultAddress.fullName
+                          : address[0]?.fullName}
+                      </div>
+                      <div className={cx("fontSize80", "colorGray")}>
+                        {defaultAddress
+                          ? defaultAddress.fullAddress
+                          : address[0]?.fullAddress}
+                      </div>
+                      <div className={cx("fontSize80", "colorGray")}>
+                        (+84){" "}
+                        {defaultAddress
+                          ? defaultAddress.numberPhone
+                          : address[0]?.numberPhone}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
