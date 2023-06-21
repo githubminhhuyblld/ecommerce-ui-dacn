@@ -210,3 +210,8 @@ body .image-gallery-thumbnail {
     outline: none;
     border: 4px solid transparent;
 }
+
+/*pro-sidebar customer*/
+span.ps-menu-label.ps-active.css-12w9als {
+    color: var(--primary-color) !important;
+  }
