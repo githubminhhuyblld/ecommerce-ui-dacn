@@ -124,7 +124,6 @@ function Order(props) {
         cartItems:cartItems
 
       }
-      console.log(body);
       dispatch(createOrder({userId:userId,body:body})).then((response)=>{
         dispatch(setSuccess((prev) => !prev));
         if (response.payload === 200) {
