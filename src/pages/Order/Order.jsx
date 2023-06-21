@@ -39,9 +39,9 @@ function Order(props) {
   const totalPrice = carts?.data?.[0]?.totalPrice;
   const cartItems = carts?.data?.[0]?.cartItems;
   const user = useSelector(selectUser);
-  const address = user !== null && user?.data?.address;
-  const email = user !== null && user?.data?.email;
-  const userId =user !== null && user?.data?.id
+  const address = user !== null && user?.address;
+  const email = user !== null && user?.email;
+  const userId =user !== null && user?.id
   const defaultAddress = Array.isArray(address) && address?.find((item) => item.type === "DEFAULT");
   
 
