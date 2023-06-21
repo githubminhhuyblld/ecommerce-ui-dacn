@@ -164,6 +164,10 @@ body .css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected:hover{
 h2.MuiTypography-root.MuiTypography-h6 {
     font-size: 2rem !important;
 }
+body li.MuiButtonBase-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiMenuItem-root.MuiMenuItem-gutters.css-1km1ehz{
+    font-size: 1.6rem !important;
+
+}
 
 p.MuiTypography-root.MuiDialogContentText-root.MuiTypography-body1.MuiTypography-colorTextSecondary {
     font-size: 1.8rem !important;

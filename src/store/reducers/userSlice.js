@@ -9,7 +9,7 @@ export const fetchUserInfo = createAsyncThunk(
       const response = await instance.get("/users/me", {
         headers: authHeader(),
       });
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

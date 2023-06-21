@@ -66,7 +66,7 @@ function TopNavBar(props) {
           <span className={cx("top-navbar-item")}>
             Tiết kiệm hơn với ứng dụng
           </span>
-          <Link to={""}>
+          <Link to={config.routes.seller}>
             <span className={cx("top-navbar-item")}>Bán hàng cùng Lazada</span>
           </Link>
           {isDesktop && (
@@ -135,7 +135,7 @@ function TopNavBar(props) {
               )}
             >
               <span className={cx("top-navbar-item")}>
-                Xin Chào: {user?.data.lastName + " " + user?.data.firstName}
+                Xin Chào: {user?.lastName + " " + user?.firstName}
               </span>
             </Tippy>
           )}
