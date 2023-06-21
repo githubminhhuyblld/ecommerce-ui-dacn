@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ImageUploading from "react-images-uploading";
 
+
 const UploadSingleImage = (props) => {
   const {
     images,
@@ -31,7 +32,6 @@ const UploadSingleImage = (props) => {
         isDragging,
         dragProps,
       }) => (
-
         <div className="w-full h-full">
           {imageList.length > 0 &&
             imageList.map((image, index) => (
@@ -77,7 +77,15 @@ const UploadSingleImage = (props) => {
     </ImageUploading>
   );
 };
+UploadSingleImage.propTypes = {
+  imageProduct: PropTypes.string.isRequired,
+  open: PropTypes.bool.isRequired,
+  images: PropTypes.array.isRequired,
+  name: PropTypes.string.isRequired,
+  maxNumber: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
+  showButton: PropTypes.bool.isRequired,
+};
 
-UploadSingleImage.propTypes = {};
 
 export default UploadSingleImage;
