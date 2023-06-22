@@ -181,6 +181,9 @@ body .MuiSelect-select.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-in
 body li.MuiButtonBase-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiMenuItem-root.MuiMenuItem-gutters.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root{
     font-size: 1.6rem !important;
 }
+body .MuiSelect-select.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-input.css-qiwgdb{
+    font-size: 1.4rem;
+}
 /*pro-sidebar customer*/
 span.ps-menu-label.ps-active.css-12w9als {
     color: var(--primary-color) !important;

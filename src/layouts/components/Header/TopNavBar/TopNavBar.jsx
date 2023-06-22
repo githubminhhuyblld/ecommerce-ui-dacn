@@ -135,7 +135,8 @@ function TopNavBar(props) {
               )}
             >
               <span className={cx("top-navbar-item")}>
-                Xin Chào: {user?.lastName + " " + user?.firstName}
+                Xin Chào:{" "}
+                {user !== null && user?.lastName + " " + user?.firstName}
               </span>
             </Tippy>
           )}
