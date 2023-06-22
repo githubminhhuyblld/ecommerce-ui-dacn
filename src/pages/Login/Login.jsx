@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import { TextField, InputAdornment, IconButton, Grid } from "@material-ui/core";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -27,6 +27,13 @@ function Login(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
+  function getPreviousPage() {
+    window.history.back(); // Chuyển hướng trở lại trang trước đó
+    const previousPage = window.location.href; // Lấy đường dẫn của trang hiện tại
+    window.history.forward(); // Di chuyển tiến trở lại để không ảnh hưởng đến lịch sử duyệt web
+  
+    return previousPage;
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -45,9 +52,11 @@ function Login(props) {
         );
         if (response.accessToken) {
           dispatch(setAuthenticated(true));
-          navigate(config.routes.home);
           dispatch(setSuccess((prev) => !prev));
           await dispatch(fetchUserInfo());
+          // window.history.back()
+          navigate(config.routes.home)
+         
         }
       } catch (error) {
         if (error.response.status === 400) {
@@ -179,7 +188,10 @@ function Login(props) {
             </div>
 
             <p className={cx("register-link")}>
-              Thành viên mới? <Link className="text-sky-600 mr-2" to={config.routes.register}>Đăng ký</Link>
+              Thành viên mới?{" "}
+              <Link className="text-sky-600 mr-2" to={config.routes.register}>
+                Đăng ký
+              </Link>
               tại đây
             </p>
 
