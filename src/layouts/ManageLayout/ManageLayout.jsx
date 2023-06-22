@@ -21,22 +21,52 @@ function ManageLayout({ children }) {
   const categories = [
     {
       id: 1,
-      label: "Quản lý Tài khoản",
+      label: "Địa chỉ Shop",
       icon: <BiDownArrowCircle />,
       items: [
         {
-          name: "Tất cả tài khoản",
+          name: "Địa chỉ",
           to: "",
         },
+       
+        
       ],
     },
     {
       id: 2,
-      label: "Quản lý bài Post",
+      label: "Quản lý Sản phẩm",
+      icon: <BiDownArrowCircle />,
+      items: [
+        {
+          name: "Tất cả sản phẩm",
+          to: config.routes.seller,
+        },
+        {
+          name: "Thêm sản phẩm",
+          to: "",
+        },
+        
+      ],
+    },
+    {
+      id: 3,
+      label: "Quản lý Đơn hàng",
       icon: <FaHeart />,
       items: [
         {
-          name: "Tất cả bài Post",
+          name: "Tất cả Đơn hàng",
+          to: "",
+        },
+        {
+          name: "Đơn hàng hủy",
+          to: "",
+        },
+        {
+          name: "Đơn hàng đang giao",
+          to: "",
+        },
+        {
+          name: "Đơn hàng mới nhất",
           to: "",
         },
       ],

@@ -26,9 +26,9 @@ const publicRoutes = [
     {path: config.routes.checkout, component: Checkout},
     {path: config.routes.order, component: Order},
     {path: config.routes.editAddress, component: EditAddress},
-    {path: config.routes.seller, component: Seller},
+    {path: config.routes.seller, component: Seller,layout:null},
     {path: config.routes.shopProduct, component: ManageLayoutAllProduct},
-    // ,layout:null
+
 ];
 const privateRoutes = [];
 export {publicRoutes, privateRoutes};
