@@ -144,7 +144,7 @@ function EditProfile() {
                         <h2 className={cx('title')}>
                             Chỉnh sửa
                         </h2>
-                        <Grid className={cx("frame")} style={{margin: "0 auto"}} container spacing={2} xs={12}>
+                        <Grid className={cx("frame")} style={{margin: "0 auto"}} container item spacing={2} xs={12}>
                             <Grid container item xs={12}>
                                 <Grid item
                                       xl={5}
