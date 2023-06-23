@@ -11,7 +11,6 @@ ManageLayoutAllProduct.propTypes = {
 function ManageLayoutAllProduct({products}) {
     return (
         <div>
-            <Header/>
             <ManageLayout  children={<ShopAllProduct data={products}/>}/>
         </div>
     );
