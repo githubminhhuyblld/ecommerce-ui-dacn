@@ -11,7 +11,8 @@ const routes = {
     order:"/check/order",
     editAddress:"/edit-address",
     seller:"/seller",
-    shopProduct:"shop/products"
+    shopProduct:"/shop/products",
+    activeAddress:"/shop/address/active"
 
 
 
