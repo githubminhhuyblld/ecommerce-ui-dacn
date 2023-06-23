@@ -1,6 +1,7 @@
 import instance from "~/interceptors/axios";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import authHeader from "./auth/authHeader";
+import { debounce } from "@material-ui/core";
 
 export const fetchCategories = createAsyncThunk(
     'categories/fetchCategories',
@@ -56,3 +57,7 @@ export const checkEmailExists = async (email) => {
 export const loginGoogleService = async (body) => {
     return await instance.post(`/google/login`, body)
 }
+export const checkShopNameDebounced = async (value) => {
+    return await instance.get(`/shops/check-name?name=${value}`)
+}
+

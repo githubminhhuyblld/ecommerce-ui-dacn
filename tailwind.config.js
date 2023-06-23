@@ -15,6 +15,7 @@ export default {
       colors: {
         button: "#2565f5",
         primary: "#f57224",
+        background:"rgba(0, 0, 0, .03)"
       },
     },
   },

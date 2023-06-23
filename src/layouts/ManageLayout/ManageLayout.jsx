@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
+import { useDispatch } from "react-redux";
 
 import styles from "./ManageLayout.module.scss";
 import { BiDownArrowCircle } from "react-icons/bi";
 import { FaHeart, FaUserFriends } from "react-icons/fa";
 import config from "~/config";
+import AuthService from "~/services/auth/AuthService";
+import { setAuthenticated } from "~/store/reducers/userSlice";
+
+
 
 const cx = classNames.bind(styles);
 
@@ -17,7 +22,18 @@ ManageLayout.propTypes = {
 };
 
 function ManageLayout({ children }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isTablet = useMediaQuery({ maxWidth: 768 });
+  const token = JSON.parse(localStorage.getItem("token"));
+  useEffect(() => {
+    if (AuthService.isTokenExpired(token)) {
+      dispatch(setAuthenticated(false));
+      AuthService.logout();
+      navigate(config.routes.login);
+    }
+  }, [token]);
+ 
   const categories = [
     {
       id: 1,

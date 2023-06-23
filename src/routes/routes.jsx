@@ -11,6 +11,7 @@ import Order from "~/pages/Order/Order";
 import EditAddress from "~/pages/EditAddress/EditAddress";
 import Seller from "~/pages/Seller/Seller";
 import ManageLayoutAllProduct from "~/pages/Seller/ShopProduct/AllProduct/ManageLayoutAllProduct";
+import WatingShopRegister from "~/pages/Seller/WatingShopRegister/WatingShopRegister";
 
 
 
@@ -28,6 +29,7 @@ const publicRoutes = [
     {path: config.routes.editAddress, component: EditAddress},
     {path: config.routes.seller, component: Seller,layout:null},
     {path: config.routes.shopProduct, component: ManageLayoutAllProduct},
+    {path: config.routes.activeAddress, component: WatingShopRegister},
 
 ];
 const privateRoutes = [];
