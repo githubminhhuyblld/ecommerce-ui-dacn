@@ -12,6 +12,8 @@ import EditAddress from "~/pages/EditAddress/EditAddress";
 import Seller from "~/pages/Seller/Seller";
 import ManageLayoutAllProduct from "~/pages/Seller/ShopProduct/AllProduct/ManageLayoutAllProduct";
 import WatingShopRegister from "~/pages/Seller/WatingShopRegister/WatingShopRegister";
+import ManageLayoutAddProduct from "~/pages/Seller/ShopProduct/AddProduct/ManageLayoutAddProduct";
+import ManageLayoutEditProduct from "~/pages/Seller/ShopProduct/EditProduct/ManageLayoutEditProduct";
 
 
 
@@ -28,8 +30,9 @@ const publicRoutes = [
     {path: config.routes.order, component: Order},
     {path: config.routes.editAddress, component: EditAddress},
     {path: config.routes.seller, component: Seller,layout:null},
-    {path: config.routes.shopProduct, component: ManageLayoutAllProduct},
     {path: config.routes.activeAddress, component: WatingShopRegister},
+    {path: config.routes.addProduct, component: ManageLayoutAddProduct,layout:null},
+    {path: config.routes.editProduct, component: ManageLayoutEditProduct,layout:null},
 
 ];
 const privateRoutes = [];
