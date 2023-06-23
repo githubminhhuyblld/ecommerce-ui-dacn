@@ -51,6 +51,19 @@ export const registerShop = createAsyncThunk(
     }
   }
 );
+export const addProduct = createAsyncThunk(
+  'shop/addProduct',
+  async ({ userId, body }, { rejectWithValue }) => {
+    try {
+      const response = await instance.post(`/products?userId=${userId}`, body, {
+        headers: authHeader(),
+      });
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 const shopSlice = createSlice({
   name: "shop",
   initialState: {
@@ -101,6 +114,18 @@ const shopSlice = createSlice({
       .addCase(registerShop.rejected, (state, action) => {
         state.loading = false;
         state.registerStatus = "failed";
+        state.error = action.payload;
+      })
+      .addCase(addProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products.push(action.payload);
+      })
+      .addCase(addProduct.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload;
       });
   },
