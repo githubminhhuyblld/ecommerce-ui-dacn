@@ -18,7 +18,6 @@ import styled from "@emotion/styled";
 import { tooltipClasses } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 
 import styles from "./ShopAllProduct.module.scss";
 import { useTableStyles } from "~/layouts/components/CustomerMaterial";
@@ -45,7 +44,7 @@ function ShopAllProduct(props) {
     },
   }));
   const loading = useSelector(selectProductsByShopIdLoading);
-  // console.log(data);
+  console.log(data);
 
   return (
     <div className={cx("wrapper")}>

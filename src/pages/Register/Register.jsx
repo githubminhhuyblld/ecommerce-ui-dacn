@@ -42,7 +42,6 @@ function Register(props) {
         .test("check-username", "Tên người dùng đã tồn tại", async (value) => {
           const response = await checkUsernameExists(value);
           const data = response.data;
-          console.log(data);
           return !data;
         }),
       password: Yup.string()

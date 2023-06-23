@@ -29,7 +29,23 @@ export const fetchInfoShop = createAsyncThunk(
           headers: authHeader(),
         }
       );
-      return response.data.data;
+      const shopInfo = response.data.data;
+      return shopInfo;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const registerShop = createAsyncThunk(
+  "shop/registerShop",
+  async ({ userId, body }, { rejectWithValue }) => {
+    try {
+      const response = await instance.post(`/shops?userId=${userId}`, body, {
+        headers: authHeader(),
+      });
+      const shopInfo = response.data.data;
+      localStorage.setItem("shopInfo", JSON.stringify(shopInfo));
+      return shopInfo;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -39,9 +55,10 @@ const shopSlice = createSlice({
   name: "shop",
   initialState: {
     products: [],
-    shopInfo:[],
+    shopInfo: JSON.parse(localStorage.getItem("shopInfo")) || [],
     loading: false,
     error: null,
+    registerStatus: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -55,27 +72,43 @@ const shopSlice = createSlice({
       state.products = action.payload;
     });
 
-    builder.addCase(fetchProductsByShopId.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    })
-    .addCase(fetchInfoShop.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(fetchInfoShop.fulfilled, (state, action) => {
-      state.loading = false;
-      state.shopInfo = action.payload;
-    })
-    .addCase(fetchInfoShop.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    });
+    builder
+      .addCase(fetchProductsByShopId.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchInfoShop.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchInfoShop.fulfilled, (state, action) => {
+        state.loading = false;
+        state.shopInfo = action.payload;
+      })
+      .addCase(fetchInfoShop.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(registerShop.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerShop.fulfilled, (state, action) => {
+        state.loading = false;
+        state.registerStatus = "success"; 
+        state.shopInfo = action.payload;
+      })
+      .addCase(registerShop.rejected, (state, action) => {
+        state.loading = false;
+        state.registerStatus = "failed";
+        state.error = action.payload;
+      });
   },
 });
 
 export const selectProductsByShopId = (state) => state.shop.products;
 export const selectProductsByShopIdLoading = (state) => state.shop.loading;
 export const selectInfoShop = (state) => state.shop.shopInfo;
+export const selectRegisterStatus = (state) => state.shop.registerStatus; 
 
 export default shopSlice.reducer;
