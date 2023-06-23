@@ -45,125 +45,134 @@ function ShopAllProduct(props) {
   }));
   const loading = useSelector(selectProductsByShopIdLoading);
   console.log(data);
+  console.log(data.length == 0);
 
   return (
     <div className={cx("wrapper")}>
-      <h3 className="relative">Tất cả sản phẩm</h3>
+      <h3 className="relative p-4 bg-sky-200 rounded-lg text-4xl text-gray-700 mb-4">
+        Tất cả sản phẩm
+      </h3>
 
-      {loading ? (
-        <div className="absolute top-40 left-1/2">
-          <div className="">
-            <CircularProgress />
+      {data.length !== 0 &&
+        (loading ? (
+          <div className="absolute top-40 left-1/2">
+            <div className="">
+              <CircularProgress />
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className={cx("manage")}>
-          <Paper sx={{ width: "100%" }}>
-            <TableContainer
-              component={Paper}
-              className={classes.tableContainer}
-              sx={{ maxHeight: 440 }}
-            >
-              <Table aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell
-                      style={{ whiteSpace: "nowrap" }}
-                      className={classes.tableCell}
-                    >
-                      Tên sản phẩm
-                    </TableCell>
-                    <TableCell
-                      style={{ whiteSpace: "nowrap" }}
-                      className={classes.tableCell}
-                    >
-                      Hình ảnh
-                    </TableCell>
-                    <TableCell
-                      style={{ whiteSpace: "nowrap" }}
-                      className={classes.tableCell}
-                    >
-                      Giá
-                    </TableCell>
-                    <TableCell
-                      style={{ whiteSpace: "nowrap" }}
-                      className={classes.tableCell}
-                    >
-                      Số lượng
-                    </TableCell>
-                    <TableCell
-                      style={{ whiteSpace: "nowrap" }}
-                      className={classes.tableCell}
-                    >
-                      Chức năng
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {data.map((item, index) => {
-                    return (
-                      <TableRow key={item.id} className={classes.evenRow}>
-                        <TableCell className={classes.tableCell}>
-                          {item.name}
-                        </TableCell>
-                        <TableCell className={classes.imageCell}>
-                          <img
-                            src={item.mainImage}
-                            alt={item.name}
-                            className={classes.image}
-                          />
-                        </TableCell>
-                        <TableCell className={classes.tableCell}>
-                          {convertCurrency(item.newPrice)}
-                        </TableCell>
-                        <TableCell className={classes.tableCell}>
-                          {item.quantity}
-                        </TableCell>
-                        <TableCell className={classes.tableCell}>
-                          <div className={cx("function")}>
-                            <LightTooltip title="remove">
-                              <IconButton
-                                className={classes.iconButton}
-                                //   onClick={() => handleRemove(item.id)}
-                                aria-label="remove"
-                              >
-                                <BsTrash className={cx("icon-remove")} />
-                              </IconButton>
-                            </LightTooltip>
-                            <Link to={``}>
-                              <LightTooltip title="Edit">
+        ) : (
+          <div className={cx("manage")}>
+            <Paper sx={{ width: "100%" }}>
+              <TableContainer
+                component={Paper}
+                className={classes.tableContainer}
+                sx={{ maxHeight: 440 }}
+              >
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell
+                        style={{ whiteSpace: "nowrap" }}
+                        className={classes.tableCell}
+                      >
+                        Tên sản phẩm
+                      </TableCell>
+                      <TableCell
+                        style={{ whiteSpace: "nowrap" }}
+                        className={classes.tableCell}
+                      >
+                        Hình ảnh
+                      </TableCell>
+                      <TableCell
+                        style={{ whiteSpace: "nowrap" }}
+                        className={classes.tableCell}
+                      >
+                        Giá
+                      </TableCell>
+                      <TableCell
+                        style={{ whiteSpace: "nowrap" }}
+                        className={classes.tableCell}
+                      >
+                        Số lượng
+                      </TableCell>
+                      <TableCell
+                        style={{ whiteSpace: "nowrap" }}
+                        className={classes.tableCell}
+                      >
+                        Chức năng
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {data.map((item, index) => {
+                      return (
+                        <TableRow key={item.id} className={classes.evenRow}>
+                          <TableCell className={classes.tableCell}>
+                            {item.name}
+                          </TableCell>
+                          <TableCell className={classes.imageCell}>
+                            <img
+                              src={item.mainImage}
+                              alt={item.name}
+                              className={classes.image}
+                            />
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                            {convertCurrency(item.newPrice)}
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                            {item.quantity}
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                            <div className={cx("function")}>
+                              <LightTooltip title="remove">
                                 <IconButton
                                   className={classes.iconButton}
-                                  aria-label="edit"
+                                  //   onClick={() => handleRemove(item.id)}
+                                  aria-label="remove"
                                 >
-                                  <FiEdit2 className={cx("icon-edit")} />
+                                  <BsTrash className={cx("icon-remove")} />
                                 </IconButton>
                               </LightTooltip>
-                            </Link>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            {/* <TablePagination
-                    sx={{
-                        fontWeight: 'bold',
-                        mx: 0.5,
-                        fontSize: 16,
-                    }}
-                    rowsPerPageOptions={[5, 10, 15]}
-                    component="div"
-                    count={products?.length || 0}
-                    rowsPerPage={rowsPerPage}
-                    labelRowsPerPage="Lựa chọn số lượng sản phẩm"
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                /> */}
-          </Paper>
+                              <Link to={``}>
+                                <LightTooltip title="Edit">
+                                  <IconButton
+                                    className={classes.iconButton}
+                                    aria-label="edit"
+                                  >
+                                    <FiEdit2 className={cx("icon-edit")} />
+                                  </IconButton>
+                                </LightTooltip>
+                              </Link>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              {/* <TablePagination
+                      sx={{
+                          fontWeight: 'bold',
+                          mx: 0.5,
+                          fontSize: 16,
+                      }}
+                      rowsPerPageOptions={[5, 10, 15]}
+                      component="div"
+                      count={products?.length || 0}
+                      rowsPerPage={rowsPerPage}
+                      labelRowsPerPage="Lựa chọn số lượng sản phẩm"
+                      page={page}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                  /> */}
+            </Paper>
+          </div>
+        ))}
+      {data.length === 0 && (
+        <div className="p-4 text-3xl">
+          <p>Chưa có sản phẩm bán nào</p>
         </div>
       )}
     </div>
