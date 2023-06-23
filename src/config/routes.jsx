@@ -12,7 +12,9 @@ const routes = {
     editAddress:"/edit-address",
     seller:"/seller",
     shopProduct:"/shop/products",
-    activeAddress:"/shop/address/active"
+    activeAddress:"/shop/address/active",
+    addProduct:"/shop/add-product",
+    editProduct:"/shop/edit-product"
 
 
 

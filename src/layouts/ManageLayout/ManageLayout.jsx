@@ -12,6 +12,7 @@ import { FaHeart, FaUserFriends } from "react-icons/fa";
 import config from "~/config";
 import AuthService from "~/services/auth/AuthService";
 import { setAuthenticated } from "~/store/reducers/userSlice";
+import Header from "~/pages/Seller/Header/Header";
 
 
 
@@ -59,7 +60,7 @@ function ManageLayout({ children }) {
         },
         {
           name: "Thêm sản phẩm",
-          to: "",
+          to: config.routes.addProduct,
         },
         
       ],
@@ -91,7 +92,7 @@ function ManageLayout({ children }) {
 
   return (
     <div className="">
-      {/* <Header /> */}
+      <Header />
       <div style={{ display: "flex", height: "100vh" }}>
         <Sidebar defaultCollapsed={isTablet} collapsedWidth="50px">
           <Menu

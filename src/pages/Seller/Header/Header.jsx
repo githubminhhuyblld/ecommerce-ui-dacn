@@ -35,6 +35,7 @@ function Header(props) {
     dispatch(setSuccess(false));
     dispatch(clearCart());
     dispatch(resetUser());
+    localStorage.removeItem("shopInfo");
     navigate(config.routes.login);
   };
   return (
