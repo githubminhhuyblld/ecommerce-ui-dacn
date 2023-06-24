@@ -115,12 +115,6 @@ function AddProduct(props) {
       );
       const downloadURLOrginal = await getDownloadURL(snapshotOriginal.ref);
 
-      let sale;
-      if (values.oldPrice !== 0) {
-        sale = ((values.oldPrice - values.newPrice) / values.oldPrice) * 100;
-      } else {
-        sale = 0;
-      }
       const body = {
         categoryId: selectedCategoryId,
         name: values.name,
@@ -132,33 +126,32 @@ function AddProduct(props) {
         oldPrice: values.oldPrice,
         quantity: values.quantity,
         rating: "0",
-        sale: sale,
         sizes: sizesData.sizes,
         colors: colorsData.colors,
         images: thumailsData.thumails,
       };
       const token = JSON.parse(localStorage.getItem("token"));
-        if (token && thumails.length  > 0) {
-          dispatch(addProduct({ userId: token.userId, body: body })).then(
-            (response) => {
-               if(response.payload.categoryId){
-                toast.success("Thêm sản phẩm  thành công", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 2000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                  });
-               }
+      if (token && thumails.length > 0) {
+        dispatch(addProduct({ userId: token.userId, body: body })).then(
+          (response) => {
+            console.log(response);
+            if (response.payload.categoryId) {
+              toast.success("Thêm sản phẩm  thành công", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+              });
             }
-          );
-        }
-      console.log(body) ;
+          }
+        );
+      }
+      console.log(body);
     },
   });
-
 
   return (
     <div className="w-full py-8 ">
@@ -295,6 +288,7 @@ function AddProduct(props) {
             <div className="flex flex-col w-full lg:w-1/2">
               <label className="text-2xl">Thêm màu</label>
               <OptionInput
+                defaultData={[]}
                 title="Vui lòng chọn màu"
                 onOptionAdded={handleColorAdded}
               />
@@ -305,6 +299,7 @@ function AddProduct(props) {
               <label className="text-2xl">Thêm Size</label>
               <OptionInput
                 title="Vui lòng chọn Size"
+                defaultData={[]}
                 onOptionAdded={handleSizeAdded}
               />
             </div>
