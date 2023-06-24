@@ -7,12 +7,19 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 OptionInput.propTypes = {
   title: PropTypes.string.isRequired,
   onOptionAdded: PropTypes.func.isRequired,
+  defaultData: PropTypes.array,
 };
 
 function OptionInput(props) {
-  const { onOptionAdded, title } = props;
+  const { onOptionAdded, title, defaultData } = props;
   const [option, setOption] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
+
+  useEffect(() => {
+    if (defaultData && defaultData.length > 0) {
+      setSelectedOptions(defaultData);
+    }
+  }, [defaultData]);
 
   useEffect(() => {
     onOptionAdded(selectedOptions);
@@ -35,7 +42,6 @@ function OptionInput(props) {
     setSelectedOptions(updatedOptions);
   };
 
- 
   return (
     <div className="w-full">
       <div className="flex items-center w-full">
@@ -65,7 +71,9 @@ function OptionInput(props) {
               <div className="p-2 ">
                 <span className="text-3xl flex items-center">
                   <AiOutlineCheckCircle className="text-green-400 mr-3 " />
-                  {selectedOption}
+                  {defaultData && defaultData.length > 0
+                    ? (selectedOption.colorName || selectedOption.name)
+                    : selectedOption}
                 </span>
               </div>
               <button

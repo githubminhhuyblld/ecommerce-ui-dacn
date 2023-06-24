@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import ImageUploading from "react-images-uploading";
 
-const UploadMoreImage = ({ onChange }) => {
+
+const UploadMoreImage = ({ onChange, thumails, isLoading }) => {
   const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    if (thumails && thumails.length > 0) {
+      setImages(thumails);
+    }
+  }, [thumails]);
 
   const onChangeHandler = (imageList) => {
     setImages(imageList);
@@ -39,7 +47,7 @@ const UploadMoreImage = ({ onChange }) => {
                 <div className=" flex flex-col w-[120px] h-[200px]">
                   <img
                     className="w-full h-[120px] object-cover border-2 border-primary"
-                    src={image.data_url}
+                    src={image.data_url || image.imgUrl}
                     alt=""
                   />
                   <div className="flex items-center w-full py-2">
@@ -68,6 +76,11 @@ const UploadMoreImage = ({ onChange }) => {
       )}
     </ImageUploading>
   );
+};
+UploadMoreImage.propTypes = {
+  onChange:PropTypes.func.isRequired,
+  thumails:PropTypes.array,
+  isLoading:PropTypes.bool,
 };
 
 export default UploadMoreImage;
