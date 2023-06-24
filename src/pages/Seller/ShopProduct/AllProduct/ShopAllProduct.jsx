@@ -44,8 +44,7 @@ function ShopAllProduct(props) {
     },
   }));
   const loading = useSelector(selectProductsByShopIdLoading);
-  console.log(data);
-  console.log(data.length == 0);
+  
 
   return (
     <div className={cx("wrapper")}>
@@ -134,7 +133,7 @@ function ShopAllProduct(props) {
                                   <BsTrash className={cx("icon-remove")} />
                                 </IconButton>
                               </LightTooltip>
-                              <Link to={``}>
+                              <Link to={`/shop/edit-product/${item.id}`}>
                                 <LightTooltip title="Edit">
                                   <IconButton
                                     className={classes.iconButton}

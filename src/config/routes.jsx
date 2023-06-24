@@ -6,16 +6,16 @@ const routes = {
     account: "/account",
     productDetail: "/product-detail/:id",
     product: "/products/:id/:search",
-    infoOrder:"/info-order",
-    checkout:"/checkout",
-    order:"/check/order",
-    editAddress:"/edit-address",
-    seller:"/seller",
-    shopProduct:"/shop/products",
-    activeAddress:"/shop/address/active",
-    addProduct:"/shop/add-product",
-    editProduct:"/shop/edit-product"
-
+    infoOrder: "/info-order",
+    checkout: "/checkout",
+    order: "/check/order",
+    editAddress: "/edit-address",
+    editProfile: "/edit-profile",
+    seller: "/seller",
+    shopProduct: "/shop/products",
+    activeAddress: "/shop/address/active",
+    addProduct: "/shop/add-product",
+    editProduct: "/shop/edit-product/:id"
 
 
 };
