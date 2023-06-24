@@ -1,0 +1,152 @@
+.wrapper {
+  width: 100%;
+  background: var(--background);
+}
+.voucher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 67px;
+
+  .voucher-img {
+    width: 388px;
+    height: 97px;
+    margin-left: 20px;
+  }
+}
+.footer-information {
+  display: flex;
+  justify-content: center;
+
+  .contact {
+    flex-grow: 1;
+    width: 297px;
+  }
+  .title-contact {
+    color: #0f136d;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 35px;
+    margin: 0;
+  }
+  .item-contact > a {
+    color: #0f136d;
+  }
+  .information {
+    flex-grow: 1;
+    width: 297px;
+  }
+  .info-app {
+    flex-grow: 6;
+    width: 594px;
+  }
+}
+.web-app {
+  display: flex;
+
+  .web-app-left {
+    display: flex;
+    margin-right: 36px;
+
+    .web-app-left-logo {
+      margin-right: 20px;
+    }
+
+    .web-app-left-content h3 {
+      color: #f36f36;
+    }
+    .web-app-left-content p {
+      color: #0f136d;
+    }
+  }
+  .web-app-right {
+    display: flex;
+  }
+}
+.info-company {
+  margin-top: 20px;
+  font-size: 12px;
+  font-weight: 200;
+  color: #0f136d;
+}
+
+.footer-second {
+  padding: 20px 100px;
+  background-color: #fff;
+}
+.lzd-footer-inner {
+  display: flex;
+}
+
+.lzd-footer-width-50 {
+  width: 50%;
+}
+.lzd-footer-width-25 {
+  width: 25%;
+
+  .logo-delivery {
+    display: flex;
+    flex-wrap: wrap;
+
+    .lzd-icon-delivery {
+      margin-right: 12px;
+      margin-bottom: 12px;
+    }
+  }
+
+  .logo-certification {
+    display: flex;
+  }
+
+  .lzd-icon-certification {
+    margin-right: 12px;
+    margin-bottom: 12px;
+  }
+
+  .icon-certification-right {
+    margin-right: 12px;
+    margin-bottom: 12px;
+  }
+}
+
+.logo-payment {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 20px;
+
+  .lzd-footer-sprit > img {
+    margin-right: 25px;
+    margin-bottom: 25px;
+    width: 70px;
+    height: 50px;
+  }
+}
+.footer-second .lzd-footer-h3 {
+  font-size: 16px;
+  color: #183544;
+  font-weight: 400;
+  line-height: 2.2em;
+  margin-bottom: 15px;
+}
+
+.footer-third {
+  
+  .footer-third .lzd-footer-left{
+    column-count: 2;
+
+  }
+
+  .lzd-footer-width-50 {
+    width: 50%;
+    overflow: hidden;
+    float: left;
+
+    .lzd-footer-about{
+      padding-right: 25%;
+    }
+  }
+
+  .lzd-footer-width-25{
+    width: 25%;
+  }
+}
