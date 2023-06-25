@@ -1,43 +1,113 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
-import { Container, Grid } from "@mui/material";
+import { Container } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import LinearProgress from "@mui/material/LinearProgress";
+import { toast } from "react-toastify";
 
 import styles from "./EditAddress.module.scss";
 import CreateAddress from "~/layouts/components/CreateAddress/CreateAddress";
+import SidebarLeft from "~/layouts/components/SidebarLeft/SidebarLeft";
+import {
+  fetchInfoAddressById,
+  selectAddressById,
+  selectSuccessAddress,
+  updateAddressById,
+} from "~/store/reducers/locationSlice";
 
 const cx = classNames.bind(styles);
 
 EditAddress.propTypes = {};
 
 function EditAddress(props) {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const [provinceDefault, setProvinceDefault] = useState("none");
+  const [districIdDefault, setDistricIdDefault] = useState("none");
+  const [wardIdDefault, setWardIdDefault] = useState("none");
+  const addressInfo = useSelector(selectAddressById);
+  const token = JSON.parse(localStorage.getItem("token"));
+  const success = useSelector(selectSuccessAddress)
+
+  useEffect(() => {
+    dispatch(fetchInfoAddressById(id));
+  }, [dispatch, id,success]);
+
+  useEffect(() => {
+    if (addressInfo) {
+      setProvinceDefault(addressInfo.provinceId);
+      setDistricIdDefault(addressInfo.districtId);
+      setWardIdDefault(addressInfo.wardId);
+   
+    }
+  }, [addressInfo]);
+
+  const provinceId = addressInfo ? addressInfo.provinceId : provinceDefault;
+  const districtId = addressInfo ? addressInfo.districtId : districIdDefault;
+  const wardId = addressInfo ? addressInfo.wardId : wardIdDefault;
+  const fullName = addressInfo ? addressInfo.fullName : "";
+  const address = addressInfo ? addressInfo.address : "";
+  const numberPhone = addressInfo ? addressInfo.numberPhone : "";
+
   const handleSaveAddress = (
     provinceId,
     districtId,
     wardId,
     name,
     numberPhone,
-    address
+    address,
+    fullAddress
   ) => {
-    console.log(provinceId);
-    console.log(name);
+    const body = {
+      address: address,
+      districtId: districtId,
+      fullName: name,
+      numberPhone: numberPhone,
+      provinceId: provinceId,
+      wardId: wardId,
+      fullAddress: fullAddress,
+    };
+    console.log(body);
+    dispatch(
+      updateAddressById({ addressId: id, userId: token.userId, body: body })
+    ).then((response) => {
+      console.log(response);
+      if (response.payload === 200) {
+        toast.success("Lưu địa chỉ thành công", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          bodyClassName: "toast-message",
+        });
+      }
+    });
   };
   return (
     <div className={cx("wrapper")}>
       <Container>
-        <Grid container>
-          <Grid item lg={12} md={12}>
-            <h3 className="text-4xl p-8">Chỉnh sửa địa chỉ</h3>
+        <div className="grid grid-cols-12 gap-4 py-12">
+          <div className="md:col-span-3 px-2 lg:col-span-2 hidden md:block">
+            <SidebarLeft />
+          </div>
+          <div className="col-span-12 md:col-span-9 lg:col-span-10 sm:col-span-12">
+            <h3 className="text-4xl mb-8">Chỉnh sửa thông tin địa chỉ</h3>
             <CreateAddress
               handleSaveAddress={handleSaveAddress}
-              provinceDefault="none"
-              districIdDefault="none"
-              wardIdDefault="none"
-              fullNameDefault=""
-              numberPhoneDefault=""
+              provinceDefault={provinceId}
+              districIdDefault={districtId}
+              wardIdDefault={wardId}
+              fullNameDefault={fullName}
+              numberPhoneDefault={numberPhone}
+              addressDefault={address}
             />
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </Container>
     </div>
   );

@@ -36,6 +36,31 @@ export const fetchWards = createAsyncThunk(
     }
   }
 );
+export const fetchInfoAddressById = createAsyncThunk(
+  "location/fetchInfoAddressById",
+  async (addressId, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(`/users/addresses/${addressId}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const updateAddressById = createAsyncThunk(
+  "location/updateAddressById",
+  async ({ addressId,userId, body }, { rejectWithValue }) => {
+    try {
+      const response = await instance.put(
+        `/users/${userId}/addresses?id=${addressId}`,
+        body
+      );
+      return response.status;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const addAddress = createAsyncThunk(
   "location/addAddress",
@@ -55,6 +80,7 @@ const locationSlice = createSlice({
     provinces: [],
     districts: [],
     wards: [],
+    address: null,
     loading: false,
     error: null,
     success: false,
@@ -119,6 +145,34 @@ const locationSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.success = false;
+      })
+      .addCase(fetchInfoAddressById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchInfoAddressById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.address = action.payload;
+      })
+      .addCase(fetchInfoAddressById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(updateAddressById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(updateAddressById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.success = true;
+      })
+      .addCase(updateAddressById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.success = false;
       });
   },
 });
@@ -127,6 +181,7 @@ export default locationSlice.reducer;
 export const selectProvinces = (state) => state.location.provinces;
 export const selectDistricts = (state) => state.location.districts;
 export const selectWards = (state) => state.location.wards;
+export const selectAddressById = (state) => state.location.address;
 export const selectLoading = (state) => state.location.loading;
 export const selectError = (state) => state.location.error;
 export const selectSuccessAddress = (state) => state.location.success;
