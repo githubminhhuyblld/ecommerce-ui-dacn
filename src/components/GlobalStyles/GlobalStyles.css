@@ -208,6 +208,16 @@ body li.MuiButtonBase-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiMenuItem-root
 body .MuiSelect-select.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-input.css-qiwgdb{
     font-size: 1.4rem;
 }
+body .MuiTypography-body2{
+    font-size: 1.6rem ;
+}
+body svg.MuiSvgIcon-root.MuiSelect-icon.MuiTablePagination-selectIcon{
+    font-size: 2.6rem;
+}
+body svg.MuiSvgIcon-root{
+    font-size: 2.6rem;
+
+}
 /*pro-sidebar customer*/
 span.ps-menu-label.ps-active.css-12w9als {
     color: var(--primary-color) !important;
