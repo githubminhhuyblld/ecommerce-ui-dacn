@@ -41,6 +41,13 @@ const UploadMoreImage = ({ onChange, thumails, isLoading }) => {
           >
             Upload images
           </button>
+          <button
+            type="button"
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-6 mx-3"
+            onClick={onImageRemoveAll}
+          >
+            Xoát tất cả
+          </button>
           <div className="flex items-center">
             {images.map((image, index) => (
               <div className=" px-4 " key={index}>

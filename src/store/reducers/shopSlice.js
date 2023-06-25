@@ -78,6 +78,22 @@ export const updateProduct = createAsyncThunk(
     }
   }
 );
+export const removeProduct = createAsyncThunk(
+  "shop/removeProduct",
+  async ({ productId, userId }, { rejectWithValue }) => {
+    try {
+      const response = await instance.delete(
+        `/products/${productId}?userId=${userId}`,
+        {
+          headers: authHeader(),
+        }
+      );
+      return response.status;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 const shopSlice = createSlice({
   name: "shop",
   initialState: {
@@ -151,6 +167,19 @@ const shopSlice = createSlice({
         state.error = null;
       })
       .addCase(updateProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(removeProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(removeProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        const { productId } = action.meta.arg;
+        state.products = state.products.filter((product) => product.id !== productId);
+      })
+      .addCase(removeProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

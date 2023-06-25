@@ -31,9 +31,13 @@ function OptionInput(props) {
 
   const handleAddOption = () => {
     if (option) {
-      const updatedOptions = [...selectedOptions, option];
-      setSelectedOptions(updatedOptions);
+      setSelectedOptions((prevOptions) => [...prevOptions, option]);
       setOption("");
+    }
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleAddOption();
     }
   };
 
@@ -52,6 +56,7 @@ function OptionInput(props) {
           fullWidth
           value={option}
           onChange={handleOptionChange}
+          onKeyPress={handleKeyPress}
         />
         <button
           type="button"
@@ -71,9 +76,9 @@ function OptionInput(props) {
               <div className="p-2 ">
                 <span className="text-3xl flex items-center">
                   <AiOutlineCheckCircle className="text-green-400 mr-3 " />
-                  {defaultData && defaultData.length > 0
-                    ? (selectedOption.colorName || selectedOption.name)
-                    : selectedOption}
+                  {selectedOption.colorName ||
+                    selectedOption.name ||
+                    selectedOption}
                 </span>
               </div>
               <button
