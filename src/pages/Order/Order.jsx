@@ -41,9 +41,9 @@ function Order(props) {
   const user = useSelector(selectUser);
   const address = user !== null && user?.address;
   const email = user !== null && user?.email;
-  const userId =user !== null && user?.id
-  const defaultAddress = Array.isArray(address) && address?.find((item) => item.type === "DEFAULT");
-  
+  const userId = user !== null && user?.id;
+  const defaultAddress =
+    Array.isArray(address) && address?.find((item) => item.type === "DEFAULT");
 
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);
@@ -77,7 +77,6 @@ function Order(props) {
     const wardName = getWardNameById(wardId);
     const token = JSON.parse(localStorage.getItem("token"));
 
-
     const body = {
       provinceId: provinceId,
       districtId: districtId,
@@ -100,52 +99,54 @@ function Order(props) {
             pauseOnHover: false,
             draggable: true,
             progress: undefined,
-            bodyClassName: 'toast-message',
+            bodyClassName: "toast-message",
           });
-         
         }
       })
       .catch((error) => {});
   };
 
-
   const handleCreateOrder = () => {
-    if(user === null){
+    if (user === null) {
       navigate(config.routes.login);
-    }
-    else if (address !== null){
-      const body ={
-        address: defaultAddress ? defaultAddress.fullAddress : address[0]?.fullAddress,
-        email:email,
-        name:defaultAddress ? defaultAddress.fullName : address[0]?.fullName,
-        numberPhone:defaultAddress ? defaultAddress.numberPhone : address[0]?.numberPhone,
-        totalPrice:totalPrice,
-        userId:userId,
-        cartItems:cartItems
-
-      }
-      dispatch(createOrder({userId:userId,body:body})).then((response)=>{
+    } else if (address !== null) {
+      const body = {
+        address: defaultAddress
+          ? defaultAddress.fullAddress
+          : address[0]?.fullAddress,
+        email: email,
+        name: defaultAddress ? defaultAddress.fullName : address[0]?.fullName,
+        numberPhone: defaultAddress
+          ? defaultAddress.numberPhone
+          : address[0]?.numberPhone,
+        totalPrice: totalPrice,
+        userId: userId,
+        cartItems: cartItems,
+      };
+      dispatch(createOrder({ userId: userId, body: body })).then((response) => {
         dispatch(setSuccess((prev) => !prev));
         if (response.payload === 200) {
-          toast.success("Đặt đơn hàng thành công,5s sau sẽ chuyên tới trang xem chi tiết đơn hàng", {
-            position: toast.POSITION.TOP_LEFT,
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            bodyClassName: 'toast-message',
-            onClose: () => {
-              setTimeout(() => {
-                navigate(config.routes.home);
-              }, 5000);
+          toast.success(
+            "Đặt đơn hàng thành công,5s sau sẽ chuyên tới trang xem chi tiết đơn hàng",
+            {
+              position: toast.POSITION.TOP_LEFT,
+              autoClose: 5000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              bodyClassName: "toast-message",
+              onClose: () => {
+                setTimeout(() => {
+                  navigate(config.routes.home);
+                }, 5000);
+              },
             }
-          });
+          );
         }
-      })
-    }
-    else{
+      });
+    } else {
       toast.warning("Lưu địa chỉ trước khi đặt hàng", {
         position: toast.POSITION.TOP_LEFT,
         autoClose: 2000,
@@ -154,11 +155,9 @@ function Order(props) {
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        bodyClassName: 'toast-message',
-        
+        bodyClassName: "toast-message",
       });
     }
-   
   };
 
   return (
@@ -184,7 +183,9 @@ function Order(props) {
                       </span>
                     </div>
                     <Link
-                      to={config.routes.editAddress}
+                      to={`/edit-address/${
+                        defaultAddress ? defaultAddress.id : address[0]?.id
+                      }`}
                       className="text-sky-500"
                     >
                       Chỉnh sửa
