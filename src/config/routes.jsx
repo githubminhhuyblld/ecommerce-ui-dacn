@@ -9,7 +9,7 @@ const routes = {
     infoOrder: "/info-order",
     checkout: "/checkout",
     order: "/check/order",
-    editAddress: "/edit-address",
+    editAddress: "/edit-address/:id",
     editProfile: "/edit-profile",
     seller: "/seller",
     shopProduct: "/shop/products",

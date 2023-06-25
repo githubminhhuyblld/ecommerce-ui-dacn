@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import "moment-timezone";
+import Avatar from "@mui/material/Avatar";
 
 import styles from "./InfoOrder.module.scss";
 import { RiMessage2Line } from "react-icons/ri";
@@ -17,6 +18,7 @@ import { selectUser } from "~/store/reducers/userSlice";
 import config from "~/config";
 import { convertCurrency } from "~/untils/convertCurrency";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import SidebarLeft from "~/layouts/components/SidebarLeft/SidebarLeft";
 
 const cx = classNames.bind(styles);
 
@@ -38,60 +40,14 @@ function InfoOrder(props) {
       .format("DD [tháng] MM YYYY HH:mm:ss");
     return formattedDate;
   };
-  const sidebarLeft = [
-    {
-      id: 1,
-      title: "Quản lý tài khoản",
-      children: [
-        { id: 1, name: "Thông tin cá nhân", to: config.routes.account },
-        { id: 2, name: "Số địa chỉ", to: "" },
-        { id: 3, name: "  Tùy chọn thanh toán", to: "" },
-      ],
-    },
-    {
-      id: 2,
-      title: "Đơn hàng của tôi",
-      children: [
-        { id: 1, name: "Đơn hàng đổi trả", to: "" },
-        { id: 2, name: "Đona hàng hủy", to: "" },
-      ],
-    },
-    {
-      id: 2,
-      title: "Nhận xét của tôi",
-      children: [],
-    },
-    {
-      id: 2,
-      title: "Sản phẩm yêu thích & Gian hang đang theo dõi",
-      children: [],
-    },
-  ];
+  
+
   return (
     <div className="w-full bg-gray-200 p-8">
       <Container>
         <div className="grid grid-cols-12 gap-4 py-12">
           <div className="md:col-span-3 px-2 lg:col-span-2 hidden md:block">
-            {sidebarLeft.map((item, index) => {
-              return (
-                <div key={index}>
-                  <h3 className="md:text-2xl lg:text-3xl">{item.title}</h3>
-                  <ul className="px-6 py-6 flex flex-col">
-                    {item.children.map((child, index) => {
-                      return (
-                        <Link
-                          to={child.to}
-                          key={index}
-                          className="text-gray-500 text-2xl py-2"
-                        >
-                          {child.name}
-                        </Link>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            })}
+            <SidebarLeft />
           </div>
           {orders.length > 0 ? (
             <div className="col-span-12 md:col-span-9 lg:col-span-10 sm:col-span-12">
@@ -105,7 +61,12 @@ function InfoOrder(props) {
                           <div className="bg-white p-8">
                             <div className="flex sm:justify-between  justify-around">
                               <div className="flex flex-col md:flex-row items-center">
-                                <h3 className="text-3xl font-bold mr-2">
+                                <Avatar
+                                  alt="Remy Sharp"
+                                  src=   {item.shop.image}
+                                  sx={{ width: 32, height: 32 }}
+                                />
+                                <h3 className="text-3xl font-bold mx-2">
                                   {item.shop.name}
                                 </h3>
                                 <span className="flex items-center mx-3 text-sky-500">
