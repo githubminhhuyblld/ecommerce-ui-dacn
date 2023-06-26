@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
-import { Select, MenuItem, FormControl } from "@material-ui/core";
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  LinearProgress,
+} from "@material-ui/core";
 import { Grid, Pagination } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,9 +15,10 @@ import styles from "./Content.module.scss";
 import ProductItem from "~/pages/Product/ProductItem/ProductItem.jsx";
 import {
   productsCategorySlice,
+  selectLoadingCategory,
   selectProductsCategory,
 } from "~/store/reducers/ProductsCategorySlice.js";
-import { selectSearchResults } from "~/store/reducers/searchSlice.js";
+import { selectSearchLoading, selectSearchResults } from "~/store/reducers/searchSlice.js";
 import {
   fetchProductsByCategoryId,
   searchProducts,
@@ -31,6 +37,8 @@ function Content(props) {
   const dispatch = useDispatch();
   const products = useSelector(selectProductsCategory);
   const resultsSearch = useSelector(selectSearchResults);
+  const isLoadingCategory = useSelector(selectLoadingCategory);
+  const isLoadingSearch = useSelector(selectSearchLoading)
   const [currentPage, setCurrentPage] = useState(0);
   useEffect(() => {
     if (id !== "search") {
@@ -125,30 +133,38 @@ function Content(props) {
           </div>
         </div>
       </div>
-
-      {products?.content?.length > 0 || resultsSearch?.content?.length > 0 ? (
-        <div className={cx("content")}>
-          <Grid container spacing={2}>
-            {displayProducts?.map((item) => (
-              <Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
-                <ProductItem product={item} />
-              </Grid>
-            ))}
-          </Grid>
-        </div>
+      {isLoadingCategory || isLoadingSearch ? (
+        <LinearProgress color="primary" />
       ) : (
-        <div className={cx("empty")}>Không tìm thấy sản phẩm</div>
-      )}
-      {displayProducts?.length > 0 && (
-        <div className={cx("pagination")}>
-          <Pagination
-            count={totalPages || 0}
-            page={currentPage + 1}
-            onChange={(event, newPage) => handleChangePage(event, newPage - 1)}
-            size="large"
-            color="primary"
-          />
-        </div>
+        <>
+          {products?.content?.length > 0 ||
+          resultsSearch?.content?.length > 0 ? (
+            <div className={cx("content")}>
+              <Grid container spacing={2}>
+                {displayProducts?.map((item) => (
+                  <Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
+                    <ProductItem product={item} />
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
+          ) : (
+            <div className={cx("empty")}>Không tìm thấy sản phẩm</div>
+          )}
+          {displayProducts?.length > 0 && (
+            <div className={cx("pagination")}>
+              <Pagination
+                count={totalPages || 0}
+                page={currentPage + 1}
+                onChange={(event, newPage) =>
+                  handleChangePage(event, newPage - 1)
+                }
+                size="large"
+                color="primary"
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   );

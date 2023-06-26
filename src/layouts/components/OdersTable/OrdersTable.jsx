@@ -13,6 +13,7 @@ import { CiDeliveryTruck } from "react-icons/ci";
 import {
   setOrderStatusSuccess,
   updateOrderCanceled,
+  updateOrderReady,
 } from "~/store/reducers/orderSlice";
 const cx = classNames.bind(styles);
 
@@ -49,12 +50,32 @@ function OrdersTable(props) {
       }
     });
   };
+  const handleReadyOrder = (orderId) => {
+    dispatch(updateOrderReady({ userId: token.userId, orderId: orderId })).then(
+      (response) => {
+        if (response.payload === 200) {
+          console.log(response);
+          dispatch(setOrderStatusSuccess((prev) => !prev));
+          toast.success("Xác nhận đơn hàng thành công thành công", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      }
+    );
+  };
+  const handleRemoveOrderId = (orderId) => {};
   return (
     <div className="w-full p-6">
       <h3 className=" p-4 bg-sky-200 rounded-lg text-4xl text-gray-700 mb-8">
         {title}
       </h3>
-      {orders.map((order, index) => {
+      {orders?.map((order, index) => {
         return (
           <div
             key={order.id}
@@ -117,7 +138,7 @@ function OrdersTable(props) {
                         {convertCurrency(item.oldPrice)}
                       </span>
                       <span className="text-primary ml-3 text-3xl">
-                      {convertCurrency(item.newPrice)}
+                        {convertCurrency(item.newPrice)}
                       </span>
                     </div>
                   </div>
@@ -165,12 +186,18 @@ function OrdersTable(props) {
                     </span>
                   )}
                   {order.orderStatus === "PROCESSING" && (
-                    <span className="bg-green-500 p-4 text-white cursor-pointer hover:bg-green-700 rounded-xl">
+                    <span
+                      onClick={() => handleReadyOrder(order.id)}
+                      className="bg-green-500 p-4 text-white cursor-pointer hover:bg-green-700 rounded-xl"
+                    >
                       Xác nhận đơn hàng
                     </span>
                   )}
                   {order.orderStatus === "CANCELED" && (
-                    <span className="bg-red-500 p-4 text-white cursor-pointer hover:bg-red-700 rounded-xl">
+                    <span
+                      onClick={() => handleRemoveOrderId(order.id)}
+                      className="bg-red-500 p-4 text-white cursor-pointer hover:bg-red-700 rounded-xl"
+                    >
                       Xóa đơn hàng
                     </span>
                   )}

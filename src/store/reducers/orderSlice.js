@@ -30,10 +30,10 @@ export const fetchOrdersByUserId = createAsyncThunk(
 );
 export const fetchOrdersByShopId = createAsyncThunk(
   "order/fetchOrdersByShopId",
-  async ({ userId, shopId }, { rejectWithValue }) => {
+  async ({ userId, shopId,page,size }, { rejectWithValue }) => {
     try {
       const response = await instance.get(
-        `/order/${shopId}/shop?userId=${userId}`,
+        `/order/${shopId}/shop?page=${page}&size=${size}&userId=${userId}`,
         { headers: authHeader() }
       );
       return response.data.data;
@@ -48,6 +48,21 @@ export const updateOrderCanceled = createAsyncThunk(
     try {
       const response = await instance.put(
         `/order/${orderId}/status/canceled?userId=${userId}`,
+        null,
+        { headers: authHeader() }
+      );
+      return response.status;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const updateOrderReady = createAsyncThunk(
+  "order/updateOrderReady",
+  async ({ userId, orderId }, { rejectWithValue }) => {
+    try {
+      const response = await instance.put(
+        `/order/${orderId}/status/ready?userId=${userId}`,
         null,
         { headers: authHeader() }
       );
@@ -125,6 +140,18 @@ const orderSlice = createSlice({
         state.error = null;
       })
       .addCase(updateOrderCanceled.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateOrderReady.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateOrderReady.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(updateOrderReady.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
