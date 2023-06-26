@@ -74,7 +74,6 @@ function EditProduct(props) {
     quantity: Yup.number().required("Vui lòng nhập số lượng sản phẩm"),
   });
   const handleColorAdded = (color) => {
-    console.log(color);
     setColors(color);
   };
 
@@ -160,7 +159,7 @@ function EditProduct(props) {
           ? thumailsData.thumails
           : productsDetail?.images,
       };
-      if (thumailsData.thumails.length === 0) {
+      if (isImagesThumailChange && thumailsData.thumails.length === 0) {
         toast.warning("Vui lòng chọn ảnh kèm theo !! ", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 2000,
@@ -169,7 +168,6 @@ function EditProduct(props) {
           pauseOnHover: false,
           draggable: true,
           progress: undefined,
-        
         });
         setIsLoading(false);
         return;

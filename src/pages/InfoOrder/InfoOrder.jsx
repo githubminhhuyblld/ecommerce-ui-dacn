@@ -7,18 +7,24 @@ import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import "moment-timezone";
 import Avatar from "@mui/material/Avatar";
+import { toast } from "react-toastify";
+import { animateScroll as scroll } from "react-scroll";
 
 import styles from "./InfoOrder.module.scss";
 import { RiMessage2Line } from "react-icons/ri";
 import {
   fetchOrdersByUserId,
+  selectOrderSuccess,
   selectOrdersByUserId,
+  setOrderStatusSuccess,
+  updateOrderCanceled,
 } from "~/store/reducers/orderSlice";
 import { selectUser } from "~/store/reducers/userSlice";
 import config from "~/config";
 import { convertCurrency } from "~/untils/convertCurrency";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import SidebarLeft from "~/layouts/components/SidebarLeft/SidebarLeft";
+import { CiDeliveryTruck } from "react-icons/ci";
 
 const cx = classNames.bind(styles);
 
@@ -30,15 +36,40 @@ function InfoOrder(props) {
   const orders = useSelector(selectOrdersByUserId);
   const user = useSelector(selectUser);
   const userId = user !== null && user?.id;
+  const success = useSelector(selectOrderSuccess);
   useEffect(() => {
     dispatch(fetchOrdersByUserId(userId));
-  }, [dispatch, userId]);
+  }, [dispatch, userId, success]);
 
   const convertTimeStamp = (timestamp) => {
     const formattedDate = moment(timestamp)
       .tz("Asia/Ho_Chi_Minh")
       .format("DD [tháng] MM YYYY HH:mm:ss");
     return formattedDate;
+  };
+  const handleCancelOrder = (orderId) => {
+    dispatch(updateOrderCanceled({ userId: userId, orderId: orderId })).then(
+      (response) => {
+        if (response.payload === 200) {
+          dispatch(setOrderStatusSuccess((prev) => !prev));
+          toast.success("Hủy đơn hàng thành công thành công", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      }
+    );
+  };
+  const handleProductClick = (id) => {
+    navigate(`/product-detail/${id}`);
+    setTimeout(() => {
+      scroll.scrollToTop();
+    }, 100);
   };
 
   return (
@@ -59,7 +90,7 @@ function InfoOrder(props) {
                         <div key={index} className="w-full">
                           <div className="bg-white p-8">
                             <div className="flex sm:justify-between  justify-around">
-                              <div className="flex flex-col md:flex-row items-center">
+                              <div className="flex flex-col lg:flex-row items-center">
                                 <Avatar
                                   alt="Remy Sharp"
                                   src={item.shop.image}
@@ -73,16 +104,32 @@ function InfoOrder(props) {
                                   Trò chuyện ngay
                                 </span>
                               </div>
-                              <div className={`p-2 flex items-center justify-center ${order.orderStatus === "CANCELED" ? "bg-red-500": "bg-sky-400"}   rounded-full`}>
-                                <p className="text-sm sm:text-2xl   sm:px-2 text-white">
-                                  {order.orderStatus === "PROCESSING"
-                                    ? "Chờ xác nhận"
-                                    : order.orderStatus === "READY"
-                                    ? "Đã xác nhận"
-                                    : order.orderStatus === "CANCELED"
-                                    ? "Hủy đơn"
-                                    : ""}
-                                </p>
+                              <div className="flex items-center flex-col md:flex-row ">
+                                {order.orderStatus === "READY" && (
+                                  <div className="flex item-center">
+                                    <CiDeliveryTruck className="text-4xl mr-4 text-green-700" />
+                                    <span className="text-green-700 text-3xl mr-3">
+                                      Đơn hàng đang được giao
+                                    </span>
+                                  </div>
+                                )}
+                                <div
+                                  className={`p-2 flex items-center justify-center ${
+                                    order.orderStatus === "CANCELED"
+                                      ? "bg-red-500"
+                                      : "bg-sky-400"
+                                  }   rounded-full`}
+                                >
+                                  <p className=" sm:text-2xl   sm:px-2 text-white">
+                                    {order.orderStatus === "PROCESSING"
+                                      ? "Chờ xác nhận"
+                                      : order.orderStatus === "READY"
+                                      ? "Đã xác nhận"
+                                      : order.orderStatus === "CANCELED"
+                                      ? "Hủy đơn"
+                                      : ""}
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -90,12 +137,18 @@ function InfoOrder(props) {
                             <div className="grid grid-cols-12">
                               <div className="col-span-12 lg:col-span-7">
                                 <div className="flex items-center w-full">
-                                  <div className="w-[120px] h-[120px] mr-5">
+                                  <div
+                                    onClick={() =>
+                                      handleProductClick(item.productId)
+                                    }
+                                    className="w-[120px] h-[120px] mr-5 cursor-pointer"
+                                  >
                                     <img
                                       className="w-full h-full object-contain rounded-lg"
                                       src={item.mainImage}
                                     />
                                   </div>
+
                                   <div className="w-full flex flex-col">
                                     <h3 className="text-[1.6rem] sm:text-[1.4rem] mb-3">
                                       {item.name}
@@ -141,14 +194,27 @@ function InfoOrder(props) {
                     <div className="grid grid-cols-12 gap-4 mt-4">
                       <div className="col-span-12 md:col-span-6 bg-white p-4">
                         <div className="w-full ">
-                          <h3 className="pt-2">Nguyễn Minh Huy</h3>
-                          <div className="flex py-2 sm:flex-row">
-                            <span className="bg-primary  flex items-center mr-3 text-lg md:text-lg py-0 px-4  text-white rounded-full">
-                              Nhà riêng
-                            </span>
+                          <h3 className="pt-2">{order.name}</h3>
+                          <div className="flex flex-col py-2 ">
+                            <div className="w-auto mb-4">
+                              <span className="bg-primary   mr-3 text-lg md:text-lg py-1 px-4  text-white rounded-full">
+                                Nhà riêng
+                              </span>
+                            </div>
                             <p className="text-2xl flex-1">{order.address}</p>
+                            <span>(84+) {order.numberPhone}</span>
+                            {order.orderStatus === "READY" ||
+                              (order.orderStatus === "PROCESSING" && (
+                                <div className="my-8">
+                                  <span
+                                    onClick={() => handleCancelOrder(order.id)}
+                                    className="bg-red-500 p-4 text-white cursor-pointer hover:bg-red-700 rounded-xl"
+                                  >
+                                    Hủy đơn hàng
+                                  </span>
+                                </div>
+                              ))}
                           </div>
-                          <span>0383476965</span>
                         </div>
                       </div>
                       <div className="col-span-12 md:col-span-6 bg-white p-4">
