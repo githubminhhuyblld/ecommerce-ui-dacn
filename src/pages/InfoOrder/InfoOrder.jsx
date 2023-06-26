@@ -40,7 +40,6 @@ function InfoOrder(props) {
       .format("DD [tháng] MM YYYY HH:mm:ss");
     return formattedDate;
   };
-  
 
   return (
     <div className="w-full bg-gray-200 p-8">
@@ -63,7 +62,7 @@ function InfoOrder(props) {
                               <div className="flex flex-col md:flex-row items-center">
                                 <Avatar
                                   alt="Remy Sharp"
-                                  src=   {item.shop.image}
+                                  src={item.shop.image}
                                   sx={{ width: 32, height: 32 }}
                                 />
                                 <h3 className="text-3xl font-bold mx-2">
@@ -74,10 +73,14 @@ function InfoOrder(props) {
                                   Trò chuyện ngay
                                 </span>
                               </div>
-                              <div className="p-2 flex items-center justify-center bg-sky-400 rounded-full">
+                              <div className={`p-2 flex items-center justify-center ${order.orderStatus === "CANCELED" ? "bg-red-500": "bg-sky-400"}   rounded-full`}>
                                 <p className="text-sm sm:text-2xl   sm:px-2 text-white">
                                   {order.orderStatus === "PROCESSING"
-                                    ? "Đang xác nhận"
+                                    ? "Chờ xác nhận"
+                                    : order.orderStatus === "READY"
+                                    ? "Đã xác nhận"
+                                    : order.orderStatus === "CANCELED"
+                                    ? "Hủy đơn"
                                     : ""}
                                 </p>
                               </div>

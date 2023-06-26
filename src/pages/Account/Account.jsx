@@ -96,13 +96,13 @@ function Account() {
       },
     },
   ];
-  
+
   return (
     <div className="w-full bg-gray-200 p-8">
       <Container>
         <div className="grid grid-cols-12 gap-4 py-12">
           <div className="md:col-span-3 px-2 lg:col-span-2 hidden md:block">
-            <SidebarLeft/>
+            <SidebarLeft />
           </div>
           <div className="col-span-12 md:col-span-9 lg:col-span-10 sm:col-span-12">
             <div className={cx("manageAccount")}>Quản lý tài khoản</div>
@@ -163,14 +163,21 @@ function Account() {
                       <div className={cx("title", "fontSize110")}>
                         Số địa chỉ
                         <div className={cx("hl")}></div>
-                        <Link
-                          className={cx("edit", "fontSize70")}
-                          to={`/edit-address/${
-                            defaultAddress ? defaultAddress.id : address[0]?.id
-                          }`}
-                        >
-                          Chỉnh sửa
-                        </Link>
+                        {address === null ? (
+                          <Link
+                            className={cx("edit", "fontSize70")}
+                            to={config.routes.createAddress}
+                          >
+                            Thêm địa chỉ
+                          </Link>
+                        ) : (
+                          <Link
+                            className={cx("edit", "fontSize70")}
+                            to={config.routes.editProfile}
+                          >
+                            Chỉnh sửa
+                          </Link>
+                        )}
                       </div>
                       <div
                         className={cx(

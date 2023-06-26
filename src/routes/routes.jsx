@@ -10,11 +10,12 @@ import Checkout from "~/pages/Checkout/Checkout";
 import Order from "~/pages/Order/Order";
 import EditAddress from "~/pages/EditAddress/EditAddress";
 import Seller from "~/pages/Seller/Seller";
-import ManageLayoutAllProduct from "~/pages/Seller/ShopProduct/AllProduct/ManageLayoutAllProduct";
 import WatingShopRegister from "~/pages/Seller/WatingShopRegister/WatingShopRegister";
 import ManageLayoutAddProduct from "~/pages/Seller/ShopProduct/AddProduct/ManageLayoutAddProduct";
 import ManageLayoutEditProduct from "~/pages/Seller/ShopProduct/EditProduct/ManageLayoutEditProduct";
 import EditProfile from "~/pages/EditProfile/EditProfile.jsx";
+import ManageLayoutAllOrder from "~/pages/Seller/ShopOrder/AllOrder/ManageLayoutAllOrder";
+import CreateAddressPage from "~/pages/CreateAddressPage/CreateAddressPage";
 
 
 const publicRoutes = [
@@ -30,10 +31,12 @@ const publicRoutes = [
     {path: config.routes.order, component: Order},
     {path: config.routes.editAddress, component: EditAddress},
     {path: config.routes.editProfile, component: EditProfile},
+    {path: config.routes.createAddress, component: CreateAddressPage},
     {path: config.routes.seller, component: Seller, layout: null},
     {path: config.routes.activeAddress, component: WatingShopRegister},
     {path: config.routes.addProduct, component: ManageLayoutAddProduct, layout: null},
     {path: config.routes.editProduct, component: ManageLayoutEditProduct, layout: null},
+    {path: config.routes.allOrder, component: ManageLayoutAllOrder, layout: null},
 
 ];
 const privateRoutes = [];

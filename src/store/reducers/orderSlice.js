@@ -19,24 +19,62 @@ export const fetchOrdersByUserId = createAsyncThunk(
   "order/fetchOrdersByUserId",
   async (userId, { rejectWithValue }) => {
     try {
-      const response = await instance.get(`/order/${userId}`,{headers: authHeader()});
+      const response = await instance.get(`/order/${userId}`, {
+        headers: authHeader(),
+      });
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
 );
+export const fetchOrdersByShopId = createAsyncThunk(
+  "order/fetchOrdersByShopId",
+  async ({ userId, shopId }, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(
+        `/order/${shopId}/shop?userId=${userId}`,
+        { headers: authHeader() }
+      );
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const updateOrderCanceled = createAsyncThunk(
+  "order/updateOrderCanceled",
+  async ({ userId, orderId }, { rejectWithValue }) => {
+    try {
+      const response = await instance.put(
+        `/order/${orderId}/status/canceled?userId=${userId}`,
+        null,
+        { headers: authHeader() }
+      );
+      return response.status;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   loading: false,
   error: null,
   orderId: null,
   orders: [],
+  shopOrders: [],
+  success: false,
 };
 
 const orderSlice = createSlice({
   name: "order",
   initialState,
-  reducers: {},
+  reducers: {
+    setOrderStatusSuccess: (state, action) => {
+      state.success = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrdersByUserId.pending, (state) => {
@@ -64,10 +102,39 @@ const orderSlice = createSlice({
       .addCase(createOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(fetchOrdersByShopId.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchOrdersByShopId.fulfilled, (state, action) => {
+        state.shopOrders = action.payload;
+        state.error = null;
+        state.loading = false;
+      })
+      .addCase(fetchOrdersByShopId.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateOrderCanceled.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateOrderCanceled.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(updateOrderCanceled.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
+export const selectOrdersLoading = (state) => state.order.loading;
 export const selectOrdersByUserId = (state) => state.order.orders;
+export const selectOrdersByShopId = (state) => state.order.shopOrders;
+export const selectOrderSuccess = (state) => state.order.success;
+export const { setOrderStatusSuccess } = orderSlice.actions;
 
 export default orderSlice.reducer;

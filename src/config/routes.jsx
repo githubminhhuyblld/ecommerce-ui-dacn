@@ -11,11 +11,13 @@ const routes = {
     order: "/check/order",
     editAddress: "/edit-address/:id",
     editProfile: "/edit-profile",
+    createAddress:"/create-address",
     seller: "/seller",
     shopProduct: "/shop/products",
     activeAddress: "/shop/address/active",
     addProduct: "/shop/add-product",
-    editProduct: "/shop/edit-product/:id"
+    editProduct: "/shop/edit-product/:id",
+    allOrder: "/shop/order/all",
 
 
 };
