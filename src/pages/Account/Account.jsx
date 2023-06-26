@@ -173,7 +173,7 @@ function Account() {
                         ) : (
                           <Link
                             className={cx("edit", "fontSize70")}
-                            to={config.routes.editProfile}
+                            to={`/edit-address/${userId}`}
                           >
                             Chỉnh sửa
                           </Link>
