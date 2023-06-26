@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import {Container} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 import {toast} from "react-toastify";
 
@@ -25,6 +25,7 @@ EditAddress.propTypes = {};
 function EditAddress(props) {
     const dispatch = useDispatch();
     const {id} = useParams();
+    const navigate = useNavigate()
     const [provinceDefault, setProvinceDefault] = useState("none");
     const [districIdDefault, setDistricIdDefault] = useState("none");
     const [wardIdDefault, setWardIdDefault] = useState("none");
@@ -88,6 +89,7 @@ function EditAddress(props) {
                     progress: undefined,
                     bodyClassName: "toast-message",
                 });
+                navigate("/account")
             }
         });
     };
