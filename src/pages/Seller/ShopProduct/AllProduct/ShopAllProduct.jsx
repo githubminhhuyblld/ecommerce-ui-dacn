@@ -42,12 +42,12 @@ function ShopAllProduct(props) {
   const [rowsPerPage, setRowsPerPage] = useState(15);
 
   const handleChangePage = (event, newPage) => {
-      setPage(newPage);
+    setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
   const classes = useTableStyles();
   const dispatch = useDispatch();
@@ -61,30 +61,31 @@ function ShopAllProduct(props) {
   }));
   const loading = useSelector(selectProductsByShopIdLoading);
   const handleRemove = (id) => {
-    dispatch(removeProduct({ productId: id, userId: token.userId })).then((response)=>{
-      if(response.payload === 200){
-        toast.success("Xóa sản phẩm thành công", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-        });
+    dispatch(removeProduct({ productId: id, userId: token.userId })).then(
+      (response) => {
+        if (response.payload === 200) {
+          toast.success("Xóa sản phẩm thành công", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+        } else {
+          toast.warn("Có lỗi trong quá trình xóa!!", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+        }
       }
-      else{
-        toast.warn("Có lỗi trong quá trình xóa!!", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-        });
-      }
-    })
+    );
   };
 
   return (
@@ -93,10 +94,9 @@ function ShopAllProduct(props) {
         Tất cả sản phẩm
       </h3>
 
-
       {data.length !== 0 &&
         (loading ? (
-          <LinearProgress/>
+          <LinearProgress />
         ) : (
           <div className={cx("manage")}>
             <Paper sx={{ width: "100%" }}>
@@ -141,69 +141,74 @@ function ShopAllProduct(props) {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
-                      return (
-                        <TableRow key={item.id} className={classes.evenRow}>
-                          <TableCell className={classes.tableCell}>
-                            {item.name}
-                          </TableCell>
-                          <TableCell className={classes.imageCell}>
-                            <img
-                              src={item.mainImage}
-                              alt={item.name}
-                              className={classes.image}
-                            />
-                          </TableCell>
-                          <TableCell className={classes.tableCell}>
-                            {convertCurrency(item.newPrice)}
-                          </TableCell>
-                          <TableCell className={classes.tableCell}>
-                            {item.quantity}
-                          </TableCell>
-                          <TableCell className={classes.tableCell}>
-                            <div className={cx("function")}>
-                              <LightTooltip title="remove">
-                                <IconButton
-                                  className={classes.iconButton}
-                                  onClick={() => handleRemove(item.id)}
-                                  aria-label="remove"
-                                >
-                                  <BsTrash className={cx("icon-remove")} />
-                                </IconButton>
-                              </LightTooltip>
-                              <Link to={`/shop/edit-product/${item.id}`}>
-                                <LightTooltip title="Edit">
+                    {data
+                      ?.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((item, index) => {
+                        return (
+                          <TableRow key={item.id} className={classes.evenRow}>
+                            <TableCell className={classes.tableCell}>
+                              {item.name}
+                            </TableCell>
+                            <TableCell className={classes.imageCell}>
+                              <img
+                                src={item.mainImage}
+                                alt={item.name}
+                                className={classes.image}
+                              />
+                            </TableCell>
+                            <TableCell className={classes.tableCell}>
+                              {convertCurrency(item.newPrice)}
+                            </TableCell>
+                            <TableCell className={classes.tableCell}>
+                              {item.quantity}
+                            </TableCell>
+                            <TableCell className={classes.tableCell}>
+                              <div className={cx("function")}>
+                                <LightTooltip title="remove">
                                   <IconButton
                                     className={classes.iconButton}
-                                    aria-label="edit"
+                                    onClick={() => handleRemove(item.id)}
+                                    aria-label="remove"
                                   >
-                                    <FiEdit2 className={cx("icon-edit")} />
+                                    <BsTrash className={cx("icon-remove")} />
                                   </IconButton>
                                 </LightTooltip>
-                              </Link>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
+                                <Link to={`/shop/edit-product/${item.id}`}>
+                                  <LightTooltip title="Edit">
+                                    <IconButton
+                                      className={classes.iconButton}
+                                      aria-label="edit"
+                                    >
+                                      <FiEdit2 className={cx("icon-edit")} />
+                                    </IconButton>
+                                  </LightTooltip>
+                                </Link>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                   </TableBody>
                 </Table>
               </TableContainer>
               <TablePagination
-                      sx={{
-                          fontWeight: 'bold',
-                          mx: 0.5,
-                          fontSize: 22,
-                      }}
-                      rowsPerPageOptions={[5, 10, 20]}
-                      component="div"
-                      count={data?.length || 0}
-                      rowsPerPage={rowsPerPage}
-                      labelRowsPerPage="Lựa chọn số lượng sản phẩm"
-                      page={page}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
+                sx={{
+                  fontWeight: "bold",
+                  mx: 0.5,
+                  fontSize: 22,
+                }}
+                rowsPerPageOptions={[5, 10, 20]}
+                component="div"
+                count={data?.length || 0}
+                rowsPerPage={rowsPerPage}
+                labelRowsPerPage="Lựa chọn số lượng sản phẩm"
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             </Paper>
           </div>
         ))}

@@ -72,7 +72,7 @@ function ManageLayout({ children }) {
       items: [
         {
           name: "Tất cả Đơn hàng",
-          to: "",
+          to: config.routes.allOrder,
         },
         {
           name: "Đơn hàng hủy",
