@@ -177,7 +177,9 @@ const shopSlice = createSlice({
       .addCase(removeProduct.fulfilled, (state, action) => {
         state.loading = false;
         const { productId } = action.meta.arg;
-        state.products = state.products.filter((product) => product.id !== productId);
+        state.products = state.products.filter(
+          (product) => product.id !== productId
+        );
       })
       .addCase(removeProduct.rejected, (state, action) => {
         state.loading = false;

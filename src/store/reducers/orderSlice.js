@@ -30,7 +30,7 @@ export const fetchOrdersByUserId = createAsyncThunk(
 );
 export const fetchOrdersByShopId = createAsyncThunk(
   "order/fetchOrdersByShopId",
-  async ({ userId, shopId,page,size }, { rejectWithValue }) => {
+  async ({ userId, shopId, page, size }, { rejectWithValue }) => {
     try {
       const response = await instance.get(
         `/order/${shopId}/shop?page=${page}&size=${size}&userId=${userId}`,
@@ -72,6 +72,40 @@ export const updateOrderReady = createAsyncThunk(
     }
   }
 );
+export const fetchOrdersByShopIdAndStatus = createAsyncThunk(
+  "order/fetchOrdersByShopIdAndStatus",
+  async ({ shopId, userId, orderStatus, page, size }, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(
+        `/order/${shopId}/status?orderStatus=${orderStatus}&page=${page}&size=${size}&userId=${userId}`,
+        {
+          headers: authHeader(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const fetchLastedOrders = createAsyncThunk(
+  "order/fetchLastedOrders",
+  async ({ shopId, userId, page, size }, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(
+        `/order/${shopId}/latest-orders?page=${page}&size=${size}&userId=${userId}`,
+        {
+          headers: authHeader(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const initialState = {
   loading: false,
@@ -80,6 +114,8 @@ const initialState = {
   orders: [],
   shopOrders: [],
   success: false,
+  orderStatus: [],
+  lastedOrder:[],
 };
 
 const orderSlice = createSlice({
@@ -154,12 +190,36 @@ const orderSlice = createSlice({
       .addCase(updateOrderReady.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      .addCase(fetchOrdersByShopIdAndStatus.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchOrdersByShopIdAndStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orderStatus = action.payload;
+      })
+      .addCase(fetchOrdersByShopIdAndStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchLastedOrders.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchLastedOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.lastedOrder = action.payload;
+      })
+      .addCase(fetchLastedOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 
 export const selectOrdersLoading = (state) => state.order.loading;
 export const selectOrdersByUserId = (state) => state.order.orders;
+export const selectOrderStatus= (state) => state.order.orderStatus;
+export const selectOrderlasted= (state) => state.order.lastedOrder;
 export const selectOrdersByShopId = (state) => state.order.shopOrders;
 export const selectOrderSuccess = (state) => state.order.success;
 export const { setOrderStatusSuccess } = orderSlice.actions;
