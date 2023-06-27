@@ -32,7 +32,7 @@ const cx = classNames.bind(styles);
 const PAGE_SIZE = 8;
 
 function Content(props) {
-  const [selectedValue, setSelectedValue] = useState("option1");
+  const [selectedValue, setSelectedValue] = useState("All");
   const { id, search } = useParams();
   const dispatch = useDispatch();
   const products = useSelector(selectProductsCategory);
@@ -40,6 +40,9 @@ function Content(props) {
   const isLoadingCategory = useSelector(selectLoadingCategory);
   const isLoadingSearch = useSelector(selectSearchLoading)
   const [currentPage, setCurrentPage] = useState(0);
+  const [displayProducts, setDisplayProducts] = useState([])
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
     if (id !== "search") {
       dispatch(
@@ -80,16 +83,45 @@ function Content(props) {
       );
     }
   };
+  useEffect(() => {
+    const displayProducts =
+      id === "search" ? resultsSearch?.content : products?.content;
+    const totalItems =
+      id === "search" ? resultsSearch?.totalElements : products?.totalElements;
+    const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+    setDisplayProducts(displayProducts);
+    setTotalItems(totalItems);
+    setTotalPages(totalPages);
+  }, [products, resultsSearch, id])
 
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+
+  const handleChangeFilter = async (event) => {
+    const value = event.target.value;
+    switch (value) {
+      case "All":
+        setSelectedValue("All");
+        setDisplayProducts([...displayProducts].sort((a, b) => {
+          return a.id - b.id;
+        }))
+        break;
+      case "priceAsc":
+        setSelectedValue("priceAsc");
+        setDisplayProducts([...displayProducts].sort((a, b) => {
+          return a.newPrice - b.newPrice;
+        }));
+        break;
+      case "priceDesc":
+        setSelectedValue("priceDesc");
+        setDisplayProducts([...displayProducts].sort((a, b) => {
+          return b.newPrice - a.newPrice;
+        }));
+        break;
+      default:
+        break;
+    }
+
+
   };
-  const displayProducts =
-    id === "search" ? resultsSearch?.content : products?.content;
-  const totalItems =
-    id === "search" ? resultsSearch?.totalElements : products?.totalElements;
-  const totalPages = Math.ceil(totalItems / PAGE_SIZE);
-
   return (
     <div className={cx("wrapper")}>
       <div className={cx("filter")}>
@@ -107,25 +139,31 @@ function Content(props) {
           </p>
           <div className={cx("filter-item")}>
             <span className={cx("label")}>Sắp xếp theo:</span>
-            <FormControl className={cx("item")} variant="outlined">
+            <FormControl size="small" className={cx("item")} variant="outlined">
               <Select
                 labelId="select-label"
                 id="select"
                 variant="outlined"
                 value={selectedValue}
-                onChange={handleChange}
+                onChange={handleChangeFilter}
                 style={{
                   fontSize: "14px",
                   backgroundColor: "var(--white-color)",
                 }}
               >
-                <MenuItem style={{ fontSize: "14px" }} value="option1">
+                <MenuItem style={{ fontSize: "14px" }}
+                  value="All"
+                >
                   Phù hợp nhất
                 </MenuItem>
-                <MenuItem style={{ fontSize: "14px" }} value="option2">
+                <MenuItem style={{ fontSize: "14px" }}
+                  value="priceAsc"
+                >
                   Giá từ thấp đến cao
                 </MenuItem>
-                <MenuItem style={{ fontSize: "14px" }} value="option3">
+                <MenuItem style={{ fontSize: "14px" }}
+                  value="priceDesc"
+                >
                   Giá từ cao xuống thấp
                 </MenuItem>
               </Select>
@@ -138,7 +176,7 @@ function Content(props) {
       ) : (
         <>
           {products?.content?.length > 0 ||
-          resultsSearch?.content?.length > 0 ? (
+            resultsSearch?.content?.length > 0 ? (
             <div className={cx("content")}>
               <Grid container spacing={2}>
                 {displayProducts?.map((item) => (

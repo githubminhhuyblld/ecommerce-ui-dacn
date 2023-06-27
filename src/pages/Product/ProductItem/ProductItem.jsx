@@ -8,7 +8,7 @@ import { animateScroll as scroll } from "react-scroll";
 import styles from "./Product.module.scss";
 import { Skeleton } from "@mui/material";
 import { AiFillStar } from "react-icons/ai";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { convertCurrency } from "~/untils/convertCurrency.js";
 
 ProductItem.propTypes = {
