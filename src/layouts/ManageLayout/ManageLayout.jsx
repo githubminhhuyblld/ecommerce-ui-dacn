@@ -75,16 +75,21 @@ function ManageLayout({ children }) {
           to: config.routes.allOrder,
         },
         {
-          name: "Đơn hàng hủy",
-          to: "",
+          name: "Đơn hàng chờ xác nhận",
+          to: config.routes.processingOrder,
         },
         {
           name: "Đơn hàng đang giao",
-          to: "",
+          to: config.routes.readyOrder,
         },
         {
+          name: "Đơn hàng hủy",
+          to: config.routes.cancelOrder,
+        },
+        
+        {
           name: "Đơn hàng mới nhất",
-          to: "",
+          to: config.routes.lastedOrder,
         },
       ],
     },

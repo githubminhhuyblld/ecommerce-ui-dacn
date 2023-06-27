@@ -16,6 +16,10 @@ import ManageLayoutEditProduct from "~/pages/Seller/ShopProduct/EditProduct/Mana
 import EditProfile from "~/pages/EditProfile/EditProfile.jsx";
 import ManageLayoutAllOrder from "~/pages/Seller/ShopOrder/AllOrder/ManageLayoutAllOrder";
 import CreateAddressPage from "~/pages/CreateAddressPage/CreateAddressPage";
+import ManageLayoutCanelOrders from "~/pages/Seller/ShopOrder/CancelOrder/ManageLayoutCanelOrders";
+import ManageLayoutProcessingOrders from "~/pages/Seller/ShopOrder/ProcessingOrder/ManageLayoutProcessingOrders";
+import ManageLayoutLastedOrder from "~/pages/Seller/ShopOrder/LastedOrder/ManageLayoutLastedOrder";
+import ManageLayoutReadyOrders from "~/pages/Seller/ShopOrder/ReadyOrder/ManageLayoutReadyOrders";
 
 
 const publicRoutes = [
@@ -37,6 +41,10 @@ const publicRoutes = [
     {path: config.routes.addProduct, component: ManageLayoutAddProduct, layout: null},
     {path: config.routes.editProduct, component: ManageLayoutEditProduct, layout: null},
     {path: config.routes.allOrder, component: ManageLayoutAllOrder, layout: null},
+    {path: config.routes.cancelOrder, component: ManageLayoutCanelOrders, layout: null},
+    {path: config.routes.readyOrder, component: ManageLayoutReadyOrders, layout: null},
+    {path: config.routes.processingOrder, component: ManageLayoutProcessingOrders, layout: null},
+    {path: config.routes.lastedOrder, component: ManageLayoutLastedOrder, layout: null},
 
 ];
 const privateRoutes = [];

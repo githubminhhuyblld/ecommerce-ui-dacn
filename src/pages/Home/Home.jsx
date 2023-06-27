@@ -20,7 +20,7 @@ function Home(props) {
   const products = useSelector(selectProducts);
 
   useEffect(() => {
-    dispatch(fetchProducts(0));
+    dispatch(fetchProducts(24));
   }, [dispatch]);
   return (
     <main className={cx("wrapper")}>

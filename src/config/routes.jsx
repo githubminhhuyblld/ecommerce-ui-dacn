@@ -17,7 +17,11 @@ const routes = {
     activeAddress: "/shop/address/active",
     addProduct: "/shop/add-product",
     editProduct: "/shop/edit-product/:id",
-    allOrder: "/shop/order/all",
+    allOrder: "/shop/orders/all",
+    cancelOrder:"/shop/orders/cancel",
+    processingOrder:"/shop/orders/processing",
+    readyOrder:"/shop/orders/ready",
+    lastedOrder:"/shop/orders/lasted"
 
 
 };
