@@ -1,6 +1,6 @@
 import axios from "axios";
 // const BASE_URL = process.env.REACT_APP_PUBLIC_URL
-const BASE_URL = "http://localhost:8087/api/v1";
+const BASE_URL = "http://localhost:8087/ecommerce-api/api/v1";
 const PROVINCES_URL = "https://provinces.open-api.vn/api";
 const instance = axios.create({
     baseURL: BASE_URL,

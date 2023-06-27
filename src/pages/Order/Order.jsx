@@ -90,7 +90,7 @@ function Order(props) {
     dispatch(addAddress({ userId: token.userId, body: body }))
       .then((response) => {
         if (response.payload === 200) {
-          dispatch(selectSuccessAddress((prev) => !prev));
+          dispatch(setSuccess((prev) => !prev));
           toast.success("Lưu địa chỉ thành công", {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 2000,

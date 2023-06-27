@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
 import { toast } from "react-toastify";
 
@@ -16,6 +16,7 @@ import {
   selectSuccessAddress,
   updateAddressById,
 } from "~/store/reducers/locationSlice";
+import { selectUser } from "~/store/reducers/userSlice.js";
 
 const cx = classNames.bind(styles);
 
@@ -24,25 +25,36 @@ EditAddress.propTypes = {};
 function EditAddress(props) {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const navigate = useNavigate();
   const [provinceDefault, setProvinceDefault] = useState("none");
   const [districIdDefault, setDistricIdDefault] = useState("none");
   const [wardIdDefault, setWardIdDefault] = useState("none");
   const addressInfo = useSelector(selectAddressById);
   const token = JSON.parse(localStorage.getItem("token"));
-  const success = useSelector(selectSuccessAddress)
+  const success = useSelector(selectSuccessAddress);
 
   useEffect(() => {
-    dispatch(fetchInfoAddressById(id));
-  }, [dispatch, id,success]);
-
+    if (id) {
+      dispatch(fetchInfoAddressById(id));
+    }
+  }, [dispatch, success]);
+  console.log(addressInfo);
+  console.log(provinceDefault);
   useEffect(() => {
-    if (addressInfo) {
+    if (provinceDefault === "none" && addressInfo) {
       setProvinceDefault(addressInfo.provinceId);
       setDistricIdDefault(addressInfo.districtId);
       setWardIdDefault(addressInfo.wardId);
-   
     }
   }, [addressInfo]);
+
+  //   useEffect(() => {
+  //     if (addressInfo) {
+  //       setProvinceDefault(addressInfo.provinceId);
+  //       setDistricIdDefault(addressInfo.districtId);
+  //       setWardIdDefault(addressInfo.wardId);
+  //     }
+  //   }, [addressInfo]);
 
   const provinceId = addressInfo ? addressInfo.provinceId : provinceDefault;
   const districtId = addressInfo ? addressInfo.districtId : districIdDefault;
@@ -50,6 +62,7 @@ function EditAddress(props) {
   const fullName = addressInfo ? addressInfo.fullName : "";
   const address = addressInfo ? addressInfo.address : "";
   const numberPhone = addressInfo ? addressInfo.numberPhone : "";
+  console.log(provinceId);
 
   const handleSaveAddress = (
     provinceId,
@@ -69,7 +82,6 @@ function EditAddress(props) {
       wardId: wardId,
       fullAddress: fullAddress,
     };
-    console.log(body);
     dispatch(
       updateAddressById({ addressId: id, userId: token.userId, body: body })
     ).then((response) => {
@@ -85,6 +97,7 @@ function EditAddress(props) {
           progress: undefined,
           bodyClassName: "toast-message",
         });
+        navigate("/account");
       }
     });
   };
