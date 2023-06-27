@@ -49,9 +49,19 @@ function CreateAddress(props) {
   const districts = useSelector(selectDistricts);
   const wards = useSelector(selectWards);
 
+
   useEffect(() => {
     dispatch(fetchProvinces());
+  
   }, [dispatch]);
+  useEffect(()=>{
+    if(provinceDefault !== "none"){
+      setProvinceId(provinceDefault)
+      setDistrictId(districIdDefault);
+      setWardId(wardIdDefault);
+    }
+
+  },[provinceDefault])
 
   useEffect(() => {
     if (provinces.length > 0 && !isInitialized) {
@@ -130,10 +140,14 @@ function CreateAddress(props) {
         values.name,
         values.numberPhone,
         values.address,
-        values.address + "," + wardName + "," + districtName + "," + provinceName
-        
+        values.address +
+          "," +
+          wardName +
+          "," +
+          districtName +
+          "," +
+          provinceName
       );
-
     },
   });
   return (

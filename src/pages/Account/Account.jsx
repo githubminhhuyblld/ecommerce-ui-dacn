@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import { Container, Grid } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import { useDispatch, useSelector } from "react-redux";
 import Moment from "moment";
@@ -15,17 +15,20 @@ import {
 import { convertCurrency } from "~/untils/convertCurrency.js";
 import config from "~/config/index.jsx";
 import SidebarLeft from "~/layouts/components/SidebarLeft/SidebarLeft";
+import { selectSuccessAddress } from "~/store/reducers/locationSlice";
 
 const cx = classNames.bind(styles);
 
 function Account() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector(selectUser);
   const orders = useSelector(selectOrdersByUserId);
   const email = user !== null && user?.email;
   const fullName = user !== null && user?.lastName + user?.firstName;
   const address = user !== null && user?.address;
   const userId = user !== null && user?.id;
+  const success = useSelector(selectSuccessAddress);
   useEffect(() => {
     dispatch(fetchOrdersByUserId(userId));
   }, [dispatch, userId]);
@@ -173,7 +176,7 @@ function Account() {
                         ) : (
                           <Link
                             className={cx("edit", "fontSize70")}
-                            to={`/edit-address/${userId}`}
+                            to={`/edit-address/${address?.[0]?.id}`}
                           >
                             Chỉnh sửa
                           </Link>
