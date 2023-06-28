@@ -61,8 +61,13 @@ function ProcessingOrder(props) {
       ) : (
         <OrdersTable title="Tất cả đơn hàng" orders={shopOrders?.content} />
       )}
+      {shopOrders?.content?.length === 0 && (
+        <div className="px-8">
+          <span className="text-3xl text-purple-500">Chưa có đơn hàng nào !!!!!</span>
+        </div>
+      )}
 
-      {!loading && (
+      {!loading && shopOrders?.content?.length > 0 && (
         <div>
           <Pagination
             count={totalPages || 0}

@@ -194,21 +194,26 @@ function ShopAllProduct(props) {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <TablePagination
-                sx={{
-                  fontWeight: "bold",
-                  mx: 0.5,
-                  fontSize: 22,
-                }}
-                rowsPerPageOptions={[5, 10, 20]}
-                component="div"
-                count={data?.length || 0}
-                rowsPerPage={rowsPerPage}
-                labelRowsPerPage="Lựa chọn số lượng sản phẩm"
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
+              {
+                data.length !== 0 && (
+                  <TablePagination
+                  sx={{
+                    fontWeight: "bold",
+                    mx: 0.5,
+                    fontSize: 22,
+                  }}
+                  rowsPerPageOptions={[5, 10, 20]}
+                  component="div"
+                  count={data?.length || 0}
+                  rowsPerPage={rowsPerPage}
+                  labelRowsPerPage="Lựa chọn số lượng sản phẩm"
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+                )
+              }
+             
             </Paper>
           </div>
         ))}

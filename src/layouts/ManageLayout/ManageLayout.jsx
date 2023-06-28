@@ -43,7 +43,7 @@ function ManageLayout({ children }) {
       items: [
         {
           name: "Địa chỉ",
-          to: "",
+          to: config.routes.editShop,
         },
        
         
