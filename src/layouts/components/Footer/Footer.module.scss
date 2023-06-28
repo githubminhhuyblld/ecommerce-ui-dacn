@@ -1,6 +1,7 @@
 .wrapper {
+  margin: var(--padding-top) 0  var(--padding-top) 0;
   width: 100%;
-  background: var(--background);
+  background: var(--white-color);
 }
 .voucher {
   display: flex;

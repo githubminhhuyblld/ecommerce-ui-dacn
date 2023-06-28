@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "http://14.225.192.194:8080/ecommerce-api/api/v1"
+// const BASE_URL = "http://14.225.192.194:8080/ecommerce-api/api/v1"
+const BASE_URL = "https://ecommerce-dacn-service.onrender.com/ecommerce-api/api/v1"
 // const LOCAL_URL = process.env.REACT_APP_LOCAL_API_URL
 const PROVINCES_URL = "https://provinces.open-api.vn/api";
 const instance = axios.create({
