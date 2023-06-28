@@ -21,7 +21,8 @@ const routes = {
     cancelOrder:"/shop/orders/cancel",
     processingOrder:"/shop/orders/processing",
     readyOrder:"/shop/orders/ready",
-    lastedOrder:"/shop/orders/lasted"
+    lastedOrder:"/shop/orders/lasted",
+    editShop:"/shop/edit",
 
 
 };

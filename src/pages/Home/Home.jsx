@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container, Grid } from "@mui/material";
@@ -18,10 +18,14 @@ Home.propTypes = {};
 function Home(props) {
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
+  const [displayedProductCount, setDisplayedProductCount] = useState(24);
 
   useEffect(() => {
-    dispatch(fetchProducts(24));
-  }, [dispatch]);
+    dispatch(fetchProducts(displayedProductCount));
+  }, [dispatch, displayedProductCount]);
+  const handleLoadMoreProducts = () => {
+    setDisplayedProductCount((prevCount) => prevCount + 6);
+  };
   return (
     <main className={cx("wrapper")}>
       <Container>
@@ -37,6 +41,14 @@ function Home(props) {
                   </Grid>
                 );
               })}
+              <div className="flex items-center justify-center w-full mt-12">
+                <button
+                  onClick={handleLoadMoreProducts}
+                  className="py-6 px-8 bg-sky-400 text-white text-3xl rounded-lg hover:bg-sky-700"
+                >
+                  Tải thêm
+                </button>
+              </div>
             </Grid>
           </div>
         </div>
