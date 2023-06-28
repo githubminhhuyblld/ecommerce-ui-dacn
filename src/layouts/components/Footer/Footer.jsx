@@ -5,6 +5,7 @@ import { Container, Grid } from "@mui/material";
 
 import styles from "./Footer.module.scss";
 import { colors } from "@mui/material";
+import voucher1 from "~/assets/footer/voucher1.png"
 
 const cx = classNames.bind(styles);
 
@@ -15,7 +16,7 @@ function Footer(props) {
         <div className={cx("voucher")}>
           <img
             className={cx("voucher-img")}
-            src="/src/assets/footer/voucher1.png"
+            src={voucher1}
             alt=""
           />
           <img
