@@ -33,7 +33,7 @@ function CancelOrders(props) {
         fetchOrdersByShopIdAndStatus({
           userId: user.id,
           shopId: user.shopId,
-          orderStatus:"CANCELED",
+          orderStatus: "CANCELED",
           page: 0,
           size: PAGE_SIZE,
         })
@@ -45,10 +45,10 @@ function CancelOrders(props) {
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
     dispatch(
-        fetchOrdersByShopIdAndStatus({
+      fetchOrdersByShopIdAndStatus({
         userId: user.id,
         shopId: user.shopId,
-        orderStatus:"CANCELED",
+        orderStatus: "CANCELED",
         page: newPage,
         size: PAGE_SIZE,
       })
@@ -61,8 +61,15 @@ function CancelOrders(props) {
       ) : (
         <OrdersTable title="Tất cả đơn hàng" orders={shopOrders?.content} />
       )}
+      {shopOrders?.content?.length === 0 && (
+        <div className="px-8">
+          <span className="text-3xl text-purple-500">
+            Chưa có đơn hàng nào !!!!!
+          </span>
+        </div>
+      )}
 
-      {!loading && (
+      {!loading && shopOrders?.content?.length > 0 && (
         <div>
           <Pagination
             count={totalPages || 0}

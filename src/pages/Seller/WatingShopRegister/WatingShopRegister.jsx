@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import { ImLocation2 } from "react-icons/im";
 import { selectInfoShop } from "~/store/reducers/shopSlice";
-import {FaArrowRight} from "react-icons/fa"
+import { FaArrowRight } from "react-icons/fa";
 import config from "~/config";
 
 WatingShopRegister.propTypes = {};
@@ -44,12 +44,17 @@ function WatingShopRegister(props) {
             </div>
           </div>
         </div>
-        <Link to={config.routes.seller} className="p-16 md:p-20 flex justify-end cursor-pointer ">
-          <span className="p-4 text-3xl flex items-center bg-sky-400 rounded-lg text-white">
-            Bán hàng cùng Lazadaz !!!
-            <FaArrowRight className="ml-3"/>
-          </span>
-        </Link>
+        {shopInfo.activeStatus === "ACTIVE" && (
+          <Link
+            to={config.routes.seller}
+            className="p-16 md:p-20 flex justify-end cursor-pointer "
+          >
+            <span className="p-4 text-3xl flex items-center bg-sky-400 rounded-lg text-white">
+              Bán hàng cùng Lazadaz !!!
+              <FaArrowRight className="ml-3" />
+            </span>
+          </Link>
+        )}
       </Container>
     </div>
   );
