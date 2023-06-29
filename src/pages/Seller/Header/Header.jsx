@@ -28,7 +28,7 @@ function Header(props) {
   const user = useSelector(selectUser);
 
   const fullName = user !== null && user.lastName + user.firstName;
-  
+
   const handleLogout = () => {
     AuthService.logout();
     dispatch(setAuthenticated(false));
@@ -61,18 +61,14 @@ function Header(props) {
               className=" text-6xl cursor-pointer hover:bg-slate-300 rounded-full"
               color="gray"
             />
-            <span className="bg-red-400 text-2xl text-white rounded-full px-2 absolute -top-1 -right-2">
-              2
-            </span>
+            <span className="bg-red-400 text-2xl text-white rounded-full px-2 absolute -top-1 -right-2"></span>
           </div>
           <div className="flex-row items-center relative">
             <RiNotification2Line
               className=" text-6xl cursor-pointer hover:bg-slate-300 rounded-full"
               color="gray"
             />
-            <span className="bg-red-400 text-2xl text-white rounded-full px-2 absolute -top-1 -right-2">
-              2
-            </span>
+            <span className="bg-red-400 text-2xl text-white rounded-full px-2 absolute -top-1 -right-2"></span>
           </div>
           <Tippy
             interactive
@@ -88,14 +84,13 @@ function Header(props) {
                 <div className=" -top-2 right-4 "></div>
                 <div className="flex flex-col">
                   <Link
-                    to=""
+                    to={config.routes.editShop}
                     className="text-2xl bg-white hover:text-primary text-gray-950 cursor-pointer block p-3 px-0"
-                    href=""
                   >
                     Địa chỉ Shop
                   </Link>
                   <Link
-                    //   to={config.routes.post}
+                    to={config.routes.allOrder}
                     className="text-2xl  bg-white  hover:text-primary  p-3 px-0  block text-gray-950 cursor-pointer"
                   >
                     Quản lý đơn hàng
