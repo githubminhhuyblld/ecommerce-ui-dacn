@@ -10,6 +10,7 @@ import ProductItem from "~/layouts/components/ProductItem/ProductItem.jsx";
 import BackTop from "~/layouts/components/BackTop/BackTop.jsx";
 import { selectProducts } from "~/store/reducers/productsSlice.js";
 import { fetchProducts } from "~/services/workspacesService.jsx";
+import SliderSlick from "~/layouts/components/Slider/SliderSlick";
 
 const cx = classNames.bind(styles);
 
@@ -29,6 +30,7 @@ function Home(props) {
   return (
     <main className={cx("wrapper")}>
       <Container>
+        <SliderSlick/>
         <Category />
         <div className={cx("wrapper-product")}>
           <div className={cx("header")}>

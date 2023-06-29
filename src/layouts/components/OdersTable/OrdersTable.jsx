@@ -11,6 +11,7 @@ import { AiFillDollarCircle } from "react-icons/ai";
 import { convertCurrency } from "~/untils/convertCurrency";
 import { CiDeliveryTruck } from "react-icons/ci";
 import {
+  deleteOrder,
   setOrderStatusSuccess,
   updateOrderCanceled,
   updateOrderReady,
@@ -69,7 +70,24 @@ function OrdersTable(props) {
       }
     );
   };
-  const handleRemoveOrderId = (orderId) => {};
+  const handleRemoveOrderId = (orderId) => {
+    dispatch(deleteOrder({ userId: token.userId, orderId: orderId })).then(
+      (response) => {
+        if (response.payload === 200) {
+          dispatch(setOrderStatusSuccess((prev) => !prev));
+          toast.success("Xóa đơn hàng thành công thành công!", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      }
+    );
+  };
   return (
     <div className="w-full p-6">
       <h3 className=" p-4 bg-sky-200 rounded-lg text-4xl text-gray-700 mb-8">
