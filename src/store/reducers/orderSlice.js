@@ -38,7 +38,7 @@ export const fetchOrdersByShopId = createAsyncThunk(
       );
       return response.data.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.status);
     }
   }
 );
@@ -64,6 +64,20 @@ export const updateOrderReady = createAsyncThunk(
       const response = await instance.put(
         `/order/${orderId}/status/ready?userId=${userId}`,
         null,
+        { headers: authHeader() }
+      );
+      return response.status;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const deleteOrder = createAsyncThunk(
+  "order/deleteOrder",
+  async ({ userId, orderId }, { rejectWithValue }) => {
+    try {
+      const response = await instance.delete(
+        `/order/${orderId}?userId=${userId}`,
         { headers: authHeader() }
       );
       return response.status;
@@ -115,7 +129,7 @@ const initialState = {
   shopOrders: [],
   success: false,
   orderStatus: [],
-  lastedOrder:[],
+  lastedOrder: [],
 };
 
 const orderSlice = createSlice({
@@ -124,6 +138,12 @@ const orderSlice = createSlice({
   reducers: {
     setOrderStatusSuccess: (state, action) => {
       state.success = action.payload;
+    },
+    resetData: (state, action) => {
+      state.orderStatus = [];
+      state.lastedOrder = [];
+      state.orders = [];
+      state.shopOrders = [];
     },
   },
   extraReducers: (builder) => {
@@ -213,15 +233,28 @@ const orderSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(deleteOrder.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteOrder.fulfilled, (state, action) => {
+        console.log(state.orders);
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(deleteOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
 export const selectOrdersLoading = (state) => state.order.loading;
 export const selectOrdersByUserId = (state) => state.order.orders;
-export const selectOrderStatus= (state) => state.order.orderStatus;
-export const selectOrderlasted= (state) => state.order.lastedOrder;
+export const selectOrderStatus = (state) => state.order.orderStatus;
+export const selectOrderlasted = (state) => state.order.lastedOrder;
 export const selectOrdersByShopId = (state) => state.order.shopOrders;
 export const selectOrderSuccess = (state) => state.order.success;
-export const { setOrderStatusSuccess } = orderSlice.actions;
+export const { setOrderStatusSuccess ,resetData} = orderSlice.actions;
 
 export default orderSlice.reducer;

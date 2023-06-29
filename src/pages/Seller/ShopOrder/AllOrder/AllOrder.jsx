@@ -7,11 +7,12 @@ import { Pagination } from "@mui/material";
 import OrdersTable from "~/layouts/components/OdersTable/OrdersTable";
 import {
   fetchOrdersByShopId,
+  resetData,
   selectOrderSuccess,
   selectOrdersByShopId,
   selectOrdersLoading,
 } from "~/store/reducers/orderSlice";
-import { fetchInfoShop, selectInfoShop } from "~/store/reducers/shopSlice";
+import { fetchInfoShop } from "~/store/reducers/shopSlice";
 import { fetchUserInfo, selectUser } from "~/store/reducers/userSlice";
 
 AllOrder.propTypes = {};
@@ -38,7 +39,11 @@ function AllOrder(props) {
           page: 0,
           size: PAGE_SIZE,
         })
-      );
+      ).then((response) => {
+        if (response.payload === 404) {
+          dispatch(resetData());
+        }
+      });
     }
   }, [user, success]);
   const totalItems = shopOrders?.totalElements;
@@ -55,6 +60,7 @@ function AllOrder(props) {
     );
   };
 
+
   return (
     <div className="w-full bg-background h-[100vh] p-4">
       {loading ? (
@@ -62,8 +68,14 @@ function AllOrder(props) {
       ) : (
         <OrdersTable title="Tất cả đơn hàng" orders={shopOrders?.content} />
       )}
-
-      {!loading && (
+       {shopOrders?.content?.length === undefined && (
+        <div className="px-8">
+          <span className="text-3xl text-purple-500">
+            Chưa có đơn hàng nào !!!!!
+          </span>
+        </div>
+      )}
+      {!loading && shopOrders?.content?.length > 0 && (
         <div>
           <Pagination
             count={totalPages || 0}
