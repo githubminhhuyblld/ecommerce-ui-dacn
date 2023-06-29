@@ -26,6 +26,7 @@ CreateAddress.propTypes = {
   wardIdDefault: PropTypes.string,
   fullNameDefault: PropTypes.string,
   numberPhoneDefault: PropTypes.string,
+  addressDefault: PropTypes.string,
 };
 
 function CreateAddress(props) {
@@ -36,20 +37,77 @@ function CreateAddress(props) {
     wardIdDefault,
     fullNameDefault,
     numberPhoneDefault,
+    addressDefault,
   } = props;
   const dispatch = useDispatch();
   const [provinceId, setProvinceId] = useState(provinceDefault);
   const [districtId, setDistrictId] = useState(districIdDefault);
   const [wardId, setWardId] = useState(wardIdDefault);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const provinces = useSelector(selectProvinces);
   const districts = useSelector(selectDistricts);
   const wards = useSelector(selectWards);
 
+
   useEffect(() => {
     dispatch(fetchProvinces());
-  }, []);
   
+  }, [dispatch]);
+  useEffect(()=>{
+    if(provinceDefault !== "none"){
+      setProvinceId(provinceDefault)
+      setDistrictId(districIdDefault);
+      setWardId(wardIdDefault);
+    }
+
+  },[provinceDefault])
+
+  useEffect(() => {
+    if (provinces.length > 0 && !isInitialized) {
+      setProvinceId(provinceDefault);
+      setDistrictId(districIdDefault);
+      setWardId(wardIdDefault);
+      setIsInitialized(true);
+    }
+  }, [
+    provinces,
+    wardIdDefault,
+    districIdDefault,
+    provinceDefault,
+    isInitialized,
+  ]);
+  useEffect(() => {
+    if (provinceId !== "none") {
+      dispatch(fetchDistricts(provinceId));
+    }
+  }, [dispatch, provinceId]);
+  useEffect(() => {
+    if (districtId !== "none") {
+      dispatch(fetchWards(districtId));
+    }
+  }, [dispatch, districtId]);
+  const getItemNameById = (items, itemId) => {
+    const item = items?.find((item) => item.code === itemId);
+    return item ? item.name : "";
+  };
+  const getProvinceNameById = (provinceId) => {
+    const numericProvinceId = parseInt(provinceId);
+    return getItemNameById(provinces, numericProvinceId);
+  };
+
+  const getDistrictNameById = (districtId) => {
+    const numericDistrictId = parseInt(districtId);
+    return getItemNameById(districts?.districts, numericDistrictId);
+  };
+
+  const getWardNameById = (wardId) => {
+    const numericWardId = parseInt(wardId);
+    return getItemNameById(wards?.wards, numericWardId);
+  };
+  const provinceName = getProvinceNameById(provinceId);
+  const districtName = getDistrictNameById(districtId);
+  const wardName = getWardNameById(wardId);
 
   const handleProvinceChange = (provId) => {
     setProvinceId(provId);
@@ -70,9 +128,10 @@ function CreateAddress(props) {
     initialValues: {
       name: fullNameDefault === "none" ? "" : fullNameDefault,
       numberPhone: numberPhoneDefault === "none" ? "" : numberPhoneDefault,
-      address: "",
+      address: addressDefault === "none" ? "" : addressDefault,
     },
     validationSchema: validationSchema,
+    enableReinitialize: true,
     onSubmit: (values) => {
       handleSaveAddress(
         provinceId,
@@ -80,7 +139,14 @@ function CreateAddress(props) {
         wardId,
         values.name,
         values.numberPhone,
-        values.address
+        values.address,
+        values.address +
+          "," +
+          wardName +
+          "," +
+          districtName +
+          "," +
+          provinceName
       );
     },
   });

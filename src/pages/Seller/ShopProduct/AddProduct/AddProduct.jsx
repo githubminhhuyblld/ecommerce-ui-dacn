@@ -9,16 +9,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Select, MenuItem } from "@mui/material";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { toast } from "react-toastify";
+import LinearProgress from "@mui/material/LinearProgress";
 
 import styles from "./AddProduct.module.scss";
 import OptionInput from "~/layouts/components/ColorInput/OptionInput ";
 import UploadSingleImage from "~/layouts/components/UploadSingleImage/UploadSingleImage";
-import Product from "~/assets/product/product1.jpg";
 import UploadMoreImage from "~/layouts/components/UploadMoreImage/UploadMoreImage";
 import { selectCategories } from "~/store/reducers/categoriesSlice";
 import { fetchCategories } from "~/services/workspacesService";
 import { storage } from "~/firebase";
 import { addProduct } from "~/store/reducers/shopSlice";
+import Empty from "~/assets/product/notify-empty.png"
 
 const cx = classNames.bind(styles);
 
@@ -32,6 +33,7 @@ function AddProduct(props) {
   const [selectedCategoryId, setSelectedCategoryId] = useState(
     "646494a51b2dbc0fe7c33b2a"
   );
+  const [isLoading, setIsLoading] = useState(false);
   const [isChangeImage, setIsChangeImage] = useState(false);
   const [showButton, setShowButton] = useState(true);
   const [open, setOpen] = useState(true);
@@ -85,6 +87,7 @@ function AddProduct(props) {
     const storage = getStorage();
 
     const imageUrls = [];
+    setIsLoading(true);
 
     for (const image of images) {
       const storageRef = ref(storage, `products/${image?.file.name}`);
@@ -93,6 +96,7 @@ function AddProduct(props) {
       imageUrls.push(downloadURL);
     }
     setthumails(imageUrls);
+    setIsLoading(false);
   };
 
   const formik = useFormik({
@@ -121,7 +125,7 @@ function AddProduct(props) {
         description: values.description,
         mainImage: isChangeImage
           ? downloadURLOrginal
-          : "https://img.freepik.com/free-vector/cartoon-style-cafe-front-shop-view_134830-697.jpg",
+          : Empty,
         newPrice: values.newPrice,
         oldPrice: values.oldPrice,
         quantity: values.quantity,
@@ -130,11 +134,24 @@ function AddProduct(props) {
         colors: colorsData.colors,
         images: thumailsData.thumails,
       };
+      if (thumailsData.thumails.length === 0) {
+        toast.warning("Vui lòng chọn ảnh kèm theo !! ", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+        
+        });
+        setIsLoading(false);
+        return;
+      }
       const token = JSON.parse(localStorage.getItem("token"));
       if (token && thumails.length > 0) {
         dispatch(addProduct({ userId: token.userId, body: body })).then(
           (response) => {
-            console.log(response);
             if (response.payload.categoryId) {
               toast.success("Thêm sản phẩm  thành công", {
                 position: toast.POSITION.TOP_RIGHT,
@@ -158,6 +175,7 @@ function AddProduct(props) {
       <h3 className="relative p-4 bg-sky-200 rounded-lg text-4xl text-gray-700 mb-4">
         Thêm sản phẩm
       </h3>
+      {isLoading && <LinearProgress color="secondary" />}
       <form className="px-8 py-4">
         <Grid container spacing={2}>
           <Grid item md={12} sm={12} lg={2}>
@@ -166,7 +184,7 @@ function AddProduct(props) {
                 Chọn hình ảnh chính<span className="text-red-500">*</span>
               </label>
               <UploadSingleImage
-                imageProduct={Product}
+                imageProduct={Empty}
                 open={open}
                 images={imagesOriginal}
                 name={"User"}

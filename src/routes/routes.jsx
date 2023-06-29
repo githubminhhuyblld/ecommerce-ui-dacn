@@ -10,11 +10,17 @@ import Checkout from "~/pages/Checkout/Checkout";
 import Order from "~/pages/Order/Order";
 import EditAddress from "~/pages/EditAddress/EditAddress";
 import Seller from "~/pages/Seller/Seller";
-import ManageLayoutAllProduct from "~/pages/Seller/ShopProduct/AllProduct/ManageLayoutAllProduct";
 import WatingShopRegister from "~/pages/Seller/WatingShopRegister/WatingShopRegister";
 import ManageLayoutAddProduct from "~/pages/Seller/ShopProduct/AddProduct/ManageLayoutAddProduct";
 import ManageLayoutEditProduct from "~/pages/Seller/ShopProduct/EditProduct/ManageLayoutEditProduct";
 import EditProfile from "~/pages/EditProfile/EditProfile.jsx";
+import ManageLayoutAllOrder from "~/pages/Seller/ShopOrder/AllOrder/ManageLayoutAllOrder";
+import CreateAddressPage from "~/pages/CreateAddressPage/CreateAddressPage";
+import ManageLayoutCanelOrders from "~/pages/Seller/ShopOrder/CancelOrder/ManageLayoutCanelOrders";
+import ManageLayoutProcessingOrders from "~/pages/Seller/ShopOrder/ProcessingOrder/ManageLayoutProcessingOrders";
+import ManageLayoutLastedOrder from "~/pages/Seller/ShopOrder/LastedOrder/ManageLayoutLastedOrder";
+import ManageLayoutReadyOrders from "~/pages/Seller/ShopOrder/ReadyOrder/ManageLayoutReadyOrders";
+import ManageLayoutEditShop from "~/pages/Seller/EditShop/ManageLayoutEditShop";
 
 
 const publicRoutes = [
@@ -30,10 +36,17 @@ const publicRoutes = [
     {path: config.routes.order, component: Order},
     {path: config.routes.editAddress, component: EditAddress},
     {path: config.routes.editProfile, component: EditProfile},
+    {path: config.routes.createAddress, component: CreateAddressPage},
     {path: config.routes.seller, component: Seller, layout: null},
     {path: config.routes.activeAddress, component: WatingShopRegister},
     {path: config.routes.addProduct, component: ManageLayoutAddProduct, layout: null},
     {path: config.routes.editProduct, component: ManageLayoutEditProduct, layout: null},
+    {path: config.routes.allOrder, component: ManageLayoutAllOrder, layout: null},
+    {path: config.routes.cancelOrder, component: ManageLayoutCanelOrders, layout: null},
+    {path: config.routes.readyOrder, component: ManageLayoutReadyOrders, layout: null},
+    {path: config.routes.processingOrder, component: ManageLayoutProcessingOrders, layout: null},
+    {path: config.routes.lastedOrder, component: ManageLayoutLastedOrder, layout: null},
+    {path: config.routes.editShop, component: ManageLayoutEditShop, layout: null},
 
 ];
 const privateRoutes = [];

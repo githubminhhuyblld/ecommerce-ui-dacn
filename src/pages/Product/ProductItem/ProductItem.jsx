@@ -8,7 +8,7 @@ import { animateScroll as scroll } from "react-scroll";
 import styles from "./Product.module.scss";
 import { Skeleton } from "@mui/material";
 import { AiFillStar } from "react-icons/ai";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { convertCurrency } from "~/untils/convertCurrency.js";
 
 ProductItem.propTypes = {
@@ -30,6 +30,7 @@ function ProductItem(props) {
     return { id: item.id, original: item.imgUrl, thumbnail: item.imgUrl };
   });
 
+  console.log(product);
   const renderImageItem = (item) => {
     return (
       <div className={cx("product-original-image")}>
@@ -69,10 +70,7 @@ function ProductItem(props) {
           autoPlay={false}
         />
       </div>
-      <span
-        onClick={handleProductClick}
-        className={cx("product-info")}
-      >
+      <span onClick={handleProductClick} className={cx("product-info")}>
         {product.name ? (
           <h3 className={cx("product-name")}>{product.name}</h3>
         ) : (
@@ -90,7 +88,7 @@ function ProductItem(props) {
         ) : (
           <Skeleton variant="text" width="30%" height={40} />
         )}
-        {product.sale ? (
+        {product.sale || product.sale === 0 ? (
           <span className={cx("sale")}>{product.sale}%off</span>
         ) : (
           <Skeleton variant="text" width="30%" height={30} />
@@ -104,7 +102,7 @@ function ProductItem(props) {
               <AiFillStar />
               <AiFillStar />
               <AiFillStar />
-              <span className={cx("rating")}>(5)</span>
+              <span className={cx("rating")}>({product.rating})</span>
             </div>
           </div>
         ) : (

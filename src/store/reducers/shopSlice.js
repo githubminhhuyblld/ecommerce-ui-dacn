@@ -48,6 +48,25 @@ export const registerShop = createAsyncThunk(
     }
   }
 );
+export const updateShop = createAsyncThunk(
+  "shop/updateShop",
+  async ({ userId, shopId, body }, { rejectWithValue }) => {
+    try {
+      const response = await instance.put(
+        `/shops/${shopId}?userId=${userId}`,
+        body,
+        {
+          headers: authHeader(),
+        }
+      );
+      const shopInfo = response.data;
+      localStorage.setItem("shopInfo", JSON.stringify(shopInfo));
+      return shopInfo;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const addProduct = createAsyncThunk(
   "shop/addProduct",
   async ({ userId, body }, { rejectWithValue }) => {
@@ -68,6 +87,22 @@ export const updateProduct = createAsyncThunk(
       const response = await instance.put(
         `/products/${productId}?userId=${userId}`,
         body,
+        {
+          headers: authHeader(),
+        }
+      );
+      return response.status;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const removeProduct = createAsyncThunk(
+  "shop/removeProduct",
+  async ({ productId, userId }, { rejectWithValue }) => {
+    try {
+      const response = await instance.delete(
+        `/products/${productId}?userId=${userId}`,
         {
           headers: authHeader(),
         }
@@ -152,6 +187,35 @@ const shopSlice = createSlice({
       })
       .addCase(updateProduct.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(removeProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(removeProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        const { productId } = action.meta.arg;
+        state.products = state.products.filter(
+          (product) => product.id !== productId
+        );
+      })
+      .addCase(removeProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateShop.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateShop.fulfilled, (state, action) => {
+        state.loading = false;
+        state.shopInfo = action.payload;
+        state.registerStatus = "success";
+      })
+      .addCase(updateShop.rejected, (state, action) => {
+        state.loading = false;
+        state.registerStatus = "failed";
         state.error = action.payload;
       });
   },

@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
-import { Select, MenuItem, FormControl } from "@material-ui/core";
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  LinearProgress,
+} from "@material-ui/core";
 import { Grid, Pagination } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,9 +15,10 @@ import styles from "./Content.module.scss";
 import ProductItem from "~/pages/Product/ProductItem/ProductItem.jsx";
 import {
   productsCategorySlice,
+  selectLoadingCategory,
   selectProductsCategory,
 } from "~/store/reducers/ProductsCategorySlice.js";
-import { selectSearchResults } from "~/store/reducers/searchSlice.js";
+import { selectSearchLoading, selectSearchResults } from "~/store/reducers/searchSlice.js";
 import {
   fetchProductsByCategoryId,
   searchProducts,
@@ -26,12 +32,17 @@ const cx = classNames.bind(styles);
 const PAGE_SIZE = 8;
 
 function Content(props) {
-  const [selectedValue, setSelectedValue] = useState("option1");
+  const [selectedValue, setSelectedValue] = useState("All");
   const { id, search } = useParams();
   const dispatch = useDispatch();
   const products = useSelector(selectProductsCategory);
   const resultsSearch = useSelector(selectSearchResults);
+  const isLoadingCategory = useSelector(selectLoadingCategory);
+  const isLoadingSearch = useSelector(selectSearchLoading)
   const [currentPage, setCurrentPage] = useState(0);
+  const [displayProducts, setDisplayProducts] = useState([])
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
     if (id !== "search") {
       dispatch(
@@ -72,16 +83,45 @@ function Content(props) {
       );
     }
   };
+  useEffect(() => {
+    const displayProducts =
+      id === "search" ? resultsSearch?.content : products?.content;
+    const totalItems =
+      id === "search" ? resultsSearch?.totalElements : products?.totalElements;
+    const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+    setDisplayProducts(displayProducts);
+    setTotalItems(totalItems);
+    setTotalPages(totalPages);
+  }, [products, resultsSearch, id])
 
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+
+  const handleChangeFilter = async (event) => {
+    const value = event.target.value;
+    switch (value) {
+      case "All":
+        setSelectedValue("All");
+        setDisplayProducts([...displayProducts].sort((a, b) => {
+          return a.id - b.id;
+        }))
+        break;
+      case "priceAsc":
+        setSelectedValue("priceAsc");
+        setDisplayProducts([...displayProducts].sort((a, b) => {
+          return a.newPrice - b.newPrice;
+        }));
+        break;
+      case "priceDesc":
+        setSelectedValue("priceDesc");
+        setDisplayProducts([...displayProducts].sort((a, b) => {
+          return b.newPrice - a.newPrice;
+        }));
+        break;
+      default:
+        break;
+    }
+
+
   };
-  const displayProducts =
-    id === "search" ? resultsSearch?.content : products?.content;
-  const totalItems =
-    id === "search" ? resultsSearch?.totalElements : products?.totalElements;
-  const totalPages = Math.ceil(totalItems / PAGE_SIZE);
-
   return (
     <div className={cx("wrapper")}>
       <div className={cx("filter")}>
@@ -99,25 +139,31 @@ function Content(props) {
           </p>
           <div className={cx("filter-item")}>
             <span className={cx("label")}>Sắp xếp theo:</span>
-            <FormControl className={cx("item")} variant="outlined">
+            <FormControl size="small" className={cx("item")} variant="outlined">
               <Select
                 labelId="select-label"
                 id="select"
                 variant="outlined"
                 value={selectedValue}
-                onChange={handleChange}
+                onChange={handleChangeFilter}
                 style={{
                   fontSize: "14px",
                   backgroundColor: "var(--white-color)",
                 }}
               >
-                <MenuItem style={{ fontSize: "14px" }} value="option1">
+                <MenuItem style={{ fontSize: "14px" }}
+                  value="All"
+                >
                   Phù hợp nhất
                 </MenuItem>
-                <MenuItem style={{ fontSize: "14px" }} value="option2">
+                <MenuItem style={{ fontSize: "14px" }}
+                  value="priceAsc"
+                >
                   Giá từ thấp đến cao
                 </MenuItem>
-                <MenuItem style={{ fontSize: "14px" }} value="option3">
+                <MenuItem style={{ fontSize: "14px" }}
+                  value="priceDesc"
+                >
                   Giá từ cao xuống thấp
                 </MenuItem>
               </Select>
@@ -125,30 +171,38 @@ function Content(props) {
           </div>
         </div>
       </div>
-
-      {products?.content?.length > 0 || resultsSearch?.content?.length > 0 ? (
-        <div className={cx("content")}>
-          <Grid container spacing={2}>
-            {displayProducts?.map((item) => (
-              <Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
-                <ProductItem product={item} />
-              </Grid>
-            ))}
-          </Grid>
-        </div>
+      {isLoadingCategory || isLoadingSearch ? (
+        <LinearProgress color="primary" />
       ) : (
-        <div className={cx("empty")}>Không tìm thấy sản phẩm</div>
-      )}
-      {displayProducts?.length > 0 && (
-        <div className={cx("pagination")}>
-          <Pagination
-            count={totalPages || 0}
-            page={currentPage + 1}
-            onChange={(event, newPage) => handleChangePage(event, newPage - 1)}
-            size="large"
-            color="primary"
-          />
-        </div>
+        <>
+          {products?.content?.length > 0 ||
+            resultsSearch?.content?.length > 0 ? (
+            <div className={cx("content")}>
+              <Grid container spacing={2}>
+                {displayProducts?.map((item) => (
+                  <Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
+                    <ProductItem product={item} />
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
+          ) : (
+            <div className={cx("empty")}>Không tìm thấy sản phẩm</div>
+          )}
+          {displayProducts?.length > 0 && (
+            <div className={cx("pagination")}>
+              <Pagination
+                count={totalPages || 0}
+                page={currentPage + 1}
+                onChange={(event, newPage) =>
+                  handleChangePage(event, newPage - 1)
+                }
+                size="large"
+                color="primary"
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   );

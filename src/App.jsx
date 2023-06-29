@@ -1,9 +1,9 @@
-import React, {Fragment} from "react";
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import {ToastContainer} from "react-toastify";
+import React, { Fragment } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-import {publicRoutes} from "~/routes/index.jsx";
+import { publicRoutes } from "~/routes/index.jsx";
 import DefaultLayout from "~/layouts/DefaultLayout/DefaultLayout.jsx";
 
 
@@ -12,7 +12,7 @@ function App() {
     return (
         <Router>
             <div className="App">
-                <ToastContainer/>
+                <ToastContainer />
                 <Routes>
                     {publicRoutes.map((route, index) => {
                         const Page = route.component;
@@ -23,21 +23,21 @@ function App() {
                             Layout = Fragment;
                         }
                         return (
-                          <Route
-                              key={index}
-                              path={route.path}
-                              element={
-                                  <Layout>
-                                      <Page />
-                                  </Layout>
-                              }
-                          />
-                      );
-                  })}
-              </Routes>
-          </div>
-      </Router>
-  )
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    <Layout>
+                                        <Page />
+                                    </Layout>
+                                }
+                            />
+                        );
+                    })}
+                </Routes>
+            </div>
+        </Router>
+    )
 }
 
 export default App

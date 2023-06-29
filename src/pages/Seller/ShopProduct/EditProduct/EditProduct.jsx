@@ -15,7 +15,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 import styles from "~/pages/Seller/ShopProduct/AddProduct/AddProduct.module.scss";
 import OptionInput from "~/layouts/components/ColorInput/OptionInput ";
 import UploadSingleImage from "~/layouts/components/UploadSingleImage/UploadSingleImage";
-import Product from "~/assets/product/product1.jpg";
 import UploadMoreImage from "~/layouts/components/UploadMoreImage/UploadMoreImage";
 import { selectCategories } from "~/store/reducers/categoriesSlice";
 import { fetchCategories, getProductById } from "~/services/workspacesService";
@@ -85,13 +84,15 @@ function EditProduct(props) {
     sizes: siezes.map((size) => ({ name: size.name })),
   };
   const colorsData = {
-    colors: colors.map((color) => ({ colorName: color.colorName })),
+    colors: colors.map((color) => ({
+      colorName: color.colorName ? color.colorName : color,
+    })),
   };
   const thumailsData = {
     thumails: thumails.map((item) => ({ imgUrl: item })),
   };
-  const handleImageChange = (imageList) => {
 
+  const handleImageChange = (imageList) => {
     setIsImagesThumailChange(true);
     uploadImagesToFirebase(imageList);
   };
@@ -158,8 +159,22 @@ function EditProduct(props) {
           ? thumailsData.thumails
           : productsDetail?.images,
       };
+      if (isImagesThumailChange && thumailsData.thumails.length === 0) {
+        toast.warning("Vui lòng chọn ảnh kèm theo !! ", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+        });
+        setIsLoading(false);
+        return;
+      }
 
       const token = JSON.parse(localStorage.getItem("token"));
+
       if (token) {
         dispatch(
           updateProduct({ productId: id, userId: token.userId, body: body })
@@ -197,8 +212,9 @@ function EditProduct(props) {
               </label>
               <UploadSingleImage
                 imageProduct={
-                  productsDetail?.mainImage !== undefined &&
-                  productsDetail?.mainImage
+                  productsDetail?.mainImage !== undefined
+                    ? productsDetail?.mainImage
+                    : ""
                 }
                 open={open}
                 images={imagesOriginal}
@@ -212,7 +228,8 @@ function EditProduct(props) {
           <Grid item md={12} sm={12} lg={10}>
             <div className="w-full flex flex-col mb-6 pl-12">
               <label className="text-2xl">
-                Chọn hình ảnh kèm theo<span className="text-red-500">*</span>
+                Chọn hình ảnh kèm theo (Tối đa 8 ảnh)
+                <span className="text-red-500">*</span>
               </label>
               <UploadMoreImage
                 thumails={productsDetail && productsDetail?.images}
@@ -326,7 +343,7 @@ function EditProduct(props) {
               <label className="text-2xl">Thêm màu</label>
               <OptionInput
                 defaultData={productsDetail && productsDetail?.colors}
-                title="Vui lòng chọn màu"
+                title="Vui lòng thêm màu vd:Đen"
                 onOptionAdded={handleColorAdded}
               />
             </div>
@@ -335,7 +352,7 @@ function EditProduct(props) {
             <div className="flex flex-col w-full lg:w-1/2">
               <label className="text-2xl">Thêm Size</label>
               <OptionInput
-                title="Vui lòng chọn Size"
+                title="Vui lòng thêm size vd:XL"
                 defaultData={productsDetail && productsDetail?.sizes}
                 onOptionAdded={handleSizeAdded}
               />
