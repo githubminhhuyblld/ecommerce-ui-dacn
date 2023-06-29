@@ -5,7 +5,45 @@ import { Container, Grid } from "@mui/material";
 
 import styles from "./Footer.module.scss";
 import { colors } from "@mui/material";
-import voucher1 from "~/assets/footer/voucher1.png"
+
+import voucher1 from "~/assets/footer/voucher1.png";
+import voucher2 from "~/assets/footer/voucher2.png";
+import voucher3 from "~/assets/footer/voucher3.png";
+import ahamove from "~/assets/footer/ahamove.png";
+import appgallery from "~/assets/footer/appgallery.png";
+import appstore from "~/assets/footer/AppStore.png";
+import bsi from "~/assets/footer/bsi.png";
+import best from "~/assets/footer/best.png";
+import cashondelivery from "~/assets/footer/cashondelivery.jpg";
+import da_dang_ky from "~/assets/footer/da_dang_ky.png";
+import da_thong_bao from "~/assets/footer/da_thong_bao.png";
+import facebook from "~/assets/footer/facebook.png";
+import ggPlay from "~/assets/footer/ggPlay.png";
+import ghn from "~/assets/footer/ghn.png";
+import heodat from "~/assets/footer/heodat.png";
+import in1 from "~/assets/footer/in.png";
+import indonesia from "~/assets/footer/indonesia.jpg";
+import insta from "~/assets/footer/insta.png";
+import jandt from "~/assets/footer/j&t.png";
+import jcb from "~/assets/footer/jcb.png";
+import lazada from "~/assets/footer/lazada.png";
+import logo from "~/assets/footer/logo.png";
+import malaysia from "~/assets/footer/malaysia.png";
+import mastercard from "~/assets/footer/mastercard.jpg";
+import momo from "~/assets/footer/momo.png";
+import napas from "~/assets/footer/napas.jpg";
+import ninja from "~/assets/footer/ninja.png";
+import noi_khong_hang_gia from "~/assets/footer/noi_khong_hang_gia.png";
+import pcidsss from "~/assets/footer/pcidsss.png";
+import philippines from "~/assets/footer/philippines.png";
+import ship60 from "~/assets/footer/ship60.png";
+import singapore from "~/assets/footer/singapore.png";
+import thailan from "~/assets/footer/thailan.png";
+import tiktok from "~/assets/footer/tiktok.png";
+import vietnam from "~/assets/footer/vietnam.png";
+import visa from "~/assets/footer/visa.jpg";
+import zalopay from "~/assets/footer/zalopay.png";
+import ytb from "~/assets/footer/ytb.png";
 
 const cx = classNames.bind(styles);
 
@@ -14,21 +52,9 @@ function Footer(props) {
     <div className={cx("wrapper")}>
       <Container>
         <div className={cx("voucher")}>
-          <img
-            className={cx("voucher-img")}
-            src={voucher1}
-            alt=""
-          />
-          <img
-            className={cx("voucher-img")}
-            src="/src/assets/footer/voucher2.png"
-            alt=""
-          />
-          <img
-            className={cx("voucher-img")}
-            src="/src/assets/footer/voucher3.png"
-            alt=""
-          />
+          <img className={cx("voucher-img")} src={voucher1} alt="" />
+          <img className={cx("voucher-img")} src={voucher2} alt="" />
+          <img className={cx("voucher-img")} src={voucher3} alt="" />
         </div>
         <div className={cx("footer-information")}>
           <div className={cx("contact")}>
@@ -93,7 +119,7 @@ function Footer(props) {
             <div className={cx("web-app")}>
               <div className={cx("web-app-left")}>
                 <div className={cx("web-app-left-logo")}>
-                  <img src="/src/assets/footer/logo.png" alt="" />
+                  <img src={logo} alt="" />
                 </div>
                 <div className={cx("web-app-left-content")}>
                   <h3>Go where your heart beats</h3>
@@ -109,18 +135,18 @@ function Footer(props) {
                     height: "50px",
                     marginRight: "30px",
                   }}
-                  src="/src/assets/footer/AppStore.png"
+                  src={appstore}
                   alt=""
                   href="https://bit.ly/lazada-ios-app"
                 />
                 <img
                   style={{ flexGrow: "6", width: "150px", height: "50px" }}
-                  src="/src/assets/footer/ggPlay.png"
+                  src={ggPlay}
                   alt=""
                 />
                 <img
                   style={{ width: "150px", height: "50px", marginLeft: "30px" }}
-                  src="/src/assets/footer/appgallery.png"
+                  src={appgallery}
                   alt=""
                 />
               </div>
@@ -153,28 +179,28 @@ function Footer(props) {
             <h3 className={cx("lzd-footer-h3")}>CÁCH THỨC THANH TOÁN</h3>
             <div className={cx("logo-payment")}>
               <span className={cx("lzd-footer-sprit")}>
-                <img src="/src/assets/footer/visa.jpg" alt="" />
+                <img src={visa} alt="" />
               </span>
               <span className={cx("lzd-footer-sprit")}>
-                <img src="/src/assets/footer/mastercard.jpg" alt="" />
+                <img src={mastercard} alt="" />
               </span>
               <span className={cx("lzd-footer-sprit")}>
-                <img src="/src/assets/footer/jcb.png" alt="" />
+                <img src={jcb} alt="" />
               </span>
               <span className={cx("lzd-footer-sprit")}>
-                <img src="/src/assets/footer/cashondelivery.jpg" alt="" />
+                <img src={cashondelivery} alt="" />
               </span>
               <span className={cx("lzd-footer-sprit")}>
-                <img src="/src/assets/footer/napas.jpg" alt="" />
+                <img src={napas} alt="" />
               </span>
               <span className={cx("lzd-footer-sprit")}>
-                <img src="/src/assets/footer/heodat.png" alt="" />
+                <img src={heodat} alt="" />
               </span>
               <span className={cx("lzd-footer-sprit")}>
-                <img src="/src/assets/footer/zalopay.png" alt="" />
+                <img src={zalopay} alt="" />
               </span>
               <span className={cx("lzd-footer-sprit")}>
-                <img src="/src/assets/footer/momo.png" alt="" />
+                <img src={momo} alt="" />
               </span>
             </div>
           </div>
@@ -183,39 +209,23 @@ function Footer(props) {
             <div className={cx("logo-delivery")}>
               <img
                 className={cx("lzd-icon-delivery")}
-                src="/src/assets/footer/lazada.png"
+                src={lazada}
                 alt=""
               ></img>
+              <img className={cx("lzd-icon-delivery")} src={ghn} alt=""></img>
+              <img className={cx("lzd-icon-delivery")} src={ninja} alt=""></img>
               <img
                 className={cx("lzd-icon-delivery")}
-                src="/src/assets/footer/ghn.png"
+                src={ship60}
                 alt=""
               ></img>
+              <img className={cx("lzd-icon-delivery")} src={best} alt=""></img>
               <img
                 className={cx("lzd-icon-delivery")}
-                src="/src/assets/footer/ninja.png"
+                src={ahamove}
                 alt=""
               ></img>
-              <img
-                className={cx("lzd-icon-delivery")}
-                src="/src/assets/footer/ship60.png"
-                alt=""
-              ></img>
-              <img
-                className={cx("lzd-icon-delivery")}
-                src="/src/assets/footer/best.png"
-                alt=""
-              ></img>
-              <img
-                className={cx("lzd-icon-delivery")}
-                src="/src/assets/footer/ahamove.png"
-                alt=""
-              ></img>
-              <img
-                className={cx("lzd-icon-delivery")}
-                src="/src/assets/footer/j&t.png"
-                alt=""
-              ></img>
+              <img className={cx("lzd-icon-delivery")} src={jandt} alt=""></img>
             </div>
           </div>
           <div className={cx("lzd-footer-width-25")}>
@@ -224,19 +234,19 @@ function Footer(props) {
               <div className={cx("logo-certification-left")}>
                 <img
                   className={cx("lzd-icon-certification")}
-                  src="/src/assets/footer/pcidsss.png"
+                  src={pcidsss}
                   style={{ width: "130px" }}
                   alt=""
                 ></img>
                 <img
                   className={cx("lzd-icon-certification")}
-                  src="/src/assets/footer/noi_khong_hang_gia.png"
+                  src={noi_khong_hang_gia}
                   style={{ width: "130px" }}
                   alt=""
                 ></img>
                 <img
                   className={cx("lzd-icon-certification")}
-                  src="/src/assets/footer/bsi.png"
+                  src={bsi}
                   style={{ width: "100px" }}
                   alt=""
                 ></img>
@@ -244,19 +254,19 @@ function Footer(props) {
               <div className={cx("logo-certification-right")}>
                 <img
                   className={cx("icon-certification-right")}
-                  src="/src/assets/footer/da_dang_ky.png"
+                  src={da_dang_ky}
                   style={{ width: "130px" }}
                   alt=""
                 ></img>
                 <img
                   className={cx("icon-certification-right")}
-                  src="/src/assets/footer/da_thong_bao.png"
+                  src={da_thong_bao}
                   style={{ width: "130px" }}
                   alt=""
                 ></img>
                 <img
                   className={cx("icon-certification-right")}
-                  src="/src/assets/footer/da_dang_ky.png"
+                  src={da_dang_ky}
                   style={{ width: "130px" }}
                   alt=""
                 ></img>
@@ -490,22 +500,22 @@ function Footer(props) {
           <div className={cx("lzd-footer-width-50")}>
             <h3 className={cx("lzd-footer-title")}>Lazada Southeast Asia</h3>
             <div className={cx("logo-country")}>
-              <img src="/src/assets/footer/indonesia.jpg" alt="" />
-              <img src="/src/assets/footer/malaysia.png" alt="" />
-              <img src="/src/assets/footer/philippines.png" alt="" />
-              <img src="/src/assets/footer/singapore.png" alt="" />
-              <img src="/src/assets/footer/thailan.png" alt="" />
-              <img src="/src/assets/footer/vietnam.png" alt="" />
+              <img src={indonesia} alt="" />
+              <img src={malaysia} alt="" />
+              <img src={philippines} alt="" />
+              <img src={singapore} alt="" />
+              <img src={thailan} alt="" />
+              <img src={vietnam} alt="" />
             </div>
           </div>
           <div className={cx("lzd-footer-width-25")}>
             <h3 className={cx("lzd-footer-title")}>Kết nối với chúng tôi</h3>
             <div className={cx("logo-connect")}>
-              <img src="/src/assets/footer/facebook.png" alt="" />
-              <img src="/src/assets/footer/in.png" alt="" />
-              <img src="/src/assets/footer/ytb.png" alt="" />
-              <img src="/src/assets/footer/insta.png" alt="" />
-              <img src="/src/assets/footer/tiktok.png" alt="" />
+              <img src={facebook} alt="" />
+              <img src={in1} alt="" />
+              <img src={ytb} alt="" />
+              <img src={insta} alt="" />
+              <img src={tiktok} alt="" />
             </div>
           </div>
           <div className={cx("lzd-footer-width-25")}>
