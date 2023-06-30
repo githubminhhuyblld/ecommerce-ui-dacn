@@ -229,7 +229,7 @@ function ProductDetail(props) {
                       items={imagesOptions}
                       renderItem={renderImageItem}
                       renderThumbInner={renderThumbnailItem}
-                      showNav={false}
+                      showNav={true}
                       showFullscreenButton={false}
                       showPlayButton={false}
                     />

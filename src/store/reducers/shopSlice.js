@@ -122,7 +122,12 @@ const shopSlice = createSlice({
     error: null,
     registerStatus: null,
   },
-  reducers: {},
+  reducers: {
+    resetProducts: (state, action) => {
+      state.products = [];
+     
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchProductsByShopId.pending, (state) => {
       state.loading = true;
@@ -225,5 +230,7 @@ export const selectProductsByShopId = (state) => state.shop.products;
 export const selectProductsByShopIdLoading = (state) => state.shop.loading;
 export const selectInfoShop = (state) => state.shop.shopInfo;
 export const selectRegisterStatus = (state) => state.shop.registerStatus;
+
+export const { resetProducts } = shopSlice.actions;
 
 export default shopSlice.reducer;
