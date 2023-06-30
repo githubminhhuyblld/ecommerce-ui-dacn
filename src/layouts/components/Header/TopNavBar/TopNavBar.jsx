@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container } from "@mui/material";
@@ -23,6 +23,8 @@ import {
 import AuthService from "~/services/auth/AuthService.jsx";
 import { clearCart, setSuccess } from "~/store/reducers/cartsSlice";
 import { selectSuccessAddress } from "~/store/reducers/locationSlice";
+import LanguageContext from "~/context/languageContext";
+import Language from "../Language/Language";
 
 const cx = classNames.bind(styles);
 
@@ -60,24 +62,25 @@ function TopNavBar(props) {
     navigate(config.routes.login);
   };
 
+  const { languageData } = useContext(LanguageContext);
+  const {save_more, sell_on_lazada, care_customer, track_order, header_signup, header_login} = languageData;
+
   return (
     <div className={cx("wrapper")}>
       <Container>
         <div className={cx("top-navbar-content")}>
           <span className={cx("top-navbar-item")}>
-            Tiết kiệm hơn với ứng dụng
+            {save_more}
           </span>
           <Link to={config.routes.seller}>
-            <span className={cx("top-navbar-item")}>Bán hàng cùng Lazada</span>
+            <span className={cx("top-navbar-item")}>{sell_on_lazada}</span>
           </Link>
           {isDesktop && (
-            <span className={cx("top-navbar-item")}>Chăm sóc khác hàng</span>
+            <span className={cx("top-navbar-item")}>{care_customer}</span>
           )}
-          <span className={cx("top-navbar-item")}>Kiểm tra đơn hàngg</span>
+          <span className={cx("top-navbar-item")}>{track_order}</span>
 
-          {isDesktop && (
-            <span>
-              <Tippy
+              {/* <Tippy
                 interactive
                 offset={[12, 1]}
                 render={(attrs) => (
@@ -94,16 +97,17 @@ function TopNavBar(props) {
                 )}
               >
                 <span className={cx("top-navbar-item")}>change language</span>
-              </Tippy>
-            </span>
+              </Tippy> */}
+          {isDesktop && (
+              <Language />
           )}
           {!isAuthenticated ? (
             <>
               <Link to={config.routes.login}>
-                <span className={cx("top-navbar-item")}>Đăng nhập</span>
+                <span className={cx("top-navbar-item")}>{header_login}</span>
               </Link>
               <Link to={config.routes.register}>
-                <span className={cx("top-navbar-item")}>Đăng ký</span>
+                <span className={cx("top-navbar-item")}>{header_signup}</span>
               </Link>
             </>
           ) : (
