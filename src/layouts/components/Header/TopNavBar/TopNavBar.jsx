@@ -63,15 +63,21 @@ function TopNavBar(props) {
   };
 
   const { languageData } = useContext(LanguageContext);
-  const {save_more, sell_on_lazada, care_customer, track_order, header_signup, header_login} = languageData;
+
+  const {
+    save_more,
+    sell_on_lazada,
+    care_customer,
+    track_order,
+    header_signup,
+    header_login,
+  } = languageData;
 
   return (
     <div className={cx("wrapper")}>
       <Container>
         <div className={cx("top-navbar-content")}>
-          <span className={cx("top-navbar-item")}>
-            {save_more}
-          </span>
+          <span className={cx("top-navbar-item")}>{save_more}</span>
           <Link to={config.routes.seller}>
             <span className={cx("top-navbar-item")}>{sell_on_lazada}</span>
           </Link>
@@ -80,27 +86,7 @@ function TopNavBar(props) {
           )}
           <span className={cx("top-navbar-item")}>{track_order}</span>
 
-              {/* <Tippy
-                interactive
-                offset={[12, 1]}
-                render={(attrs) => (
-                  <div className={cx("dropdown")} tabIndex="-1" {...attrs}>
-                    <span className={cx("dropdown-item")}>
-                      <AiFillStar />
-                      Tiếng Việt
-                    </span>
-                    <span className={cx("dropdown-item")}>
-                      <RiEnglishInput />
-                      Tiếng Anh
-                    </span>
-                  </div>
-                )}
-              >
-                <span className={cx("top-navbar-item")}>change language</span>
-              </Tippy> */}
-          {isDesktop && (
-              <Language />
-          )}
+          {isDesktop && <Language />}
           {!isAuthenticated ? (
             <>
               <Link to={config.routes.login}>

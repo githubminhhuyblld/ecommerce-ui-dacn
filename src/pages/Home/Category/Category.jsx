@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container } from "@mui/material";
@@ -10,6 +10,7 @@ import styles from "./Category.module.scss";
 import CategoryItem from "~/pages/Home/Category/CategoryItem/CategoryItem.jsx";
 import { selectCategories } from "~/store/reducers/categoriesSlice.js";
 import { fetchCategories } from "~/services/workspacesService.jsx";
+import LanguageContext from "~/context/languageContext";
 
 Category.propTypes = {};
 const cx = classNames.bind(styles);
@@ -21,12 +22,14 @@ function Category(props) {
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
+  const { languageData } = useContext(LanguageContext);
+  const {header_category_name} = languageData
 
   return (
     <aside className={cx("wrapper")}>
       <Container style={{ padding: 0 }}>
         <div className={cx("category-header")}>
-          <div className={cx("category-header-name")}>Thể loại</div>
+          <div className={cx("category-header-name")}>{header_category_name}</div>
         </div>
         <div className={cx("category-content")}>
           <CategoryItem categories={categories?.data} />

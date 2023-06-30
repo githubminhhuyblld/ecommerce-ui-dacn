@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container, Grid } from "@mui/material";
@@ -11,12 +11,16 @@ import BackTop from "~/layouts/components/BackTop/BackTop.jsx";
 import { selectProducts } from "~/store/reducers/productsSlice.js";
 import { fetchProducts } from "~/services/workspacesService.jsx";
 import SliderSlick from "~/layouts/components/Slider/SliderSlick";
+import LanguageContext from "~/context/languageContext";
 
 const cx = classNames.bind(styles);
 
 Home.propTypes = {};
 
 function Home(props) {
+  const { languageData } = useContext(LanguageContext);
+
+  const { Exclusively_for_you, button_load_more } = languageData;
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
   const [displayedProductCount, setDisplayedProductCount] = useState(24);
@@ -30,11 +34,11 @@ function Home(props) {
   return (
     <main className={cx("wrapper")}>
       <Container>
-        <SliderSlick/>
+        <SliderSlick />
         <Category />
         <div className={cx("wrapper-product")}>
           <div className={cx("header")}>
-            <h3 className={cx("header-text")}>Dành riêng cho bạn</h3>
+            <h3 className={cx("header-text")}>{Exclusively_for_you}</h3>
             <Grid container spacing={2}>
               {products?.data?.map((item, index) => {
                 return (
@@ -48,7 +52,7 @@ function Home(props) {
                   onClick={handleLoadMoreProducts}
                   className="py-6 px-8 bg-sky-400 text-white text-3xl rounded-lg hover:bg-sky-700"
                 >
-                  Tải thêm
+                  {button_load_more}
                 </button>
               </div>
             </Grid>
