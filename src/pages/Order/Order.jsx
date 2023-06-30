@@ -127,7 +127,7 @@ function Order(props) {
         dispatch(setSuccess((prev) => !prev));
         if (response.payload === 200) {
           toast.success(
-            "Đặt đơn hàng thành công,5s sau sẽ chuyên tới trang xem chi tiết đơn hàng",
+            "Đặt đơn hàng thành công",
             {
               position: toast.POSITION.TOP_LEFT,
               autoClose: 5000,
@@ -137,11 +137,6 @@ function Order(props) {
               draggable: true,
               progress: undefined,
               bodyClassName: "toast-message",
-              onClose: () => {
-                setTimeout(() => {
-                  navigate(config.routes.home);
-                }, 5000);
-              },
             }
           );
         }

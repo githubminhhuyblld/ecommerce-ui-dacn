@@ -76,7 +76,7 @@ const EditShop = (props) => {
       ).then((response) => {
         if (response.payload.id !== null) {
           setIsLoading(false);
-          toast.success("Đăng ký Shop thành công,Vui lòng chờ phê duyệt", {
+          toast.success("Cập nhật Shop thành công!", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 2000,
             hideProgressBar: true,

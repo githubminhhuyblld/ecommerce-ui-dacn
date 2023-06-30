@@ -16,8 +16,10 @@ import ManageLayoutAllProduct from "./ShopProduct/AllProduct/ManageLayoutAllProd
 import {
   fetchInfoShop,
   fetchProductsByShopId,
+  resetProducts,
   selectInfoShop,
   selectProductsByShopId,
+  selectRegisterStatus,
 } from "~/store/reducers/shopSlice";
 import Header from "~/layouts/components/Header/Header";
 import WatingShopRegister from "./WatingShopRegister/WatingShopRegister";
@@ -38,6 +40,7 @@ function Seller(props) {
   const shopId = user !== null && user?.shopId;
   const products = useSelector(selectProductsByShopId);
   const shop = useSelector(selectInfoShop);
+  // const successRegisterStatus = useSelector(selectRegisterStatus)
 
   useEffect(() => {
     dispatch(fetchUserInfo());
@@ -45,15 +48,15 @@ function Seller(props) {
 
   useEffect(() => {
     if (user !== null) {
-      Promise.all([
-        dispatch(fetchProductsByShopId({ shopId, userId })),
-        dispatch(fetchInfoShop({ shopId, userId })),
-      ]);
+      dispatch(fetchProductsByShopId({ shopId, userId })).then((response)=>{
+          if(response.payload.status === "NOT_FOUND"){
+            dispatch(resetProducts())
+          }
+      })
+      dispatch(fetchInfoShop({ shopId, userId }))
     }
   }, [dispatch, user, shopId, userId]);
-  // if (user !== null && shop.activeStatus === 'IN_ACTIVE') {
-  //   history.navigate(config.routes.ac);
-  // }
+ 
 
 
   return (

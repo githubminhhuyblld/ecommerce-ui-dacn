@@ -166,7 +166,7 @@ function AddProduct(props) {
           }
         );
       }
-      console.log(body);
+  
     },
   });
 

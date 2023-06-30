@@ -43,7 +43,7 @@ function ProductDetail(props) {
   useEffect(() => {
     getProductById(id).then((res) => setProductDetail(res?.data));
   }, [id]);
-  
+
   const fetchData = useCallback(() => {
     if (!isLoading && productDetail) {
       dispatch(
@@ -55,11 +55,10 @@ function ProductDetail(props) {
       );
     }
   }, [isLoading, productDetail, dispatch]);
-  
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
 
   const colorOptions = productDetail?.colors?.map((item) => {
     return { id: item.id, label: item.colorName };
@@ -88,7 +87,6 @@ function ProductDetail(props) {
       setCount(count - 1);
     }
   };
-
 
   const handleAddToCart = () => {
     if (null === user) {
@@ -122,7 +120,7 @@ function ProductDetail(props) {
         description: productDetail?.shop.description,
         id: productDetail?.shop.id,
         name: productDetail?.shop.name,
-        image:productDetail?.shop.image
+        image: productDetail?.shop.image,
       },
     };
 
@@ -231,7 +229,7 @@ function ProductDetail(props) {
                       items={imagesOptions}
                       renderItem={renderImageItem}
                       renderThumbInner={renderThumbnailItem}
-                      showNav={false}
+                      showNav={true}
                       showFullscreenButton={false}
                       showPlayButton={false}
                     />
@@ -520,11 +518,11 @@ function ProductDetail(props) {
               Sản phẩm bạn có thể biết
             </h3>
             <Grid container spacing={2}>
-            {products?.content?.map((item) => (
-              <Grid key={item.id} item lg={12/5} md={4} sm={6} xs={12}>
-                <ProductItem product={item} />
-              </Grid>
-            ))}
+              {products?.content?.map((item) => (
+                <Grid key={item.id} item lg={12 / 5} md={4} sm={6} xs={12}>
+                  <ProductItem product={item} />
+                </Grid>
+              ))}
             </Grid>
           </div>
         </div>

@@ -6,7 +6,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import { animateScroll as scroll } from "react-scroll";
 
 import styles from "./Product.module.scss";
-import { Skeleton } from "@mui/material";
+import { Rating, Skeleton } from "@mui/material";
 import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { convertCurrency } from "~/untils/convertCurrency.js";
@@ -97,12 +97,12 @@ function ProductItem(props) {
           <div className={cx("rating-box")}>
             <span className={cx("quantity")}>Số lượng:{product.quantity}</span>
             <div className={cx("vote")}>
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
-              <span className={cx("rating")}>({product.rating})</span>
+              <Rating
+                name="half-rating-read"
+                className={cx("star")}
+                defaultValue={parseInt(product.rating)}
+                readOnly
+              />
             </div>
           </div>
         ) : (
