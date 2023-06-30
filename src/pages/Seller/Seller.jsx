@@ -40,7 +40,7 @@ function Seller(props) {
   const shopId = user !== null && user?.shopId;
   const products = useSelector(selectProductsByShopId);
   const shop = useSelector(selectInfoShop);
-  // const successRegisterStatus = useSelector(selectRegisterStatus)
+
 
   useEffect(() => {
     dispatch(fetchUserInfo());
