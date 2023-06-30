@@ -19,7 +19,6 @@ function SliderSlick(props) {
     dots: true,
     dotsClass: "slick-dots slick-thumb",
     infinite: true,
-    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
