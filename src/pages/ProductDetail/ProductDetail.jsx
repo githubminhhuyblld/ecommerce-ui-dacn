@@ -31,14 +31,14 @@ ProductDetail.propTypes = {};
 function ProductDetail(props) {
 
   const { languageData } = useContext(LanguageContext);
-  const { buy_now, 
-          add_to_cart,
-          product_detail_size,
-          product_detail_color,
-          product_detail_quantity,
+  const { button_buy_now, 
+          button_add_to_cart,
+          product_size,
+          product_color,
+          product_quantity,
           from_the_same_shop,
           name_shop,
-          address_shop,
+          seller_shop_address,
   } = languageData;
 
 
@@ -356,7 +356,7 @@ function ProductDetail(props) {
                   {isLoading ? (
                     <Skeleton animation="wave" height={40} width={"30%"} />
                   ) : (
-                    <h3 className={cx("title")}>{product_detail_color}:</h3>
+                    ""
                   )}
 
 
@@ -373,7 +373,7 @@ function ProductDetail(props) {
                     <div className={cx("options")}>
                       {colorOptions && colorOptions.length > 0 && (
                         <>
-                          <h3 className={cx("title")}>{product_detail_color}</h3>
+                          <h3 className={cx("title")}>{product_color}</h3>
                           <ButtonList
                             options={colorOptions}
                             onSelect={handleColorSelect}
@@ -387,7 +387,7 @@ function ProductDetail(props) {
 
                     <Skeleton animation="wave" height={40} width={"30%"} />
                   ) : (
-                    <h3 className={cx("title")}>{product_detail_size}</h3>
+                   ""
                   )}
                   {isLoading ? (
 
@@ -403,7 +403,7 @@ function ProductDetail(props) {
                     <div className={cx("options")}>
                       {sizeOptions && sizeOptions.length > 0 && (
                         <>
-                          <h3 className={cx("title")}>{product_detail_size}:</h3>
+                          <h3 className={cx("title")}>{product_size}:</h3>
                           <ButtonList
                             options={sizeOptions}
                             onSelect={handleColorSelect}
@@ -416,7 +416,7 @@ function ProductDetail(props) {
                   {isLoading ? (
                     <Skeleton animation="wave" height={40} width={"30%"} />
                   ) : (
-                    <h3 className={cx("title")}>{product_detail_quantity}</h3>
+                    <h3 className={cx("title")}>{product_quantity}</h3>
                   )}
                   {isLoading ? (
                     <div className={cx("amount")}>
@@ -473,7 +473,7 @@ function ProductDetail(props) {
                         {name_shop}{productDetail?.shop.name}
                       </h3>
                       <p className={cx("shop-address")}>
-                        {address_shop}{productDetail?.shop.address}
+                        {seller_shop_address + ":"}{productDetail?.shop.address}
                       </p>
                     </div>
                   )}
@@ -497,13 +497,13 @@ function ProductDetail(props) {
                     ) : (
                       <>
                         <button className={`btn ${cx("btn-buy-now")}`}>
-                          {buy_now}
+                          {button_buy_now}
                         </button>
                         <button
                           onClick={handleAddToCart}
                           className={`btn ${cx("btn-add-cart")}`}
                         >
-                          {add_to_cart}
+                          {button_add_to_cart}
                         </button>
                       </>
                     )}
