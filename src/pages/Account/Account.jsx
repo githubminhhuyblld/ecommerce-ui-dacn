@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import { Container, Grid } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,10 +16,29 @@ import { convertCurrency } from "~/untils/convertCurrency.js";
 import config from "~/config/index.jsx";
 import SidebarLeft from "~/layouts/components/SidebarLeft/SidebarLeft";
 import { selectSuccessAddress } from "~/store/reducers/locationSlice";
+import LanguageContext from "~/context/languageContext";
 
 const cx = classNames.bind(styles);
 
 function Account() {
+
+  const { languageData } = useContext(LanguageContext);
+  const { sidebar_account_management, 
+    personal_information,
+    info_edit,
+    receive_special_offers_via_gmail,
+    info_address,
+    button_add_address,
+    default_shipping_address,
+    default_billing_address,
+    recent_orders,
+    order_code,
+    order_date,
+    cart_name_product,
+    total_price,
+    manage,
+  } = languageData;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(selectUser);
@@ -40,7 +59,7 @@ function Account() {
     {
       name: (
         <span style={{ color: "#757575", fontSize: "120%", textAlign: "left" }}>
-          Đơn hàng số #
+          {order_code} #
         </span>
       ),
       selector: (row) => row.id,
@@ -51,7 +70,7 @@ function Account() {
     {
       name: (
         <span style={{ color: "#757575", fontSize: "120%", textAlign: "left" }}>
-          Ngày đặt hàng
+          {order_date}
         </span>
       ),
       selector: (row) => Moment(row.createAt).format("DD/MM/yyyy"),
@@ -62,7 +81,7 @@ function Account() {
     {
       name: (
         <span style={{ color: "#757575", fontSize: "120%", textAlign: "left" }}>
-          Sản phẩm
+          {cart_name_product}
         </span>
       ),
       selector: (row) => (
@@ -79,7 +98,7 @@ function Account() {
     {
       name: (
         <span style={{ color: "#757575", fontSize: "120%", textAlign: "left" }}>
-          Tổng cộng
+          {total_price}
         </span>
       ),
       selector: (row) => convertCurrency(row.totalPrice),
@@ -91,7 +110,7 @@ function Account() {
       name: "",
       selector: (row) => (
         <Link style={{ color: "#1a9cb7" }} to={""}>
-          QUẢN LÝ
+          {manage}
         </Link>
       ),
       style: {
@@ -108,7 +127,7 @@ function Account() {
             <SidebarLeft />
           </div>
           <div className="col-span-12 md:col-span-9 lg:col-span-10 sm:col-span-12">
-            <div className={cx("manageAccount")}>Quản lý tài khoản</div>
+            <div className={cx("manageAccount")}>{sidebar_account_management}</div>
             <Grid container spacing={2}>
               <Grid
                 className={cx("items")}
@@ -121,13 +140,13 @@ function Account() {
               >
                 <div className={cx("item")}>
                   <div className={cx("title", "fontSize110")}>
-                    Thông tin cá nhân
+                    {personal_information}
                     <div className={cx("hl")}></div>
                     <Link
                       className={cx("edit", "fontSize70")}
                       to={config.routes.editProfile}
                     >
-                      Chỉnh sửa
+                      {info_edit}
                     </Link>
                   </div>
                   <div
@@ -146,7 +165,7 @@ function Account() {
                       className={cx("hover-pointer", "fontSize80")}
                       htmlFor={"promotion"}
                     >
-                      Nhận thông tin ưu đãi qua gmail
+                      {receive_special_offers_via_gmail}
                     </label>
                   </div>
                 </div>
@@ -164,21 +183,21 @@ function Account() {
                   <div className={cx("flex")}>
                     <div className={cx("flexItem")}>
                       <div className={cx("title", "fontSize110")}>
-                        Số địa chỉ
+                        {info_address}
                         <div className={cx("hl")}></div>
                         {address === null ? (
                           <Link
                             className={cx("edit", "fontSize70")}
                             to={config.routes.createAddress}
                           >
-                            Thêm địa chỉ
+                            {button_add_address}
                           </Link>
                         ) : (
                           <Link
                             className={cx("edit", "fontSize70")}
                             to={`/edit-address/${address?.[0]?.id}`}
                           >
-                            Chỉnh sửa
+                            {info_edit}
                           </Link>
                         )}
                       </div>
@@ -190,7 +209,7 @@ function Account() {
                           "colorGray-75"
                         )}
                       >
-                        Địa chỉ nhận hàng mặt định
+                        {default_shipping_address}
                       </div>
                       {address?.length > 0 && (
                         <>
@@ -224,7 +243,7 @@ function Account() {
                           "padding-t-50"
                         )}
                       >
-                        Địa chỉ thanh toán mặc định
+                        {default_billing_address}
                       </div>
                       {address?.length > 0 && (
                         <>
@@ -261,7 +280,7 @@ function Account() {
               >
                 <DataTable
                   title={
-                    <div style={{ fontSize: "80%" }}>Đơn hàng gần đây</div>
+                    <div style={{ fontSize: "80%" }}>{recent_orders}</div>
                   }
                   columns={columns}
                   data={orders}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import ReactImageGallery from "react-image-gallery";
@@ -10,6 +10,7 @@ import { Rating, Skeleton } from "@mui/material";
 import { AiFillStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { convertCurrency } from "~/untils/convertCurrency.js";
+import LanguageContext from "~/context/languageContext";
 
 ProductItem.propTypes = {
   product: PropTypes.object.isRequired,
@@ -17,6 +18,10 @@ ProductItem.propTypes = {
 const cx = classNames.bind(styles);
 
 function ProductItem(props) {
+
+  const {languageData} = useContext(LanguageContext);
+  const {product_quantity} = languageData;
+
   const { product } = props;
   const navigate = useNavigate();
 
@@ -95,7 +100,7 @@ function ProductItem(props) {
         )}
         {product.quantity ? (
           <div className={cx("rating-box")}>
-            <span className={cx("quantity")}>Số lượng:{product.quantity}</span>
+            <span className={cx("quantity")}>{product_quantity}{product.quantity}</span>
             <div className={cx("vote")}>
               <Rating
                 name="half-rating-read"

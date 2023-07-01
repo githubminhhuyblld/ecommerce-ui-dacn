@@ -71,6 +71,11 @@ function TopNavBar(props) {
     track_order,
     header_signup,
     header_login,
+    info_change_password,
+    account_information,
+    order_information,
+    header_user_down_logout,
+    sidebar_hello,
   } = languageData;
 
   return (
@@ -105,28 +110,28 @@ function TopNavBar(props) {
                   <Link to={config.routes.account}>
                     <span className={cx("dropdown-item")}>
                       <FiUserPlus />
-                      Thông tin tài khoản
+                      {account_information}
                     </span>
                   </Link>
                   <Link to={config.routes.infoOrder}>
                     <span className={cx("dropdown-item")}>
                       <MdOutlineFavoriteBorder />
-                      Thông tin đơn hàng
+                      {order_information}
                     </span>
                   </Link>
                   <span className={cx("dropdown-item")}>
                     <TbBrandSamsungpass />
-                    Đổi mật khẩu
+                    {info_change_password}
                   </span>
                   <span onClick={handleLogout} className={cx("dropdown-item")}>
                     <RiLogoutCircleRLine />
-                    Đăng xuất
+                    {header_user_down_logout}
                   </span>
                 </div>
               )}
             >
               <span className={cx("top-navbar-item")}>
-                Xin Chào:{" "}
+                {sidebar_hello}:{" "}
                 {user !== null && user?.lastName + " " + user?.firstName}
               </span>
             </Tippy>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Grid, Select, MenuItem } from "@mui/material";
@@ -16,6 +16,7 @@ import {
   selectProvinces,
   selectWards,
 } from "~/store/reducers/locationSlice";
+import LanguageContext from "~/context/languageContext";
 
 const cx = classNames.bind(styles);
 
@@ -30,6 +31,22 @@ CreateAddress.propTypes = {
 };
 
 function CreateAddress(props) {
+  const { languageData } = useContext(LanguageContext);
+  const {
+    info_name,
+    info_telephone,
+    order_address,
+    province_city,
+    district,
+    ward,
+    button_save,
+    please_enter_your_address,
+    please_enter_your_telephone,
+    please_enter_your_city,
+    please_enter_your_district,
+    please_enter_your_ward,
+  } = languageData;
+
   const {
     handleSaveAddress,
     provinceDefault,
@@ -49,19 +66,16 @@ function CreateAddress(props) {
   const districts = useSelector(selectDistricts);
   const wards = useSelector(selectWards);
 
-
   useEffect(() => {
     dispatch(fetchProvinces());
-  
   }, [dispatch]);
-  useEffect(()=>{
-    if(provinceDefault !== "none"){
-      setProvinceId(provinceDefault)
+  useEffect(() => {
+    if (provinceDefault !== "none") {
+      setProvinceId(provinceDefault);
       setDistrictId(districIdDefault);
       setWardId(wardIdDefault);
     }
-
-  },[provinceDefault])
+  }, [provinceDefault]);
 
   useEffect(() => {
     if (provinces.length > 0 && !isInitialized) {
@@ -162,11 +176,11 @@ function CreateAddress(props) {
           className="bg-white px-12 py-8"
         >
           <div className="flex flex-col">
-            <label className="text-2xl">Họ tên</label>
+            <label className="text-2xl">{info_name}</label>
             <TextField
               name="name"
               className={cx("input-field")}
-              placeholder="Họ tên"
+              placeholder={info_name}
               fullWidth
               margin="normal"
               value={formik.values.name}
@@ -178,11 +192,11 @@ function CreateAddress(props) {
             </span>
           </div>
           <div className="flex flex-col">
-            <label className="text-2xl pt-4">Số điện thoại</label>
+            <label className="text-2xl pt-4">{info_telephone}</label>
             <TextField
               name="numberPhone"
               className={cx("input-field")}
-              placeholder="Vui lòng nhập số điện thoại của bạn"
+              placeholder={please_enter_your_telephone}
               fullWidth
               margin="normal"
               value={formik.values.numberPhone}
@@ -203,11 +217,11 @@ function CreateAddress(props) {
           className="bg-white px-12 py-8"
         >
           <div className="flex flex-col">
-            <label className="text-2xl">Địa chỉ nhận hàng</label>
+            <label className="text-2xl">{order_address}</label>
             <TextField
               name="address"
               className={cx("input-field")}
-              placeholder="Vui lòng nhập địa chỉ của bạn"
+              placeholder={please_enter_your_address}
               fullWidth
               margin="normal"
               value={formik.values.address}
@@ -219,14 +233,14 @@ function CreateAddress(props) {
             </span>
           </div>
           <div className="flex flex-col">
-            <label className="text-2xl pt-4">Tỉnh/Thành phố</label>
+            <label className="text-2xl pt-4">{province_city}</label>
             <Select
               value={provinceId}
               onChange={(e) => handleProvinceChange(e.target.value)}
               className={cx("select-field")}
             >
               <MenuItem value="none" disabled sx={{ display: "none" }}>
-                Vui lòng chọn tỉnh thành phố
+                {please_enter_your_city}
               </MenuItem>
               {provinces.map((item, index) => {
                 return (
@@ -238,7 +252,7 @@ function CreateAddress(props) {
             </Select>
           </div>
           <div className="flex flex-col">
-            <label className="text-2xl pt-4">Quận/Huyện</label>
+            <label className="text-2xl pt-4">{district}</label>
             <Select
               value={districtId}
               disabled={provinceId === "none"}
@@ -253,7 +267,7 @@ function CreateAddress(props) {
                   className="w-full"
                   style={provinceId === "none" ? { cursor: "not-allowed" } : {}}
                 >
-                  Vui lòng chọn quận/huyện
+                  {please_enter_your_district}
                 </span>
               </MenuItem>
               {districts?.districts?.map((item, index) => {
@@ -266,7 +280,7 @@ function CreateAddress(props) {
             </Select>
           </div>
           <div className="flex flex-col w-full">
-            <label className="text-2xl pt-4">Phưỡng/Xã</label>
+            <label className="text-2xl pt-4">{ward}</label>
             <Select
               value={wardId}
               onChange={(e) => setWardId(e.target.value)}
@@ -282,7 +296,7 @@ function CreateAddress(props) {
                   className="w-full"
                   style={districtId === "none" ? { cursor: "not-allowed" } : {}}
                 >
-                  Vui lòng chọn phường xã
+                  {please_enter_your_ward}
                 </span>
               </MenuItem>
               {wards?.wards?.map((item, index) => {
@@ -299,7 +313,7 @@ function CreateAddress(props) {
             onClick={formik.handleSubmit}
             className="bg-primary float-right mt-8 text-white uppercase py-4 rounded-md px-24"
           >
-            Lưu
+            {button_save}
           </button>
         </Grid>
       </Grid>
