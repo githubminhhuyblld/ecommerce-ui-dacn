@@ -31,8 +31,8 @@ ProductDetail.propTypes = {};
 function ProductDetail(props) {
   const { languageData } = useContext(LanguageContext);
   const {
-    button_buy_now,
-    button_add_to_cart,
+    buy_now,
+    add_to_cart,
     product_size,
     product_color,
     product_quantity,
@@ -497,13 +497,13 @@ function ProductDetail(props) {
                     ) : (
                       <>
                         <button className={`btn ${cx("btn-buy-now")}`}>
-                          {button_buy_now}
+                          {buy_now}
                         </button>
                         <button
                           onClick={handleAddToCart}
                           className={`btn ${cx("btn-add-cart")}`}
                         >
-                          {button_add_to_cart}
+                          {add_to_cart}
                         </button>
                       </>
                     )}
