@@ -1,8 +1,8 @@
-import axios from "axios";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import React, { useEffect } from "react";
-import { BASE_URL } from "../interceptors/axios.jsx";
+
 import PropTypes from "prop-types";
+import instance from "~/interceptors/axios";
 
 const languageTypes = [
   { code: "vi", name: "Tiếng Việt" },
@@ -11,16 +11,17 @@ const languageTypes = [
 
 export const LanguageContext = createContext();
 export const LanguageContextProvider = ({ children }) => {
-  const [language, setLanguage] = React.useState(languageTypes[0]);
-  const [languageData, setLanguageData] = React.useState({});
-  // const baseUrl = BASE_URL;
+  const [language, setLanguage] = useState(languageTypes[0]);
+  const [languageData, setLanguageData] = useState({});
 
   useEffect(() => {
     const getLanguage = async () => {
-      const response = await axios.get(
-        `${BASE_URL}/languages/changeLanguage?locale=${language.code}`
+      const response = await instance.get(
+        `/languages/changeLanguage?locale=${language.code}`
       );
-      setLanguageData(response.data);
+      if (response.data) {
+        setLanguageData(response.data);
+      }
     };
     getLanguage();
   }, [language]);
@@ -37,9 +38,8 @@ export const LanguageContextProvider = ({ children }) => {
       {children}
     </LanguageContext.Provider>
   );
-}
+};
 export default LanguageContext;
-// Compare this snippet from src\pages\Home\Home.jsx:
 
 LanguageContextProvider.propTypes = {
   children: PropTypes.any,
