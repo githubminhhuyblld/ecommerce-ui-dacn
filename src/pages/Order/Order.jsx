@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container, Grid } from "@mui/material";
@@ -23,12 +23,29 @@ import {
 } from "~/store/reducers/locationSlice";
 import CheckoutTable from "../Checkout/CheckoutTable/CheckoutTable";
 import { createOrder } from "~/store/reducers/orderSlice";
+import LanguageContext from "~/context/languageContext";
 
 const cx = classNames.bind(styles);
 
 Order.propTypes = {};
 
 function Order(props) {
+  const { languageData } = useContext(LanguageContext);
+  const {
+    delivery_information,
+    method_pay_receive,
+    zaloPay_wallet,
+    order_information,
+    temporary_calculation,
+    cart_name_product,
+    fee_shipping,
+    reduced_shipping_fees,
+    total_price,
+    button_put_order,
+    info_edit,
+    info_home,
+  } = languageData;
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedValue, setSelectedValue] = useState("PAYMENT_ON_DELIVERY");
@@ -126,19 +143,16 @@ function Order(props) {
       dispatch(createOrder({ userId: userId, body: body })).then((response) => {
         dispatch(setSuccess((prev) => !prev));
         if (response.payload === 200) {
-          toast.success(
-            "Đặt đơn hàng thành công",
-            {
-              position: toast.POSITION.TOP_LEFT,
-              autoClose: 5000,
-              hideProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              bodyClassName: "toast-message",
-            }
-          );
+          toast.success("Đặt đơn hàng thành công", {
+            position: toast.POSITION.TOP_LEFT,
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            bodyClassName: "toast-message",
+          });
         }
       });
     } else {
@@ -158,7 +172,7 @@ function Order(props) {
   return (
     <div className={cx("wrapper")}>
       <Container>
-        <h2 className="text-4xl text-black py-4">Thông tin giao hàng</h2>
+        <h2 className="text-4xl text-black py-4">{delivery_information}</h2>
         <Grid container spacing={2}>
           <Grid container item lg={8} md={8} sm={12}>
             {address?.length > 0 ? (
@@ -183,12 +197,12 @@ function Order(props) {
                       }`}
                       className="text-sky-500"
                     >
-                      Chỉnh sửa
+                      {info_edit}
                     </Link>
                   </div>
                   <div className="mt-4 flex items-center">
                     <span className="bg-primary py-1 px-4 uppercase text-white rounded-full">
-                      Nhà riêng
+                      {info_home}
                     </span>
                     <p className="ml-3">
                       {defaultAddress
@@ -238,7 +252,7 @@ function Order(props) {
                     } hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700`}
                   >
                     <div className="block">
-                      <div className="w-full">Thanh toán khi nhận hàng</div>
+                      <div className="w-full">{method_pay_receive}</div>
                     </div>
                     {selectedValue === "PAYMENT_ON_DELIVERY" ? (
                       <AiFillCheckCircle />
@@ -265,7 +279,7 @@ function Order(props) {
                     } hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700`}
                   >
                     <div className="block">
-                      <div className="w-full">Ví ZaloPay</div>
+                      <div className="w-full">{zaloPay_wallet}</div>
                     </div>
                     {selectedValue === "TRANSFER" ? (
                       <AiFillCheckCircle />
@@ -275,24 +289,24 @@ function Order(props) {
                   </label>
                 </li>
               </ul>
-              <h3 className="text-4xl px-4">Thông tin đơn hàng</h3>
+              <h3 className="text-4xl px-4">{order_information}</h3>
               <div className="flex justify-between px-4 py-6 text-gray-500">
-                <p>Tạm tính ({cartItems?.length} Sản phẩm)</p>
+                <p>{temporary_calculation} ({cartItems?.length} {cart_name_product})</p>
                 <span className="text-3xl text-black">
                   {convertCurrency(totalPrice)}
                 </span>
               </div>
               <div className="flex justify-between px-4 py-6 text-gray-500">
-                <p>Phí vận chuyển</p>
+                <p>{fee_shipping}</p>
                 <span className="text-black text-3xl">0</span>
               </div>
               <div className="flex justify-between px-4 py-6 text-gray-500">
-                <p> Giảm phí vận chuyển</p>
+                <p> {reduced_shipping_fees}</p>
                 <span className="text-black text-3xl">0</span>
               </div>
               <hr className="border-gray-300 border-t-2" />
               <div className="flex justify-between px-4 py-6 text-gray-500">
-                <p>Tổng cộng</p>
+                <p>{total_price}</p>
                 <span className="text-primary text-4xl">
                   {convertCurrency(totalPrice)}
                 </span>
@@ -303,7 +317,7 @@ function Order(props) {
                 onClick={handleCreateOrder}
                 className={`p-6 mt-8 opacity-100  cursor-pointer bg-primary w-full text-white uppercase text-2xl `}
               >
-                Đặt hàng
+                {button_put_order}
               </button>
             </div>
           </Grid>

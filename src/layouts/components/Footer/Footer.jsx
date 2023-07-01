@@ -50,25 +50,29 @@ const cx = classNames.bind(styles);
 
 function Footer(props) {
   const { languageData } = useContext(LanguageContext);
-  const {contact_us,
-         hepl_center,
-         how_to_buy,
-         shipping_delivery,
-         international_product_policy,
-         how_to_return,
-         lazada_VN,
-         all_category,
-         about_lazada,
-         sell_on,
-         affiliate_program,
-         careers,
-         terms_condition,
-         privacy_policy,
-         press_media,
-         intellectual_property_protection,
-         operating_regulations,
-         Procedure_of_claim_and_dispute_handling,
-         download_app
+  const {
+    contact_us,
+    hepl_center,
+    how_to_buy,
+    shipping_delivery,
+    international_product_policy,
+    how_to_return,
+    lazada_VN,
+    all_category,
+    about_lazada,
+    sell_on,
+    affiliate_program,
+    careers,
+    terms_condition,
+    privacy_policy,
+    press_media,
+    intellectual_property_protection,
+    operating_regulations,
+    Procedure_of_claim_and_dispute_handling,
+    download_app,
+    footer_method_payment,
+    footer_delivery_service,
+    footer_certification,
   } = languageData;
   return (
     <div className={cx("wrapper")}>
@@ -198,7 +202,7 @@ function Footer(props) {
       <div className={cx("footer-second")}>
         <div className={cx("lzd-footer-inner")}>
           <div className={cx("lzd-footer-width-50")}>
-            <h3 className={cx("lzd-footer-h3")}>CÁCH THỨC THANH TOÁN</h3>
+            <h3 className={cx("lzd-footer-h3")}>{footer_method_payment}</h3>
             <div className={cx("logo-payment")}>
               <span className={cx("lzd-footer-sprit")}>
                 <img src={visa} alt="" />
@@ -227,7 +231,7 @@ function Footer(props) {
             </div>
           </div>
           <div className={cx("lzd-footer-width-25")}>
-            <h3 className={cx("lzd-footer-h3")}>DỊCH VỤ GIAO HÀNG</h3>
+            <h3 className={cx("lzd-footer-h3")}>{footer_delivery_service}</h3>
             <div className={cx("logo-delivery")}>
               <img
                 className={cx("lzd-icon-delivery")}
@@ -251,7 +255,7 @@ function Footer(props) {
             </div>
           </div>
           <div className={cx("lzd-footer-width-25")}>
-            <h3 className={cx("lzd-footer-h3")}>CHỨNG NHẬN</h3>
+            <h3 className={cx("lzd-footer-h3")}>{footer_certification}</h3>
             <div className={cx("logo-certification")}>
               <div className={cx("logo-certification-left")}>
                 <img
