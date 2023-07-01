@@ -22,14 +22,15 @@ function Category(props) {
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
+
   const { languageData } = useContext(LanguageContext);
-  const {header_category_name} = languageData
+  const { category } = languageData;
 
   return (
     <aside className={cx("wrapper")}>
       <Container style={{ padding: 0 }}>
         <div className={cx("category-header")}>
-          <div className={cx("category-header-name")}>{header_category_name}</div>
+          <div className={cx("category-header-name")}>{category}</div>
         </div>
         <div className={cx("category-content")}>
           <CategoryItem categories={categories?.data} />

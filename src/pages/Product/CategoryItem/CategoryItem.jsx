@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 
 import styles from "./CategoryItem.module.scss";
 import { MdOutlineArrowRight } from "react-icons/md";
+import convertNameToEnglish from "~/untils/convertLanguage";
+import LanguageContext from "~/context/languageContext";
 
 const cx = classNames.bind(styles);
 CategoryItem.propTypes = {
@@ -14,6 +16,7 @@ CategoryItem.propTypes = {
 };
 
 function CategoryItem(props) {
+  const { languageData } = useContext(LanguageContext);
   const { data, activeCategoryId, getData } = props;
   return (
     <div className={cx("category-content")}>
@@ -30,7 +33,7 @@ function CategoryItem(props) {
             })}
           >
             <MdOutlineArrowRight className={cx("arrow-icon")} />
-            <h3 className={cx("category-item")}>{item?.name}</h3>
+            <h3 className={cx("category-item")}>{convertNameToEnglish(item.id, languageData)}</h3>
           </Link>
         );
       })}
