@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import {
@@ -18,11 +18,16 @@ import {
   selectLoadingCategory,
   selectProductsCategory,
 } from "~/store/reducers/ProductsCategorySlice.js";
-import { selectSearchLoading, selectSearchResults } from "~/store/reducers/searchSlice.js";
+import {
+  selectSearchLoading,
+  selectSearchResults,
+} from "~/store/reducers/searchSlice.js";
 import {
   fetchProductsByCategoryId,
   searchProducts,
 } from "~/services/workspacesService.jsx";
+import LanguageContext from "~/context/languageContext";
+import convertNameToEnglish from "~/untils/convertLanguage";
 
 Content.propTypes = {
   setIsCategoryId: PropTypes.func,
@@ -32,15 +37,25 @@ const cx = classNames.bind(styles);
 const PAGE_SIZE = 8;
 
 function Content(props) {
+  const { languageData } = useContext(LanguageContext);
+  const {
+    sorted_by,
+    best_match,
+    low_to_high,
+    high_to_low,
+    no_products_found,
+    items_searched_by,
+  } = languageData;
+
   const [selectedValue, setSelectedValue] = useState("All");
   const { id, search } = useParams();
   const dispatch = useDispatch();
   const products = useSelector(selectProductsCategory);
   const resultsSearch = useSelector(selectSearchResults);
   const isLoadingCategory = useSelector(selectLoadingCategory);
-  const isLoadingSearch = useSelector(selectSearchLoading)
+  const isLoadingSearch = useSelector(selectSearchLoading);
   const [currentPage, setCurrentPage] = useState(0);
-  const [displayProducts, setDisplayProducts] = useState([])
+  const [displayProducts, setDisplayProducts] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
@@ -92,35 +107,38 @@ function Content(props) {
     setDisplayProducts(displayProducts);
     setTotalItems(totalItems);
     setTotalPages(totalPages);
-  }, [products, resultsSearch, id])
-
+  }, [products, resultsSearch, id]);
 
   const handleChangeFilter = async (event) => {
     const value = event.target.value;
     switch (value) {
       case "All":
         setSelectedValue("All");
-        setDisplayProducts([...displayProducts].sort((a, b) => {
-          return a.id - b.id;
-        }))
+        setDisplayProducts(
+          [...displayProducts].sort((a, b) => {
+            return a.id - b.id;
+          })
+        );
         break;
       case "priceAsc":
         setSelectedValue("priceAsc");
-        setDisplayProducts([...displayProducts].sort((a, b) => {
-          return a.newPrice - b.newPrice;
-        }));
+        setDisplayProducts(
+          [...displayProducts].sort((a, b) => {
+            return a.newPrice - b.newPrice;
+          })
+        );
         break;
       case "priceDesc":
         setSelectedValue("priceDesc");
-        setDisplayProducts([...displayProducts].sort((a, b) => {
-          return b.newPrice - a.newPrice;
-        }));
+        setDisplayProducts(
+          [...displayProducts].sort((a, b) => {
+            return b.newPrice - a.newPrice;
+          })
+        );
         break;
       default:
         break;
     }
-
-
   };
   return (
     <div className={cx("wrapper")}>
@@ -134,11 +152,10 @@ function Content(props) {
           className={cx("function-header")}
         >
           <p className={cx("result")}>
-            {products?.totalElements || resultsSearch?.totalElements} mặt hàng
-            được tìm kiếm theo {search}
+            {products?.totalElements || resultsSearch?.totalElements} {items_searched_by} {convertNameToEnglish(id, languageData)}
           </p>
           <div className={cx("filter-item")}>
-            <span className={cx("label")}>Sắp xếp theo:</span>
+            <span className={cx("label")}>{sorted_by}</span>
             <FormControl size="small" className={cx("item")} variant="outlined">
               <Select
                 labelId="select-label"
@@ -151,20 +168,14 @@ function Content(props) {
                   backgroundColor: "var(--white-color)",
                 }}
               >
-                <MenuItem style={{ fontSize: "14px" }}
-                  value="All"
-                >
-                  Phù hợp nhất
+                <MenuItem style={{ fontSize: "14px" }} value="All">
+                  {best_match}
                 </MenuItem>
-                <MenuItem style={{ fontSize: "14px" }}
-                  value="priceAsc"
-                >
-                  Giá từ thấp đến cao
+                <MenuItem style={{ fontSize: "14px" }} value="priceAsc">
+                  {low_to_high}
                 </MenuItem>
-                <MenuItem style={{ fontSize: "14px" }}
-                  value="priceDesc"
-                >
-                  Giá từ cao xuống thấp
+                <MenuItem style={{ fontSize: "14px" }} value="priceDesc">
+                  {high_to_low}
                 </MenuItem>
               </Select>
             </FormControl>
@@ -176,7 +187,7 @@ function Content(props) {
       ) : (
         <>
           {products?.content?.length > 0 ||
-            resultsSearch?.content?.length > 0 ? (
+          resultsSearch?.content?.length > 0 ? (
             <div className={cx("content")}>
               <Grid container spacing={2}>
                 {displayProducts?.map((item) => (
@@ -187,7 +198,7 @@ function Content(props) {
               </Grid>
             </div>
           ) : (
-            <div className={cx("empty")}>Không tìm thấy sản phẩm</div>
+            <div className={cx("empty")}> {no_products_found} </div>
           )}
           {displayProducts?.length > 0 && (
             <div className={cx("pagination")}>

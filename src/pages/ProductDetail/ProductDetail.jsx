@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { useNavigate, useParams } from "react-router-dom";
@@ -22,12 +22,26 @@ import config from "~/config";
 import { addToCart, setSuccess } from "~/store/reducers/cartsSlice";
 import { selectProductsCategory } from "~/store/reducers/ProductsCategorySlice";
 import ProductItem from "../Product/ProductItem/ProductItem";
+import LanguageContext from "~/context/languageContext";
 
 const cx = classNames.bind(styles);
 
 ProductDetail.propTypes = {};
 
 function ProductDetail(props) {
+
+  const { languageData } = useContext(LanguageContext);
+  const { buy_now, 
+          add_to_cart,
+          product_detail_size,
+          product_detail_color,
+          product_detail_quantity,
+          from_the_same_shop,
+          name_shop,
+          address_shop,
+  } = languageData;
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(selectUser);
@@ -340,6 +354,13 @@ function ProductDetail(props) {
                   )}
 
                   {isLoading ? (
+                    <Skeleton animation="wave" height={40} width={"30%"} />
+                  ) : (
+                    <h3 className={cx("title")}>{product_detail_color}:</h3>
+                  )}
+
+
+                  {isLoading ? (
                     <div className={cx("options")}>
                       <Skeleton
                         animation="wave"
@@ -352,7 +373,7 @@ function ProductDetail(props) {
                     <div className={cx("options")}>
                       {colorOptions && colorOptions.length > 0 && (
                         <>
-                          <h3 className={cx("title")}>Chọn màu:</h3>
+                          <h3 className={cx("title")}>{product_detail_color}</h3>
                           <ButtonList
                             options={colorOptions}
                             onSelect={handleColorSelect}
@@ -363,6 +384,13 @@ function ProductDetail(props) {
                   )}
 
                   {isLoading ? (
+
+                    <Skeleton animation="wave" height={40} width={"30%"} />
+                  ) : (
+                    <h3 className={cx("title")}>{product_detail_size}</h3>
+                  )}
+                  {isLoading ? (
+
                     <div className={cx("options")}>
                       <Skeleton
                         animation="wave"
@@ -375,7 +403,7 @@ function ProductDetail(props) {
                     <div className={cx("options")}>
                       {sizeOptions && sizeOptions.length > 0 && (
                         <>
-                          <h3 className={cx("title")}>Chọn Size:</h3>
+                          <h3 className={cx("title")}>{product_detail_size}:</h3>
                           <ButtonList
                             options={sizeOptions}
                             onSelect={handleColorSelect}
@@ -388,7 +416,7 @@ function ProductDetail(props) {
                   {isLoading ? (
                     <Skeleton animation="wave" height={40} width={"30%"} />
                   ) : (
-                    <h3 className={cx("title")}>Chọn sô lượng:</h3>
+                    <h3 className={cx("title")}>{product_detail_quantity}</h3>
                   )}
                   {isLoading ? (
                     <div className={cx("amount")}>
@@ -442,10 +470,10 @@ function ProductDetail(props) {
                   ) : (
                     <div className={cx("shop")}>
                       <h3 className={cx("shop-name")}>
-                        Tên cửa hàng:{productDetail?.shop.name}
+                        {name_shop}{productDetail?.shop.name}
                       </h3>
                       <p className={cx("shop-address")}>
-                        Địa chỉ:{productDetail?.shop.address}
+                        {address_shop}{productDetail?.shop.address}
                       </p>
                     </div>
                   )}
@@ -469,13 +497,13 @@ function ProductDetail(props) {
                     ) : (
                       <>
                         <button className={`btn ${cx("btn-buy-now")}`}>
-                          Mua ngay
+                          {buy_now}
                         </button>
                         <button
                           onClick={handleAddToCart}
                           className={`btn ${cx("btn-add-cart")}`}
                         >
-                          Thêm vào giỏ hàng
+                          {add_to_cart}
                         </button>
                       </>
                     )}
@@ -511,7 +539,7 @@ function ProductDetail(props) {
           </div>
           <div className="px-8 mt-20 bg-gray-200 p-8">
             <h3 className="text-4xl text-black mb-10">
-              Sản phẩm bạn có thể biết
+              {from_the_same_shop}
             </h3>
             <Grid container spacing={2}>
               {products?.content?.map((item) => (

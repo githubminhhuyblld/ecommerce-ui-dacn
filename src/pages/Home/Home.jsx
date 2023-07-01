@@ -18,9 +18,6 @@ const cx = classNames.bind(styles);
 Home.propTypes = {};
 
 function Home(props) {
-  const { languageData } = useContext(LanguageContext);
-
-  const { Exclusively_for_you, button_load_more } = languageData;
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
   const [displayedProductCount, setDisplayedProductCount] = useState(24);
@@ -31,6 +28,9 @@ function Home(props) {
   const handleLoadMoreProducts = () => {
     setDisplayedProductCount((prevCount) => prevCount + 6);
   };
+
+  const { languageData } = useContext(LanguageContext);
+  const { just_for_you, load_more } = languageData;
   return (
     <main className={cx("wrapper")}>
       <Container>
@@ -38,7 +38,9 @@ function Home(props) {
         <Category />
         <div className={cx("wrapper-product")}>
           <div className={cx("header")}>
-            <h3 className={cx("header-text")}>{Exclusively_for_you}</h3>
+
+            <h3 className={cx("header-text")}>{just_for_you}</h3>
+
             <Grid container spacing={2}>
               {products?.data?.map((item, index) => {
                 return (
@@ -52,7 +54,8 @@ function Home(props) {
                   onClick={handleLoadMoreProducts}
                   className="py-6 px-8 bg-sky-400 text-white text-3xl rounded-lg hover:bg-sky-700"
                 >
-                  {button_load_more}
+
+                  {load_more}
                 </button>
               </div>
             </Grid>
