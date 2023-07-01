@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { animateScroll as scroll } from "react-scroll";
 import styles from "./ProductItem.module.scss";
 import { convertCurrency } from "~/untils/convertCurrency.js";
 import { selectLoading } from "~/store/reducers/productsSlice.js";
+import LanguageContext from "~/context/languageContext";
 
 const cx = classNames.bind(styles);
 
@@ -17,6 +18,12 @@ ProductItem.propTypes = {
 };
 
 function ProductItem(props) {
+
+  const { languageData } = useContext(LanguageContext);
+  const {
+    quantity_remaining,
+  } = languageData;
+
   const { product } = props;
   const navigate = useNavigate();
   const loading = useSelector(selectLoading);
@@ -40,6 +47,9 @@ function ProductItem(props) {
       </Card>
     );
   }
+
+ 
+
   return (
     <Link to={`/product-detail/${product.id}`} onClick={() => handleProductClick()} className={cx("wrapper")}>
       <Card>
@@ -69,7 +79,7 @@ function ProductItem(props) {
             <Typography variant="body2">
               <span className={cx("quantity")}>
                 {" "}
-                Số lượng còn: {product.quantity}
+                {quantity_remaining}: {product.quantity}
               </span>
             </Typography>
           </div>

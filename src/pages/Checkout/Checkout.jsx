@@ -15,13 +15,13 @@ function Checkout(props) {
   const dispatch = useDispatch();
   const carts = useSelector(selectCartItems);
   const products = useSelector(selectProducts);
-  const [displayedProductCount, setDisplayedProductCount] = useState(10);
+  const [displayedProductCount, setDisplayedProductCount] = useState(8);
 
   useEffect(() => {
     dispatch(fetchProducts(displayedProductCount));
   }, [dispatch, displayedProductCount]);
   const handleLoadMoreProducts = () => {
-    setDisplayedProductCount((prevCount) => prevCount + 5);
+    setDisplayedProductCount((prevCount) => prevCount + 4);
   };
 
   return (
@@ -35,7 +35,7 @@ function Checkout(props) {
           </h3>
           <Grid container spacing={2}>
             {products?.data?.map((item) => (
-              <Grid key={item.id} item lg={12 / 5} md={4} sm={6} xs={12}>
+              <Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
                 <ProductItem product={item} />
               </Grid>
             ))}

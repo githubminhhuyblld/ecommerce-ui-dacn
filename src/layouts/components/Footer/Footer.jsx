@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container, Grid } from "@mui/material";
@@ -44,10 +44,32 @@ import vietnam from "~/assets/footer/vietnam.png";
 import visa from "~/assets/footer/visa.jpg";
 import zalopay from "~/assets/footer/zalopay.png";
 import ytb from "~/assets/footer/ytb.png";
+import LanguageContext from "~/context/languageContext";
 
 const cx = classNames.bind(styles);
 
 function Footer(props) {
+  const { languageData } = useContext(LanguageContext);
+  const {contact_us,
+         hepl_center,
+         how_to_buy,
+         shipping_delivery,
+         international_product_policy,
+         how_to_return,
+         lazada_VN,
+         all_category,
+         about_lazada,
+         sell_on,
+         affiliate_program,
+         careers,
+         terms_condition,
+         privacy_policy,
+         press_media,
+         intellectual_property_protection,
+         operating_regulations,
+         Procedure_of_claim_and_dispute_handling,
+         download_app
+  } = languageData;
   return (
     <div className={cx("wrapper")}>
       <Container>
@@ -58,60 +80,60 @@ function Footer(props) {
         </div>
         <div className={cx("footer-information")}>
           <div className={cx("contact")}>
-            <h3 className={cx("title-contact")}>LIÊN HỆ VỚI LAZADA</h3>
+            <h3 className={cx("title-contact")}>{contact_us}</h3>
             <ul className={cx("list-contact")}>
               <li className={cx("item-contact")}>
-                <a href="#">Trung tâm trợ giúp</a>
+                <a href="#">{hepl_center}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Hướng dẫn đặt hàng</a>
+                <a href="#">{how_to_buy}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Giao hàng & Nhận hàng</a>
+                <a href="#">{shipping_delivery}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Chính sách hàng nhập khẩu</a>
+                <a href="#">{international_product_policy}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Hướng dẫn trả hàng</a>
+                <a href="#">{how_to_return}</a>
               </li>
             </ul>
           </div>
           <div className={cx("information")}>
-            <h3 className={cx("title-contact")}>LAZADA VIỆT NAM</h3>
+            <h3 className={cx("title-contact")}>{lazada_VN}</h3>
             <ul className={cx("list-information")}>
               <li className={cx("item-contact")}>
-                <a href="#">Tất cả danh mục</a>
+                <a href="#">{all_category}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Về Lazada Việt Nam</a>
+                <a href="#">{about_lazada}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Bán hàng cùng Lazada</a>
+                <a href="#">{sell_on}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Chương trinh Lazada Afﬁliate</a>
+                <a href="#">{affiliate_program}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Tuyển dụng</a>
+                <a href="#">{careers}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Điều khoản sử dụng</a>
+                <a href="#">{terms_condition}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Chính sách bảo mật</a>
+                <a href="#">{privacy_policy}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Báo chí</a>
+                <a href="#">{press_media}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Bảo vệ quyền sở hữu trí tuệ</a>
+                <a href="#">{intellectual_property_protection}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Quy chế hoạt động sàn Lazada</a>
+                <a href="#">{operating_regulations}</a>
               </li>
               <li className={cx("item-contact")}>
-                <a href="#">Quy trình giải quyết tranh chấp, khiếu nại</a>
+                <a href="#">{Procedure_of_claim_and_dispute_handling}</a>
               </li>
             </ul>
           </div>
@@ -123,7 +145,7 @@ function Footer(props) {
                 </div>
                 <div className={cx("web-app-left-content")}>
                   <h3>Go where your heart beats</h3>
-                  <p>Tải App Lazada</p>
+                  <p>{download_app}</p>
                 </div>
               </div>
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
@@ -8,13 +8,17 @@ import { Skeleton } from "@mui/material";
 import styles from "./CategoryItem.module.scss";
 import { useSelector } from "react-redux";
 import { selectCategoriesLoading } from "~/store/reducers/categoriesSlice.js";
+import LanguageContext from "~/context/languageContext";
+import convertNameToEnglish from "~/untils/convertLanguage";
 
 CategoryItem.propTypes = {
   categories: PropTypes.array,
 };
 const cx = classNames.bind(styles);
 
+
 function SampleNextArrow(props) {
+  // eslint-disable-next-line react/prop-types
   const { className, style, onClick } = props;
   return (
     <div
@@ -31,6 +35,7 @@ function SampleNextArrow(props) {
 }
 
 function SamplePrevArrow(props) {
+  // eslint-disable-next-line react/prop-types
   const { className, style, onClick } = props;
   return (
     <div
@@ -46,7 +51,11 @@ function SamplePrevArrow(props) {
   );
 }
 
+
 function CategoryItem(props) {
+
+const { languageData } = useContext(LanguageContext);
+
   const { categories } = props;
   const loading = useSelector(selectCategoriesLoading);
   const renderCategoryItem = (item) => {
@@ -73,7 +82,7 @@ function CategoryItem(props) {
         <div className={cx("box-image")}>
           <img className={cx("image")} alt={item.name} src={item.iconUrl} />
         </div>
-        <h3 className={cx("category-name")}>{item.name}</h3>
+        <h3 className={cx("category-name")}>{convertNameToEnglish(item.id, languageData)}</h3>
       </Link>
     );
   };
