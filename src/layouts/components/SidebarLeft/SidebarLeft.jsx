@@ -24,7 +24,7 @@ function SidebarLeft(props) {
           title: "Đơn hàng của tôi",
           children: [
             { id: 1, name: "Đơn hàng đổi trả", to: "" },
-            { id: 2, name: "Đona hàng hủy", to: "" },
+            { id: 2, name: "Đơn hàng hủy", to: "" },
           ],
         },
         {

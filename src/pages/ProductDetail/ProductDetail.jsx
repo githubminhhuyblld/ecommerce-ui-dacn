@@ -338,11 +338,6 @@ function ProductDetail(props) {
                       </span>
                     </div>
                   )}
-                  {isLoading ? (
-                    <Skeleton animation="wave" height={40} width={"30%"} />
-                  ) : (
-                    <h3 className={cx("title")}>Chọn màu:</h3>
-                  )}
 
                   {isLoading ? (
                     <div className={cx("options")}>
@@ -356,19 +351,17 @@ function ProductDetail(props) {
                   ) : (
                     <div className={cx("options")}>
                       {colorOptions && colorOptions.length > 0 && (
-                        <ButtonList
-                          options={colorOptions}
-                          onSelect={handleColorSelect}
-                        />
+                        <>
+                          <h3 className={cx("title")}>Chọn màu:</h3>
+                          <ButtonList
+                            options={colorOptions}
+                            onSelect={handleColorSelect}
+                          />
+                        </>
                       )}
                     </div>
                   )}
 
-                  {isLoading ? (
-                    <Skeleton animation="wave" height={40} width={"30%"} />
-                  ) : (
-                    <h3 className={cx("title")}>Chọn size:</h3>
-                  )}
                   {isLoading ? (
                     <div className={cx("options")}>
                       <Skeleton
@@ -381,10 +374,13 @@ function ProductDetail(props) {
                   ) : (
                     <div className={cx("options")}>
                       {sizeOptions && sizeOptions.length > 0 && (
-                        <ButtonList
-                          options={sizeOptions}
-                          onSelect={handleColorSelect}
-                        />
+                        <>
+                          <h3 className={cx("title")}>Chọn Size:</h3>
+                          <ButtonList
+                            options={sizeOptions}
+                            onSelect={handleColorSelect}
+                          />
+                        </>
                       )}
                     </div>
                   )}
