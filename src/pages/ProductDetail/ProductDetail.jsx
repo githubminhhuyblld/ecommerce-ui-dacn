@@ -29,18 +29,17 @@ const cx = classNames.bind(styles);
 ProductDetail.propTypes = {};
 
 function ProductDetail(props) {
-
   const { languageData } = useContext(LanguageContext);
-  const { button_buy_now, 
-          button_add_to_cart,
-          product_size,
-          product_color,
-          product_quantity,
-          from_the_same_shop,
-          name_shop,
-          seller_shop_address,
+  const {
+    button_buy_now,
+    button_add_to_cart,
+    product_size,
+    product_color,
+    product_quantity,
+    from_the_same_shop,
+    name_shop,
+    seller_shop_address,
   } = languageData;
-
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -353,14 +352,11 @@ function ProductDetail(props) {
                     </div>
                   )}
 
-
                   {isLoading ? (
                     <Skeleton animation="wave" height={40} width={"30%"} />
                   ) : (
                     ""
                   )}
-
-
 
                   {isLoading ? (
                     <div className={cx("options")}>
@@ -375,9 +371,7 @@ function ProductDetail(props) {
                     <div className={cx("options")}>
                       {colorOptions && colorOptions.length > 0 && (
                         <>
-
                           <h3 className={cx("title")}>{product_color}</h3>
-
 
                           <ButtonList
                             options={colorOptions}
@@ -389,14 +383,11 @@ function ProductDetail(props) {
                   )}
 
                   {isLoading ? (
-
-
                     <Skeleton animation="wave" height={40} width={"30%"} />
                   ) : (
-                   ""
+                    ""
                   )}
                   {isLoading ? (
-
                     <div className={cx("options")}>
                       <Skeleton
                         animation="wave"
@@ -409,10 +400,7 @@ function ProductDetail(props) {
                     <div className={cx("options")}>
                       {sizeOptions && sizeOptions.length > 0 && (
                         <>
-
                           <h3 className={cx("title")}>{product_size}:</h3>
-
-                          <h3 className={cx("title")}>Chọn Size:</h3>
 
                           <ButtonList
                             options={sizeOptions}
@@ -480,10 +468,12 @@ function ProductDetail(props) {
                   ) : (
                     <div className={cx("shop")}>
                       <h3 className={cx("shop-name")}>
-                        {name_shop}{productDetail?.shop.name}
+                        {name_shop}
+                        {productDetail?.shop.name}
                       </h3>
                       <p className={cx("shop-address")}>
-                        {seller_shop_address + ":"}{productDetail?.shop.address}
+                        {seller_shop_address + ":"}
+                        {productDetail?.shop.address}
                       </p>
                     </div>
                   )}
@@ -548,9 +538,7 @@ function ProductDetail(props) {
             </p>
           </div>
           <div className="px-8 mt-20 bg-gray-200 p-8">
-            <h3 className="text-4xl text-black mb-10">
-              {from_the_same_shop}
-            </h3>
+            <h3 className="text-4xl text-black mb-10">{from_the_same_shop}</h3>
             <Grid container spacing={2}>
               {products?.content?.map((item) => (
                 <Grid key={item.id} item lg={12 / 5} md={4} sm={6} xs={12}>
