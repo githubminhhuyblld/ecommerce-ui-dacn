@@ -352,11 +352,13 @@ function ProductDetail(props) {
                       </span>
                     </div>
                   )}
+
                   {isLoading ? (
                     <Skeleton animation="wave" height={40} width={"30%"} />
                   ) : (
-                    <h3 className={cx("title")}>{product_detail_color}</h3>
+                    <h3 className={cx("title")}>{product_detail_color}:</h3>
                   )}
+
 
                   {isLoading ? (
                     <div className={cx("options")}>
@@ -370,20 +372,25 @@ function ProductDetail(props) {
                   ) : (
                     <div className={cx("options")}>
                       {colorOptions && colorOptions.length > 0 && (
-                        <ButtonList
-                          options={colorOptions}
-                          onSelect={handleColorSelect}
-                        />
+                        <>
+                          <h3 className={cx("title")}>{product_detail_color}</h3>
+                          <ButtonList
+                            options={colorOptions}
+                            onSelect={handleColorSelect}
+                          />
+                        </>
                       )}
                     </div>
                   )}
 
                   {isLoading ? (
+
                     <Skeleton animation="wave" height={40} width={"30%"} />
                   ) : (
                     <h3 className={cx("title")}>{product_detail_size}</h3>
                   )}
                   {isLoading ? (
+
                     <div className={cx("options")}>
                       <Skeleton
                         animation="wave"
@@ -395,10 +402,13 @@ function ProductDetail(props) {
                   ) : (
                     <div className={cx("options")}>
                       {sizeOptions && sizeOptions.length > 0 && (
-                        <ButtonList
-                          options={sizeOptions}
-                          onSelect={handleColorSelect}
-                        />
+                        <>
+                          <h3 className={cx("title")}>{product_detail_size}:</h3>
+                          <ButtonList
+                            options={sizeOptions}
+                            onSelect={handleColorSelect}
+                          />
+                        </>
                       )}
                     </div>
                   )}
