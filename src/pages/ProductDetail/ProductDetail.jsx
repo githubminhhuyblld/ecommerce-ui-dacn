@@ -353,11 +353,13 @@ function ProductDetail(props) {
                     </div>
                   )}
 
+
                   {isLoading ? (
                     <Skeleton animation="wave" height={40} width={"30%"} />
                   ) : (
                     ""
                   )}
+
 
 
                   {isLoading ? (
@@ -373,7 +375,10 @@ function ProductDetail(props) {
                     <div className={cx("options")}>
                       {colorOptions && colorOptions.length > 0 && (
                         <>
+
                           <h3 className={cx("title")}>{product_color}</h3>
+
+
                           <ButtonList
                             options={colorOptions}
                             onSelect={handleColorSelect}
@@ -384,6 +389,7 @@ function ProductDetail(props) {
                   )}
 
                   {isLoading ? (
+
 
                     <Skeleton animation="wave" height={40} width={"30%"} />
                   ) : (
@@ -403,7 +409,11 @@ function ProductDetail(props) {
                     <div className={cx("options")}>
                       {sizeOptions && sizeOptions.length > 0 && (
                         <>
+
                           <h3 className={cx("title")}>{product_size}:</h3>
+
+                          <h3 className={cx("title")}>Chọn Size:</h3>
+
                           <ButtonList
                             options={sizeOptions}
                             onSelect={handleColorSelect}
