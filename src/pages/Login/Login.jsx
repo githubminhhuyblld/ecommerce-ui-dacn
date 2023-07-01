@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import { TextField, InputAdornment, IconButton, Grid } from "@material-ui/core";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -20,10 +20,21 @@ import config from "~/config/index.jsx";
 import { fetchUserInfo, setAuthenticated } from "~/store/reducers/userSlice.js";
 import { loginGoogleService } from "~/services/workspacesService.jsx";
 import { setSuccess } from "~/store/reducers/cartsSlice";
+import LanguageContext from "~/context/languageContext";
 
 const cx = classNames.bind(styles);
 
 function Login(props) {
+
+  const {languageData} = useContext(LanguageContext);
+  const {welcome_to_log_in,
+    login_forgot,
+    new_member,
+    here,
+    header_login,
+    header_signup,
+  } = languageData;
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
@@ -114,7 +125,7 @@ function Login(props) {
       <Grid container alignItems="center" justifyContent="center">
         <Grid item sm={8} md={6} lg={4}>
           <h3 className={cx("title")}>
-            Chào mừng đến với Lazada. Đăng nhập ngay!
+            {welcome_to_log_in}!
           </h3>
           <form className={cx("form-login")}>
             {errorMessage.length > 0 && (
@@ -169,7 +180,7 @@ function Login(props) {
               {formik.touched.password && formik.errors.password}
             </span>
             <a className={cx("forgot-pass")} href="">
-              Quên mật khẩu
+              {login_forgot}
             </a>
             <div className={cx("order")}>
               <GoogleOAuthProvider clientId="690152027840-d8gf9jqqn4rkdl4osirgt6rg2l8nsdka.apps.googleusercontent.com">
@@ -188,11 +199,11 @@ function Login(props) {
             </div>
 
             <p className={cx("register-link")}>
-              Thành viên mới?{" "}
+              {new_member}?{" "}
               <Link className="text-sky-600 mr-2" to={config.routes.register}>
-                Đăng ký
+                {header_signup}
               </Link>
-              tại đây
+              {here}
             </p>
 
             <div className={cx("submit")}>
@@ -201,7 +212,7 @@ function Login(props) {
                 className={`btn ${cx("btn-login")}`}
                 onClick={formik.handleSubmit}
               >
-                Đăng nhập
+                {header_login}
               </button>
             </div>
           </form>

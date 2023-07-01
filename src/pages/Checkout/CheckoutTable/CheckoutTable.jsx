@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import classNames from "classnames/bind";
 import {
   Table,
@@ -34,10 +34,28 @@ import {
 } from "~/store/reducers/cartsSlice";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import config from "~/config";
+import LanguageContext from "~/context/languageContext";
 
 const cx = classNames.bind(styles);
 
 const CheckoutTable = (props) => {
+
+  const { languageData } = useContext(LanguageContext);
+  const {   
+    continue_to_buy,
+    add_product_name,
+    edit_product_quantity,
+    button_cancel,
+    button_confirm,
+    td_product_image,
+    add_product_price,
+    product_quantity,
+    checkout_function,
+    td_order_total_price,
+    order_confirmation,
+    cart_title_no_product,
+  } = languageData;
+
   const { carts, isOrder } = props;
   const dispatch = useDispatch();
   const classes = useTableStyles();
@@ -104,11 +122,11 @@ const CheckoutTable = (props) => {
           to={config.routes.home}
           className="p-5 mb-12 flex w-full md:w-2/6 justify-center items-center text-[16px] bg-sky-400 opacity-100 rounded-2xl text-white hover:opacity-80"
         >
-          <AiOutlineArrowLeft className="text-3xl mr-4" /> Tiếp tục mua hàng
+          <AiOutlineArrowLeft className="text-3xl mr-4" /> {continue_to_buy}
         </Link>
       )}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Sửa số lượng sản phẩm</DialogTitle>
+        <DialogTitle>{edit_product_quantity}</DialogTitle>
         <DialogContent>
           <DialogContentText>{cartItem.name}</DialogContentText>
           <InputBase
@@ -135,10 +153,10 @@ const CheckoutTable = (props) => {
         </DialogContent>
         <DialogActions style={{ paddingRight: "12px" }}>
           <button className={cx("btn-cancel")} onClick={handleClose}>
-            Hủy bỏ
+            {button_cancel}
           </button>
           <button className={cx("btn-Agree")} onClick={handleAgree}>
-            Đồng ý
+            {button_confirm}
           </button>
         </DialogActions>
       </Dialog>
@@ -155,31 +173,31 @@ const CheckoutTable = (props) => {
                   style={{ whiteSpace: "nowrap" }}
                   className={classes.tableCell}
                 >
-                  Tên sản phẩm
+                  {add_product_name}
                 </TableCell>
                 <TableCell
                   style={{ whiteSpace: "nowrap" }}
                   className={classes.tableCell}
                 >
-                  Hình ảnh
+                  {td_product_image}
                 </TableCell>
                 <TableCell
                   style={{ whiteSpace: "nowrap" }}
                   className={classes.tableCell}
                 >
-                  Giá
+                 {add_product_price}
                 </TableCell>
                 <TableCell
                   style={{ whiteSpace: "nowrap" }}
                   className={classes.tableCell}
                 >
-                  Số lượng
+                  {product_quantity}
                 </TableCell>
                 <TableCell
                   style={{ whiteSpace: "nowrap" }}
                   className={classes.tableCell}
                 >
-                  Chức năng
+                  {checkout_function}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -243,7 +261,7 @@ const CheckoutTable = (props) => {
         >
           <Grid item md={4}>
             <div className={cx("total-price")}>
-              <p className={cx("title")}>Tổng tiền:</p>
+              <p className={cx("title")}>{td_order_total_price}:</p>
               <p className={cx("price")}>
                 {convertCurrency(carts?.data?.[0]?.totalPrice)}
               </p>
@@ -252,7 +270,7 @@ const CheckoutTable = (props) => {
           <Grid container justifyContent={"flex-end"} item md={3}>
             <div className={cx("payment")}>
               <Link to={config.routes.order} className={cx("btn-payment")}>
-                Xác nhận đơn hàng
+                {order_confirmation}
               </Link>
             </div>
           </Grid>
@@ -265,9 +283,9 @@ const CheckoutTable = (props) => {
         to={config.routes.home}
         className="p-5 mb-12 flex items-center text-[16px] bg-sky-400 opacity-100 rounded-2xl text-white hover:opacity-80"
       >
-        <AiOutlineArrowLeft className="text-3xl" /> Tiếp tục mua hàng
+        <AiOutlineArrowLeft className="text-3xl" /> {continue_to_buy}
       </Link>
-      <h3 className={cx("empty-title")}>Chưa có sản phẩm trong giỏ hàng</h3>
+      <h3 className={cx("empty-title")}>{cart_title_no_product}</h3>
     </div>
   );
 };
