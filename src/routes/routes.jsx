@@ -21,6 +21,7 @@ import ManageLayoutProcessingOrders from "~/pages/Seller/ShopOrder/ProcessingOrd
 import ManageLayoutLastedOrder from "~/pages/Seller/ShopOrder/LastedOrder/ManageLayoutLastedOrder";
 import ManageLayoutReadyOrders from "~/pages/Seller/ShopOrder/ReadyOrder/ManageLayoutReadyOrders";
 import ManageLayoutEditShop from "~/pages/Seller/EditShop/ManageLayoutEditShop";
+import UpdatePassword from "~/pages/UpdatePassword/UpdatePassword";
 
 
 const publicRoutes = [
@@ -36,6 +37,7 @@ const publicRoutes = [
     {path: config.routes.order, component: Order},
     {path: config.routes.editAddress, component: EditAddress},
     {path: config.routes.editProfile, component: EditProfile},
+    {path: config.routes.updatePassword, component: UpdatePassword},
     {path: config.routes.createAddress, component: CreateAddressPage},
     {path: config.routes.seller, component: Seller, layout: null},
     {path: config.routes.activeAddress, component: WatingShopRegister},

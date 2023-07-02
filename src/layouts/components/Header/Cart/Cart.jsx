@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Badge } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -11,7 +10,7 @@ import config from "~/config";
 import { clearCart, getCartItems, selectSuccess } from "~/store/reducers/cartsSlice";
 import { selectUser } from "~/store/reducers/userSlice";
 
-Cart.propTypes = {};
+
 const cx = classNames.bind(styles);
 
 function Cart(props) {
