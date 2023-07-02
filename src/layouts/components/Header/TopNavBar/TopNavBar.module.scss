@@ -34,7 +34,6 @@
 }
 .dropdown{
   display: flex;
-  align-items: center;
   flex-direction: column;
   background-color: #fff;
   border-radius: 4px;
@@ -58,6 +57,7 @@
 .dropdown-item{
   display: flex;
   cursor: pointer;
+  justify-content: flex-start;
   font-size: 1.4rem;
   color: var(--text-color);
   align-items: center;

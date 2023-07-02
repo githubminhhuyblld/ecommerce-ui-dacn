@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container } from "@mui/material";
@@ -9,8 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./TopNavBar.module.scss";
 import config from "~/config/index.jsx";
-import { RiEnglishInput, RiLogoutCircleRLine } from "react-icons/ri";
-import { AiFillStar } from "react-icons/ai";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 import { FiUserPlus } from "react-icons/fi";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { TbBrandSamsungpass } from "react-icons/tb";
@@ -24,7 +23,7 @@ import AuthService from "~/services/auth/AuthService.jsx";
 import { clearCart, setSuccess } from "~/store/reducers/cartsSlice";
 import { selectSuccessAddress } from "~/store/reducers/locationSlice";
 import LanguageContext from "~/context/languageContext";
-import Language from "../Language/Language";
+import Language from "~/layouts/components/Header/Language/Language.jsx";
 
 const cx = classNames.bind(styles);
 
@@ -119,10 +118,12 @@ function TopNavBar(props) {
                       {order_information}
                     </span>
                   </Link>
-                  <span className={cx("dropdown-item")}>
-                    <TbBrandSamsungpass />
-                    {info_change_password}
-                  </span>
+                  <Link to={config.routes.updatePassword}>
+                    <span className={cx("dropdown-item")}>
+                      <TbBrandSamsungpass />
+                      {info_change_password}
+                    </span>
+                  </Link>
                   <span onClick={handleLogout} className={cx("dropdown-item")}>
                     <RiLogoutCircleRLine />
                     {header_user_down_logout}
