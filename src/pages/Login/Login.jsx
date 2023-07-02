@@ -38,13 +38,7 @@ function Login(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
-  function getPreviousPage() {
-    window.history.back(); // Chuyển hướng trở lại trang trước đó
-    const previousPage = window.location.href; // Lấy đường dẫn của trang hiện tại
-    window.history.forward(); // Di chuyển tiến trở lại để không ảnh hưởng đến lịch sử duyệt web
-  
-    return previousPage;
-  }
+
 
   const formik = useFormik({
     initialValues: {

@@ -15,6 +15,23 @@ export const fetchUserInfo = createAsyncThunk(
     }
   }
 );
+export const updatePassword = createAsyncThunk(
+  "user/UpdatePassword",
+  async ({ userId, body }, { rejectWithValue }) => {
+    try {
+      const response = await instance.post(
+        `/users/update/password/${userId}`,
+        body,
+        {
+          headers: authHeader(),
+        }
+      );
+      return response.status;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -42,6 +59,17 @@ const userSlice = createSlice({
         state.info = action.payload;
       })
       .addCase(fetchUserInfo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updatePassword.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updatePassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(updatePassword.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
