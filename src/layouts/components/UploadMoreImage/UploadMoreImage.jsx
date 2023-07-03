@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import ImageUploading from "react-images-uploading";
 
-
 const UploadMoreImage = ({ onChange, thumails, isLoading }) => {
   const [images, setImages] = useState([]);
 
@@ -48,12 +47,12 @@ const UploadMoreImage = ({ onChange, thumails, isLoading }) => {
           >
             Xoát tất cả
           </button>
-          <div className="flex items-center">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {images.map((image, index) => (
-              <div className=" px-4 " key={index}>
-                <div className=" flex flex-col w-[120px] h-[200px]">
+              <div className="px-0" key={index}>
+                <div className="flex flex-col w-[120px] h-[200px]">
                   <img
-                    className="w-full h-[120px] object-cover border-2 border-primary"
+                    className="w-full  h-[120px] object-cover border-2 border-primary"
                     src={image.data_url || image.imgUrl}
                     alt=""
                   />
@@ -85,9 +84,9 @@ const UploadMoreImage = ({ onChange, thumails, isLoading }) => {
   );
 };
 UploadMoreImage.propTypes = {
-  onChange:PropTypes.func.isRequired,
-  thumails:PropTypes.array,
-  isLoading:PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
+  thumails: PropTypes.array,
+  isLoading: PropTypes.bool,
 };
 
 export default UploadMoreImage;
