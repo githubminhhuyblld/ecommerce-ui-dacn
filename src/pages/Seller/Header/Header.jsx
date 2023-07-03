@@ -58,7 +58,8 @@ function Header(props) {
   const user = useSelector(selectUser);
 
   const fullName = user !== null && user.lastName + " " + user.firstName;
-
+  const ava = user === null ? user?.image : AvatarEmpty
+  
   const handleLogout = () => {
     AuthService.logout();
     dispatch(setAuthenticated(false));
@@ -237,7 +238,7 @@ function Header(props) {
             <div className="flex flex-row items-center space-x-1 px-2 py-1 cursor-pointer hover:bg-slate-300 rounded-full">
               <img
                 className="w-14 h-14 bg-slate-300 rounded-full"
-                src={user === null ? AvatarEmpty : user.image}
+                src={ava}
                 alt="user"
               />
               <span className="text-3xl font-bold text-gray-600 hidden md:block ">

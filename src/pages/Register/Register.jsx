@@ -213,7 +213,7 @@ function Register(props) {
               <TextField
                 name="numberPhone"
                 className={cx("input-field")}
-                placeholder="Email"
+                placeholder="Số điện thoại"
                 type={"email"}
                 value={formik.values.numberPhone}
                 onChange={formik.handleChange}

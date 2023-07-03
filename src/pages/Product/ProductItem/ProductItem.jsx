@@ -35,7 +35,6 @@ function ProductItem(props) {
     return { id: item.id, original: item.imgUrl, thumbnail: item.imgUrl };
   });
 
-  console.log(product);
   const renderImageItem = (item) => {
     return (
       <div className={cx("product-original-image")}>
