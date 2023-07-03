@@ -516,25 +516,8 @@ function ProductDetail(props) {
             <h3 className="text-3xl p-8">
               Mô tả sản phẩm {productDetail?.name}
             </h3>
-            <p className="px-8">
-              Máy pha cà phê tự động là một thiết bị tiện dụng và đa chức năng
-              được thiết kế để tạo ra những tách cà phê chất lượng cao ngay tại
-              nhà hoặc văn phòng. Với công nghệ tiên tiến và tính năng đa dạng,
-              máy pha cà phê tự động mang lại trải nghiệm pha cà phê chuyên
-              nghiệp và thỏa mãn như ở các quán cà phê hàng đầu. Máy pha cà phê
-              tự động có một loạt các chức năng và điều khiển thông minh, cho
-              phép người dùng tùy chỉnh và lựa chọn theo sở thích cá nhân. Máy
-              được trang bị một hệ thống pha cà phê tự động với một nắp chứa cà
-              phê, một bình chứa nước, và một bộ lọc. Người dùng chỉ cần đổ cà
-              phê và nước vào máy, lựa chọn các thiết lập và một nút nhấn, máy
-              sẽ tự động xử lý quá trình pha cà phê từ việc xay cà phê, nén cà
-              phê, đổ nước nóng và thu hoạch cà phê tươi ngon trong thời gian
-              ngắn. Máy pha cà phê tự động cung cấp một loạt các loại cà phê
-              khác nhau để đáp ứng nhu cầu đa dạng của người dùng. Người dùng có
-              thể lựa chọn từ cà phê đen, cà phê sữa, espresso, cappuccino và
-              nhiều hơn nữa. Ngoài ra, máy còn cho phép điều chỉnh độ mịn của cà
-              phê xay, nhiệt độ nước, và tỷ lệ cà phê-nước để tạo ra ly cà phê
-              hoàn hảo theo sở thích cá nhân.
+            <p className="px-8 py-4">
+              {productDetail?.description}
             </p>
           </div>
           <div className="px-8 mt-20 bg-gray-200 p-8">
