@@ -58,8 +58,8 @@ function Header(props) {
   const user = useSelector(selectUser);
 
   const fullName = user !== null && user.lastName + " " + user.firstName;
-  const ava = user === null ? user?.image : AvatarEmpty
-  
+  const ava = user === null ? user?.image : AvatarEmpty;
+
   const handleLogout = () => {
     AuthService.logout();
     dispatch(setAuthenticated(false));
@@ -68,6 +68,7 @@ function Header(props) {
     dispatch(resetUser());
     localStorage.removeItem("shopInfo");
     navigate(config.routes.login);
+    setIsDrawerOpen(false)
   };
   return (
     <header className=" w-full px-1 sm:px-10 border-b border-gray-200  bg-white shadow">
