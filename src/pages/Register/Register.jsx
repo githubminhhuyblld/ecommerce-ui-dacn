@@ -96,7 +96,7 @@ function Register(props) {
       <h3 className={cx("title")}>Tạo tài khoản Lazada!</h3>
       <form className={cx("form-register")}>
         <Grid container justifyContent="center">
-          <Grid item sm={12} md={6} lg={4} style={{ width: "100%" }}>
+          <Grid item xs={12} sm={12} md={6} lg={4} style={{ width: "100%" }}>
             <div className={cx("form-left")}>
               <label className={cx("label-item")}>
                 Tên tài khoản <span>*</span>
