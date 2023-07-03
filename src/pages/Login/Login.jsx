@@ -73,6 +73,7 @@ function Login(props) {
       } catch (error) {
         if (error.response.status === 400) {
           setErrorMessage("Tài khoản hoặc mật khẩu không đúng");
+          setIsLoading(false);
         }
       }
     },
@@ -117,6 +118,10 @@ function Login(props) {
         setIsLoading(false);
       }
     }
+    else{
+      setIsLoading(false);
+    }
+    
   };
 
   const loginErrorHandler = () => {

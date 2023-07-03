@@ -147,38 +147,45 @@ function Content(props) {
           style={
             id
               ? { justifyContent: "space-between" }
-              : { justifyContent: "flex-end" }
+              : { justifyContent: "flex-start" }
           }
           className={cx("function-header")}
         >
           <p className={cx("result")}>
-            {products?.totalElements || resultsSearch?.totalElements} {items_searched_by} {convertNameToEnglish(id, languageData)}
+            {products?.totalElements || resultsSearch?.totalElements}{" "}
+            {items_searched_by} {convertNameToEnglish(id, languageData)}
           </p>
           <div className={cx("filter-item")}>
-            <span className={cx("label")}>{sorted_by}</span>
-            <FormControl size="small" className={cx("item")} variant="outlined">
-              <Select
-                labelId="select-label"
-                id="select"
+            <div className="flex flex-col md:flex-row md:items-center">
+              <span style={{textAlign:"left"}} className={cx("label")}>{sorted_by}</span>
+              <FormControl
+                size="small"
+                className={cx("item")}
                 variant="outlined"
-                value={selectedValue}
-                onChange={handleChangeFilter}
-                style={{
-                  fontSize: "14px",
-                  backgroundColor: "var(--white-color)",
-                }}
               >
-                <MenuItem style={{ fontSize: "14px" }} value="All">
-                  {best_match}
-                </MenuItem>
-                <MenuItem style={{ fontSize: "14px" }} value="priceAsc">
-                  {low_to_high}
-                </MenuItem>
-                <MenuItem style={{ fontSize: "14px" }} value="priceDesc">
-                  {high_to_low}
-                </MenuItem>
-              </Select>
-            </FormControl>
+                <Select
+                  labelId="select-label"
+                  id="select"
+                  variant="outlined"
+                  value={selectedValue}
+                  onChange={handleChangeFilter}
+                  style={{
+                    fontSize: "14px",
+                    backgroundColor: "var(--white-color)",
+                  }}
+                >
+                  <MenuItem style={{ fontSize: "14px" }} value="All">
+                    {best_match}
+                  </MenuItem>
+                  <MenuItem style={{ fontSize: "14px" }} value="priceAsc">
+                    {low_to_high}
+                  </MenuItem>
+                  <MenuItem style={{ fontSize: "14px" }} value="priceDesc">
+                    {high_to_low}
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </div>
           </div>
         </div>
       </div>
