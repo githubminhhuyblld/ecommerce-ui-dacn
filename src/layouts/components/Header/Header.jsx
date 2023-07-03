@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
+import { IconButton } from "@mui/material";
 
 import styles from "./Header.module.scss";
 import config from "~/config/index.jsx";
@@ -17,9 +18,16 @@ const cx = classNames.bind(styles);
 
 function Header(props) {
   const isTablet = useMediaQuery({ minWidth: 768 });
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const handleDrawerToggle = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
   return (
     <div className={cx("wrapper")}>
-      <TopNavBar />
+      <TopNavBar
+        isDrawerOpen={isDrawerOpen}
+        handleDrawerToggle={handleDrawerToggle}
+      />
       <Container>
         <header className={cx("header-wrapper")}>
           <Grid container alignItems="center" className={cx("header-height")}>
@@ -31,7 +39,14 @@ function Header(props) {
               </Grid>
             ) : (
               <span className={cx("menu")}>
-                <RxHamburgerMenu />
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  onClick={handleDrawerToggle}
+                >
+                  <RxHamburgerMenu />
+                </IconButton>
               </span>
             )}
             <Grid item md={7} lg={7} sm={7} style={{ flex: 1 }}>

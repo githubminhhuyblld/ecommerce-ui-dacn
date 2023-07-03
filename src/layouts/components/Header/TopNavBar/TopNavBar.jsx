@@ -6,11 +6,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import Tippy from "@tippyjs/react/headless";
 import { useDispatch, useSelector } from "react-redux";
+import { Drawer } from "@mui/material";
+import { Avatar } from "@material-ui/core";
 
 import styles from "./TopNavBar.module.scss";
 import config from "~/config/index.jsx";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { FiUserPlus } from "react-icons/fi";
+import AvatarEmpty from "~/assets/user/avatar.jpg";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { TbBrandSamsungpass } from "react-icons/tb";
 import {
@@ -24,12 +27,21 @@ import { clearCart, setSuccess } from "~/store/reducers/cartsSlice";
 import { selectSuccessAddress } from "~/store/reducers/locationSlice";
 import LanguageContext from "~/context/languageContext";
 import Language from "~/layouts/components/Header/Language/Language.jsx";
+import { AiOutlineHome, AiOutlineHeart,AiOutlineLogin } from "react-icons/ai";
+import { MdManageAccounts } from "react-icons/md";
+import { BsShop } from "react-icons/bs";
+import {BiRegistered} from "react-icons/bi"
+import { CgArrowsExchangeAlt } from "react-icons/cg";
 
 const cx = classNames.bind(styles);
 
-TopNavBar.propTypes = {};
+TopNavBar.propTypes = {
+  isDrawerOpen: PropTypes.bool,
+  handleDrawerToggle: PropTypes.func,
+};
 
 function TopNavBar(props) {
+  const { isDrawerOpen, handleDrawerToggle } = props;
   const isDesktop = useMediaQuery({ minWidth: 1024 });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -75,6 +87,7 @@ function TopNavBar(props) {
     order_information,
     header_user_down_logout,
     sidebar_hello,
+    home,
   } = languageData;
 
   return (
@@ -139,6 +152,79 @@ function TopNavBar(props) {
           )}
         </div>
       </Container>
+      <Drawer anchor="left" open={isDrawerOpen} onClose={handleDrawerToggle}>
+        <div className="w-[300px] flex flex-col px-2 py-6">
+          <div className="mb-12 flex items-center justify-between px-4">
+            <h3 className="text-2xl text-primary">
+              {" "}
+              {sidebar_hello}:{" "}
+              {user !== null && user?.lastName + " " + user?.firstName}
+            </h3>
+            <Avatar
+              alt="Remy Sharp"
+              src={user !== null ? user?.image : AvatarEmpty}
+              sx={{ width: 22, height: 22 }}
+            />
+          </div>
+          <Link
+            className="text-3xl flex items-center normal-case py-3 px-2 hover:bg-slate-100 mb-2"
+            onClick={() => handleDrawerToggle()}
+            to={config.routes.home}
+          >
+            <AiOutlineHome className="text-3xl mr-3" />
+            {home}
+          </Link>
+          {!isAuthenticated ? (
+            <>
+              <Link
+                className="text-3xl flex items-center normal-case py-3 px-2 hover:bg-slate-100 mb-2"
+                onClick={() => handleDrawerToggle()}
+                to={config.routes.login}
+              >
+                <AiOutlineLogin className="text-3xl mr-3"/>
+                {header_login}
+              </Link>
+              <Link
+                className="text-3xl flex items-center py-3 px-2 hover:bg-slate-100 mb-2"
+                onClick={() => handleDrawerToggle()}
+                to={config.routes.register}
+              >
+                 <BiRegistered className="text-3xl mr-3" />
+                {header_signup}
+              </Link>
+            </>
+          ) : (
+            <Link
+              className="text-3xl flex items-center py-3 px-2 hover:bg-slate-100 mb-2"
+              onClick={() => handleDrawerToggle()}
+              to={config.routes.account}
+            >
+              <MdManageAccounts className="text-3xl mr-3" />
+              {account_information}
+            </Link>
+          )}
+          <Link
+            className="text-3xl flex items-center py-3 px-2 hover:bg-slate-100 mb-2"
+            onClick={() => handleDrawerToggle()}
+            to={config.routes.seller}
+          >
+            <BsShop className="text-3xl mr-3" />
+            {sell_on_lazada}
+          </Link>
+          <div className="py-3 flex items-center px-2">
+            <CgArrowsExchangeAlt className="text-3xl mr-3"/>
+            <Language isTablet={true} />
+          </div>
+          <Link
+            className="text-3xl flex items-center  py-3 px-2 hover:bg-slate-100 mb-2"
+            onClick={() => handleDrawerToggle()}
+            to={config.routes.infoOrder}
+          >
+            <AiOutlineHeart className="text-3xl mr-3" />
+            {order_information}
+          </Link>
+        </div>
+      </Drawer>
     </div>
   );
 }
