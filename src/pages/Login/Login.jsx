@@ -117,7 +117,7 @@ function Login(props) {
   return (
     <div className={cx("wrapper")}>
       <Grid container alignItems="center" justifyContent="center">
-        <Grid item sm={8} md={6} lg={4}>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
           <h3 className={cx("title")}>
             {welcome_to_log_in}!
           </h3>

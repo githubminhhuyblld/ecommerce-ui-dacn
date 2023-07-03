@@ -27,10 +27,10 @@ import { clearCart, setSuccess } from "~/store/reducers/cartsSlice";
 import { selectSuccessAddress } from "~/store/reducers/locationSlice";
 import LanguageContext from "~/context/languageContext";
 import Language from "~/layouts/components/Header/Language/Language.jsx";
-import { AiOutlineHome, AiOutlineHeart,AiOutlineLogin } from "react-icons/ai";
+import { AiOutlineHome, AiOutlineHeart, AiOutlineLogin } from "react-icons/ai";
 import { MdManageAccounts } from "react-icons/md";
 import { BsShop } from "react-icons/bs";
-import {BiRegistered} from "react-icons/bi"
+import { BiRegistered } from "react-icons/bi";
 import { CgArrowsExchangeAlt } from "react-icons/cg";
 
 const cx = classNames.bind(styles);
@@ -181,7 +181,7 @@ function TopNavBar(props) {
                 onClick={() => handleDrawerToggle()}
                 to={config.routes.login}
               >
-                <AiOutlineLogin className="text-3xl mr-3"/>
+                <AiOutlineLogin className="text-3xl mr-3" />
                 {header_login}
               </Link>
               <Link
@@ -189,7 +189,7 @@ function TopNavBar(props) {
                 onClick={() => handleDrawerToggle()}
                 to={config.routes.register}
               >
-                 <BiRegistered className="text-3xl mr-3" />
+                <BiRegistered className="text-3xl mr-3" />
                 {header_signup}
               </Link>
             </>
@@ -212,7 +212,7 @@ function TopNavBar(props) {
             {sell_on_lazada}
           </Link>
           <div className="py-3 flex items-center px-2">
-            <CgArrowsExchangeAlt className="text-3xl mr-3"/>
+            <CgArrowsExchangeAlt className="text-3xl mr-3" />
             <Language isTablet={true} />
           </div>
           <Link
@@ -223,6 +223,13 @@ function TopNavBar(props) {
             <AiOutlineHeart className="text-3xl mr-3" />
             {order_information}
           </Link>
+          <span
+            onClick={handleLogout}
+            className="py-3 text-3xl   flex items-center px-2 cursor-pointer hover:bg-slate-100 "
+          >
+            <RiLogoutCircleRLine className="text-3xl mr-3 " />
+            {header_user_down_logout}
+          </span>
         </div>
       </Drawer>
     </div>
