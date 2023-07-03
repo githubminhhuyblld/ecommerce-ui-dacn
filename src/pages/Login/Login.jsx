@@ -1,7 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames/bind";
-import { TextField, InputAdornment, IconButton, Grid } from "@material-ui/core";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  TextField,
+  InputAdornment,
+  IconButton,
+  Grid,
+  LinearProgress,
+} from "@material-ui/core";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -25,9 +31,9 @@ import LanguageContext from "~/context/languageContext";
 const cx = classNames.bind(styles);
 
 function Login(props) {
-
-  const {languageData} = useContext(LanguageContext);
-  const {welcome_to_log_in,
+  const { languageData } = useContext(LanguageContext);
+  const {
+    welcome_to_log_in,
     login_forgot,
     new_member,
     here,
@@ -38,12 +44,12 @@ function Login(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      password: "",
+      username: "minhhuy",
+      password: "123456",
     },
     validationSchema: Yup.object().shape({
       username: Yup.string().required("Vui lòng nhập tên tài khoản"),
@@ -51,6 +57,7 @@ function Login(props) {
     }),
     onSubmit: async (values) => {
       try {
+        setIsLoading(true);
         const response = await AuthService.login(
           values.username,
           values.password
@@ -60,8 +67,8 @@ function Login(props) {
           dispatch(setSuccess((prev) => !prev));
           await dispatch(fetchUserInfo());
           // window.history.back()
-          navigate(config.routes.home)
-         
+          navigate(config.routes.home);
+          setIsLoading(false);
         }
       } catch (error) {
         if (error.response.status === 400) {
@@ -90,6 +97,7 @@ function Login(props) {
     googleLogout();
   };
   const loginSuccessHandler = async (credentialResponse) => {
+    setIsLoading(true);
     const decoded = jwt_decode(credentialResponse.credential);
     const body = {
       email: decoded.email,
@@ -106,6 +114,7 @@ function Login(props) {
         dispatch(setSuccess((prev) => !prev));
         navigate(config.routes.home);
         await dispatch(fetchUserInfo());
+        setIsLoading(false);
       }
     }
   };
@@ -116,11 +125,14 @@ function Login(props) {
 
   return (
     <div className={cx("wrapper")}>
+      {isLoading && (
+        <div className="pb-20">
+          <LinearProgress color="secondary" />
+        </div>
+      )}
       <Grid container alignItems="center" justifyContent="center">
         <Grid item xs={12} sm={12} md={6} lg={4}>
-          <h3 className={cx("title")}>
-            {welcome_to_log_in}!
-          </h3>
+          <h3 className={cx("title")}>{welcome_to_log_in}!</h3>
           <form className={cx("form-login")}>
             {errorMessage.length > 0 && (
               <span className={cx("error-message")}>{errorMessage}</span>
@@ -176,18 +188,26 @@ function Login(props) {
             <a className={cx("forgot-pass")} href="">
               {login_forgot}
             </a>
-            <div className={cx("order")}>
-              <GoogleOAuthProvider clientId="690152027840-d8gf9jqqn4rkdl4osirgt6rg2l8nsdka.apps.googleusercontent.com">
-                <GoogleLogin
-                  buttonText="Đăng nhập với Google"
-                  cookiePolicy="single_host_origin"
-                  onSuccess={loginSuccessHandler}
-                  onError={loginErrorHandler}
-                  logo_alignment="left"
-                  width={"50%"}
-                />
-              </GoogleOAuthProvider>
-              <Link className={cx("order-item")} to={""}>
+            <div className="flex flex-col  md:flex-row md:items-center">
+              <div className={cx("order")}>
+                <GoogleOAuthProvider clientId="690152027840-d8gf9jqqn4rkdl4osirgt6rg2l8nsdka.apps.googleusercontent.com">
+                  <div className="w-full">
+                    <GoogleLogin
+                      buttonText="Đăng nhập với Google"
+                      cookiePolicy="single_host_origin"
+                      onSuccess={loginSuccessHandler}
+                      onError={loginErrorHandler}
+                      logo_alignment="left"
+                      width={"100%"}
+                    />
+                  </div>
+                </GoogleOAuthProvider>
+              </div>
+              <Link
+                style={{ width: "100%" }}
+                className={cx("order-item")}
+                to={""}
+              >
                 <BsFacebook /> <span>Facebook</span>
               </Link>
             </div>
