@@ -226,7 +226,7 @@ function EditProduct(props) {
             </div>
           </Grid>
           <Grid item md={12} sm={12} lg={10}>
-            <div className="w-full flex flex-col mb-6 pl-12">
+            <div className="w-full flex flex-col mb-6 pl-4">
               <label className="text-2xl">
                 Chọn hình ảnh kèm theo (Tối đa 8 ảnh)
                 <span className="text-red-500">*</span>

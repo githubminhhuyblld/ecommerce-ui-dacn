@@ -225,6 +225,14 @@ function TopNavBar(props) {
             <AiOutlineHeart className="text-3xl mr-3" />
             {order_information}
           </Link>
+          <Link
+            className="text-3xl flex items-center  py-3 px-2 hover:bg-slate-100 mb-2"
+            onClick={() => handleDrawerToggle()}
+            to={config.routes.updatePassword}
+          >
+            <TbBrandSamsungpass className="text-3xl mr-3" />
+            {info_change_password}
+          </Link>
           <span
             onClick={handleLogout}
             className="py-3 text-3xl   flex items-center px-2 cursor-pointer hover:bg-slate-100 "

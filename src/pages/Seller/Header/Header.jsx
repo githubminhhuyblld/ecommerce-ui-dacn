@@ -28,6 +28,7 @@ import { BsShop } from "react-icons/bs";
 import { BiRegistered } from "react-icons/bi";
 import { CgArrowsExchangeAlt } from "react-icons/cg";
 import { RiLogoutCircleRLine } from "react-icons/ri";
+import { TbBrandSamsungpass } from "react-icons/tb";
 
 Header.propTypes = {};
 
@@ -58,7 +59,7 @@ function Header(props) {
   const user = useSelector(selectUser);
 
   const fullName = user !== null && user.lastName + " " + user.firstName;
-  const ava = user === null ? user?.image : AvatarEmpty;
+  const ava = user === null ? AvatarEmpty : user?.image;
 
   const handleLogout = () => {
     AuthService.logout();
@@ -68,7 +69,7 @@ function Header(props) {
     dispatch(resetUser());
     localStorage.removeItem("shopInfo");
     navigate(config.routes.login);
-    setIsDrawerOpen(false)
+    setIsDrawerOpen(false);
   };
   return (
     <header className=" w-full px-1 sm:px-10 border-b border-gray-200  bg-white shadow">
@@ -158,6 +159,14 @@ function Header(props) {
                   >
                     <AiOutlineHeart className="text-3xl mr-3" />
                     {order_information}
+                  </Link>
+                  <Link
+                    className="text-3xl flex items-center  py-3 px-2 hover:bg-slate-100 mb-2"
+                    onClick={() => handleDrawerToggle()}
+                    to={config.routes.updatePassword}
+                  >
+                    <TbBrandSamsungpass className="text-3xl mr-3" />
+                    {info_change_password}
                   </Link>
                   <span
                     onClick={handleLogout}
