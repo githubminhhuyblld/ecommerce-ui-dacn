@@ -18,7 +18,9 @@ function WatingShopRegister(props) {
   return (
     <div className="w-full h-[100vh] p-4 bg-background">
       <Container>
-        <h3 className="text-3xl text-center md:text-5xl mb-12 md:text-left">Shop đang chờ phê duyệt</h3>
+        <h3 className="text-3xl text-center md:text-5xl mb-12 md:text-left">
+          Shop đang chờ phê duyệt
+        </h3>
         <div className="bg-white shadow-sm rounded-md p-8">
           <Grid container>
             <Grid item xs={12} sm={12} lg={12} md={12}>
@@ -55,22 +57,12 @@ function WatingShopRegister(props) {
             </Grid>
           </Grid>
         </div>
-        <div className="w-full flex-row mt-12">
-          <Link
-            to={config.routes.seller}
-            className="p-4 justify-center md:p-20 flex md:justify-end cursor-pointer "
-          >
-            <span className="p-4 text-2xl md:text-3xl flex items-center bg-sky-400 rounded-lg text-white">
-              Bán hàng cùng Lazadaz !!!
-              <FaArrowRight className="ml-3" />
-            </span>
-          </Link>
-        </div>
+
         {shopInfo.activeStatus === "ACTIVE" && (
-          <div className="w-full">
+          <div className="w-full flex-row mt-12">
             <Link
               to={config.routes.seller}
-              className="p-4 md:p-20 flex justify-end cursor-pointer "
+              className="p-4 justify-center md:p-20 flex md:justify-end cursor-pointer "
             >
               <span className="p-4 text-2xl md:text-3xl flex items-center bg-sky-400 rounded-lg text-white">
                 Bán hàng cùng Lazadaz !!!
