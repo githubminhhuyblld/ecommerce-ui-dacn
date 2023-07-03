@@ -26,6 +26,7 @@ function Header(props) {
     <div className={cx("wrapper")}>
       <TopNavBar
         isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
         handleDrawerToggle={handleDrawerToggle}
       />
       <Container>

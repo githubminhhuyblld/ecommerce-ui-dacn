@@ -37,11 +37,12 @@ const cx = classNames.bind(styles);
 
 TopNavBar.propTypes = {
   isDrawerOpen: PropTypes.bool,
+  setIsDrawerOpen: PropTypes.func,
   handleDrawerToggle: PropTypes.func,
 };
 
 function TopNavBar(props) {
-  const { isDrawerOpen, handleDrawerToggle } = props;
+  const { isDrawerOpen, handleDrawerToggle,setIsDrawerOpen } = props;
   const isDesktop = useMediaQuery({ minWidth: 1024 });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ function TopNavBar(props) {
     dispatch(resetUser());
     localStorage.removeItem("shopInfo");
     navigate(config.routes.login);
-    handleDrawerToggle()
+    setIsDrawerOpen(false)
   };
 
   const { languageData } = useContext(LanguageContext);

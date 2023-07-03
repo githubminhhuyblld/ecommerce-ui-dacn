@@ -68,7 +68,7 @@ function Header(props) {
     dispatch(resetUser());
     localStorage.removeItem("shopInfo");
     navigate(config.routes.login);
-    handleDrawerToggle();
+    setIsDrawerOpen(false)
   };
   return (
     <header className=" w-full px-1 sm:px-10 border-b border-gray-200  bg-white shadow">
