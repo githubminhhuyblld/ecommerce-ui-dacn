@@ -44,7 +44,7 @@ function Home(props) {
             <Grid container spacing={2}>
               {products?.data?.map((item, index) => {
                 return (
-                  <Grid key={item.id} item md={3} lg={2} sm={6}>
+                  <Grid key={item.id} item md={3} lg={2} sm={6} xs={12}>
                     <ProductItem product={item} />
                   </Grid>
                 );

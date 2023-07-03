@@ -13,13 +13,12 @@ import config from "~/config";
 import AuthService from "~/services/auth/AuthService";
 import { setAuthenticated } from "~/store/reducers/userSlice";
 import Header from "~/pages/Seller/Header/Header";
-
-
+import { CiLocationOn } from "react-icons/ci";
 
 const cx = classNames.bind(styles);
 
 ManageLayout.propTypes = {
-  children:PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 function ManageLayout({ children }) {
@@ -34,19 +33,17 @@ function ManageLayout({ children }) {
       navigate(config.routes.login);
     }
   }, [token]);
- 
+
   const categories = [
     {
       id: 1,
       label: "Địa chỉ Shop",
-      icon: <BiDownArrowCircle />,
+      icon: <CiLocationOn/>,
       items: [
         {
           name: "Địa chỉ",
           to: config.routes.editShop,
         },
-       
-        
       ],
     },
     {
@@ -62,7 +59,6 @@ function ManageLayout({ children }) {
           name: "Thêm sản phẩm",
           to: config.routes.addProduct,
         },
-        
       ],
     },
     {
@@ -86,7 +82,7 @@ function ManageLayout({ children }) {
           name: "Đơn hàng hủy",
           to: config.routes.cancelOrder,
         },
-        
+
         {
           name: "Đơn hàng mới nhất",
           to: config.routes.lastedOrder,
