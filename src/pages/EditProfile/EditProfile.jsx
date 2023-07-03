@@ -2,11 +2,13 @@ import {Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField} f
 import styles from "~/pages/EditProfile/EditProfile.module.scss"
 import classNames from "classnames/bind";
 import {Link} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {styled} from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import {orange, purple} from '@mui/material/colors';
 import config from "~/config/index.jsx";
+import {useSelector} from "react-redux";
+import {selectUser} from "~/store/reducers/userSlice.js";
 
 const cx = classNames.bind(styles);
 
@@ -15,7 +17,25 @@ function EditProfile() {
     const [month, setMonth] = useState("")
     const [day, setDay] = useState("")
     const [year, setYear] = useState("")
-    const [sex, setSex] = useState("")
+
+    const user = useSelector(selectUser)
+    console.log(user)
+
+    const [lastName, setLastName] = useState("")
+    const [firstName, setFirstname] = useState("")
+    const [gender, setGender] = useState("")
+
+    const email = user !== null && user?.email
+    const numberPhone = user !== null && user?.numberPhone
+
+    useEffect(() => {
+        setLastName(user !== null && user?.lastName)
+        setFirstname(user !== null && user?.firstName)
+        setGender(user !== null && user?.gender)
+        setDay(user !== null && new Date(user?.dateOfBirth).getDate())
+        setMonth(user !== null && (new Date(user?.dateOfBirth).getMonth() + 1))
+        setYear(user !== null && new Date(user?.dateOfBirth).getFullYear())
+    }, [user])
 
     const handleChangeMonth = (e) => {
         setMonth(e.target.value)
@@ -30,29 +50,24 @@ function EditProfile() {
     }
 
     const handleChangeSex = (e) => {
-        setSex(e.target.value)
+        setGender(e.target.value)
     }
-
-    const listMonth = [
-        "Tháng Một",
-        "Tháng Hai",
-        "Tháng Ba",
-        "Tháng Tư",
-        "Tháng Năm",
-        "Tháng Sáu",
-        "Tháng Bảy",
-        "Tháng Tám",
-        "Tháng Chín",
-        "Tháng Mười",
-        "Tháng Mười Một",
-        "Tháng Mười Hai"
-    ]
 
     const listDay = createDay()
 
     function createDay() {
         const result = []
         for (let i = 1; i <= 31; i++) {
+            result[i - 1] = i
+        }
+        return result
+    }
+
+    const listMonth = createMonth()
+
+    function createMonth() {
+        const result = []
+        for (let i = 1; i <= 12; i++) {
             result[i - 1] = i
         }
         return result
@@ -72,8 +87,8 @@ function EditProfile() {
     }
 
     const listSex = [
-        "Nam",
-        "Nữ"
+        "MALE",
+        "FEMALE"
     ]
     const ColorButton = styled(Button)(({theme}) => ({
         color: theme.palette.getContrastText(purple[500]),
@@ -153,9 +168,25 @@ function EditProfile() {
                                       sm={12}
                                       xs={12}>
                                     <p className={"text-lg text-zinc-600"}>Họ tên</p>
-                                    <FormControl sx={{m: 1, minWidth: 220}} size="small">
+                                    <FormControl sx={{m: 1}} size="small">
                                         <TextField
-                                            placeholder={"Họ Tên"}
+                                            value={lastName}
+                                            onChange={(e) => {
+                                                setLastName(e.target.value)
+                                            }
+                                            }
+                                            placeholder={"Họ"}
+                                            size="small"
+                                        />
+                                    </FormControl>
+                                    <FormControl sx={{m: 1}} size="small">
+                                        <TextField
+                                            value={firstName}
+                                            onChange={(e) => {
+                                                setFirstname(e.target.value)
+                                            }
+                                            }
+                                            placeholder={"Tên"}
                                             size="small"
                                         />
                                     </FormControl>
@@ -169,7 +200,7 @@ function EditProfile() {
                                         className={cx('hr')}>|</span><Link
                                         className={cx('link')}
                                         to={""}>Thay đổi</Link></p>
-                                    <div className={"text-xl"}>abc@gmail.com</div>
+                                    <div className={"text-xl"}>{email}</div>
                                 </Grid>
                                 <Grid item xl={3}
                                       lg={3}
@@ -181,7 +212,7 @@ function EditProfile() {
                                         className={cx('link')}
                                         to={""}>Thêm</Link></p>
                                     <div className={"text-xl"}>
-                                        0123456789
+                                        {numberPhone}
                                     </div>
                                 </Grid>
                             </Grid>
@@ -240,7 +271,7 @@ function EditProfile() {
                                     <p className={"text-lg text-zinc-600"}>Giới tính</p>
                                     <FormControl sx={{m: 1, minWidth: 100}} size="small">
                                         <Select
-                                            value={sex}
+                                            value={gender}
                                             onChange={handleChangeSex}
                                         >
                                             {listSex.map((year, index) => (
