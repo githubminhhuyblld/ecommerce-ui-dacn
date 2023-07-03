@@ -71,6 +71,7 @@ function TopNavBar(props) {
     dispatch(resetUser());
     localStorage.removeItem("shopInfo");
     navigate(config.routes.login);
+    handleDrawerToggle()
   };
 
   const { languageData } = useContext(LanguageContext);
