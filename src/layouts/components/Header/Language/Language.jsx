@@ -14,14 +14,20 @@ import LanguageContext from "~/context/languageContext";
 
 const Language = (props) => {
   const { isTablet } = props;
-  const { language, setLanguage, setLanguageData, languageTypes } =
-    useContext(LanguageContext);
+  const {
+    language,
+    setLanguage,
+    setLanguageData,
+    languageTypes,
+    languageData,
+  } = useContext(LanguageContext);
   const handleLanguageChange = (langCode) => {
     const selectedLanguage = languageTypes.find(
       (lang) => lang.code === langCode
     );
     setLanguage(selectedLanguage);
   };
+  const { language_vi, language_en } = languageData;
 
   return (
     <form>
@@ -35,14 +41,14 @@ const Language = (props) => {
               className={cx("dropdown-item")}
             >
               <AiFillStar />
-              Tiếng Việt
+              {language_vi}
             </span>
             <span
               onClick={() => handleLanguageChange("en")}
               className={cx("dropdown-item")}
             >
               <RiEnglishInput />
-              Tiếng Anh
+              {language_en}
             </span>
           </div>
         )}
