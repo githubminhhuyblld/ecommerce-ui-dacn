@@ -27,6 +27,7 @@ import { MdManageAccounts } from "react-icons/md";
 import { BsShop } from "react-icons/bs";
 import { BiRegistered } from "react-icons/bi";
 import { CgArrowsExchangeAlt } from "react-icons/cg";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 
 Header.propTypes = {};
 
@@ -156,6 +157,13 @@ function Header(props) {
                     <AiOutlineHeart className="text-3xl mr-3" />
                     {order_information}
                   </Link>
+                  <span
+                    onClick={handleLogout}
+                    className="py-3 text-3xl   flex items-center px-2 cursor-pointer hover:bg-slate-100 "
+                  >
+                    <RiLogoutCircleRLine className="text-3xl mr-3 " />
+                    {header_user_down_logout}
+                  </span>
                 </div>
               </Drawer>
             </span>
