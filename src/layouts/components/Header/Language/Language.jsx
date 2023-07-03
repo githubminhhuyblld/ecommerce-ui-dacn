@@ -9,10 +9,11 @@ import styles from "./Language.module.scss";
 
 const cx = classNames.bind(styles);
 
-import { useContext,  } from "react";
+import { useContext } from "react";
 import LanguageContext from "~/context/languageContext";
 
-const Language = () => {
+const Language = (props) => {
+  const { isTablet } = props;
   const { language, setLanguage, setLanguageData, languageTypes } =
     useContext(LanguageContext);
   const handleLanguageChange = (langCode) => {
@@ -46,10 +47,19 @@ const Language = () => {
           </div>
         )}
       >
-        <span className={cx("top-navbar-item")}>change language</span>
+        {isTablet ? (
+          <span className="text-3xl py-3  cursor-pointer  mb-2">
+            Change language
+          </span>
+        ) : (
+          <span className={cx("top-navbar-item")}>Change language</span>
+        )}
       </Tippy>
     </form>
   );
+};
+Language.propTypes = {
+  isTablet: PropTypes.bool,
 };
 
 export default Language;

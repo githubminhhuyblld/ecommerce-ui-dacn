@@ -18,11 +18,8 @@ ProductItem.propTypes = {
 };
 
 function ProductItem(props) {
-
   const { languageData } = useContext(LanguageContext);
-  const {
-    quantity_remaining,
-  } = languageData;
+  const { quantity_remaining } = languageData;
 
   const { product } = props;
   const navigate = useNavigate();
@@ -48,40 +45,43 @@ function ProductItem(props) {
     );
   }
 
- 
-
   return (
-    <Link to={`/product-detail/${product.id}`} onClick={() => handleProductClick()} className={cx("wrapper")}>
+    <Link
+      to={`/product-detail/${product.id}`}
+      onClick={() => handleProductClick()}
+      className={cx("wrapper")}
+    >
       <Card>
         <div className={cx("product-image")}>
           <img src={product.mainImage} alt={product.name} />
         </div>
         <CardContent>
-          <Typography variant="h6" className={cx("product-name")}>
-            {product.name}
-          </Typography>
-          <div className={cx("price")}>
-            <Typography variant="body1">
-              <span className={cx("new-price")}>
-                {convertCurrency(product.newPrice)}
-              </span>
+          <div className={cx("product-info")}>
+            <Typography variant="h6" className={cx("product-name")}>
+              {product.name}
             </Typography>
-            <div>
-              <Typography variant="body2">
-                <span className={cx("old-price")}>
-                  {convertCurrency(product.oldPrice)}
+            <div className={cx("price")}>
+              <Typography variant="body1">
+                <span className={cx("new-price")}>
+                  {convertCurrency(product.newPrice)}
                 </span>
               </Typography>
+              <div>
+                <Typography variant="body2">
+                  <span className={cx("old-price")}>
+                    {convertCurrency(product.oldPrice)}
+                  </span>
+                </Typography>
+                <Typography variant="body2">
+                  <span className={cx("sale")}>- {product.sale}%off</span>
+                </Typography>
+              </div>
               <Typography variant="body2">
-                <span className={cx("sale")}>- {product.sale}%off</span>
+                <span className={cx("quantity")}>
+                  {quantity_remaining} {product.quantity}
+                </span>
               </Typography>
             </div>
-            <Typography variant="body2">
-              <span className={cx("quantity")}>
-                {" "}
-                {quantity_remaining}: {product.quantity}
-              </span>
-            </Typography>
           </div>
         </CardContent>
       </Card>
