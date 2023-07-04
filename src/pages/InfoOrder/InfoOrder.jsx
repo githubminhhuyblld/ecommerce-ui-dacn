@@ -121,19 +121,19 @@ function InfoOrder(props) {
                                   src={item.shop.image}
                                   sx={{ width: 32, height: 32 }}
                                 />
-                                <h3 className="text-3xl font-bold mx-2">
+                                <h3 className="md:text-3xl text-xl font-bold mx-2">
                                   {item.shop.name}
                                 </h3>
-                                <span className="flex items-center mx-3 text-sky-500">
-                                  <RiMessage2Line className="text-sky-500 cursor-pointer" />{" "}
+                                <span className="flex items-center md:text-3xl text-xl  mx-3 text-sky-500">
+                                  <RiMessage2Line className="text-sky-500 cursor-pointer" />
                                   {chat_now}
                                 </span>
                               </div>
                               <div className="flex items-center flex-col md:flex-row ">
                                 {order.orderStatus === "READY" && (
                                   <div className="flex item-center">
-                                    <CiDeliveryTruck className="text-4xl mr-4 text-green-700" />
-                                    <span className="text-green-700 text-3xl mr-3">
+                                    <CiDeliveryTruck className=" text-xl md:text-4xl mr-4 text-green-700" />
+                                    <span className="text-green-700 text-xl md:text-3xl mr-3">
                                       {orders_are_being_delivered}
                                     </span>
                                   </div>
@@ -145,7 +145,7 @@ function InfoOrder(props) {
                                       : "bg-sky-400"
                                   }   rounded-full`}
                                 >
-                                  <p className=" sm:text-2xl   sm:px-2 text-white">
+                                  <p className=" text-xl md:text-3xl   sm:px-2 text-white">
                                     {order.orderStatus === "PROCESSING"
                                       ? `${wait_for_confirmation}`
                                       : order.orderStatus === "READY"

@@ -255,10 +255,12 @@ body
   font-size: 1.4rem;
 }
 body .datepicker-container {
+  width: 100%;
+  height: 46px;
 }
 
 body .datepicker-input {
-  /* Thêm các luật CSS tùy chỉnh cho phần input của DatePicker */
+  height: 46px !important;
 }
 
 body .datepicker-label {
