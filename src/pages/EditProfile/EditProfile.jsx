@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { TextField } from "@material-ui/core";
-import classNames from "classnames/bind";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Grid, Select, MenuItem } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -11,25 +10,36 @@ import dayjs from "dayjs";
 import "dayjs/locale/vi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { toast } from "react-toastify";
+import LinearProgress from "@mui/material/LinearProgress";
 
-import styles from "~/pages/EditProfile/EditProfile.module.scss";
 import config from "~/config/index.jsx";
-import { selectUser } from "~/store/reducers/userSlice.js";
+import { selectUser, updateInfoUser } from "~/store/reducers/userSlice.js";
 import SidebarLeft from "~/layouts/components/SidebarLeft/SidebarLeft";
 import UploadSingleImage from "~/layouts/components/UploadSingleImage/UploadSingleImage";
 import AvatarEmpty from "~/assets/user/avatar.jpg";
+import { storage } from "~/firebase";
 
-const cx = classNames.bind(styles);
 dayjs.locale("vi");
 
 function EditProfile() {
   const dispatch = useDispatch();
-  const [selectedDate, setSelectedDate] = useState(null);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const user = useSelector(selectUser);
-  const fullName = user !== null && user.lastName + user.firstName;
-  const numberPhone = user !== null && user.numberPhone
-  const genderDefault =
-    user !== null && user?.gender !== null ? user?.gender : "FEMALE";
+  const lastName = user !== null && user.lastName;
+  const firstName = user !== null && user.firstName;
+  const numberPhone = user !== null && user.numberPhone;
+  useEffect(() => {
+    if (user !== null) {
+      const defaultDate = dayjs.unix(user.dateOfBirth / 1000);
+      setSelectedDate(defaultDate);
+      setGender(user !== null ? user.gender : "FEMALE");
+    }
+  }, [user]);
+
+  const [selectedDate, setSelectedDate] = useState(null);
   const handleDateChangeBirthDay = (date) => {
     setSelectedDate(date.valueOf());
   };
@@ -45,25 +55,61 @@ function EditProfile() {
     setIsChangeImage(true);
     setImages(imageList);
   };
-
-  console.log(user);
-  const [gender, setGender] = useState(genderDefault);
+  const [gender, setGender] = useState("");
 
   const handleChangeGender = (e) => {
     setGender(e.target.value);
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Vui lòng nhập họ và tên"),
+    firstName: Yup.string().required("Vui lòng nhập tên"),
+    lastName: Yup.string().required("Vui lòng nhập họ và tên đệm"),
     phoneNumber: Yup.string().required("Vui lòng nhập số điện thoại"),
   });
   const formik = useFormik({
     initialValues: {
-      name: fullName,
+      firstName: firstName,
+      lastName: lastName,
       phoneNumber: numberPhone,
     },
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      setIsLoading(true);
+      const token = JSON.parse(localStorage.getItem("token"));
+      let downloadURL = user?.image;
+      if (images.length > 0) {
+        const storageRef = ref(storage, `users/${images[0]?.file.name}`);
+        const snapshot = await uploadBytes(storageRef, images[0].file);
+        downloadURL = await getDownloadURL(snapshot.ref);
+      }
+      const body = {
+        dateOfBirth: selectedDate,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        gender: gender,
+        numberPhone: values.phoneNumber,
+        image: downloadURL,
+      };
+      if (token) {
+        dispatch(updateInfoUser({ userId: token.userId, body: body })).then(
+          (response) => {
+            if (response.payload === 200) {
+              toast.success("Cập nhật tông tin thành công!", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+              });
+            }
+            setIsLoading(false);
+          }
+        );
+      } else {
+        navigate(config.routes.login);
+        setIsLoading(false);
+      }
     },
     validationSchema: validationSchema,
     enableReinitialize: true,
@@ -82,26 +128,47 @@ function EditProfile() {
           </div>
           <div className="col-span-12 md:col-span-9 lg:col-span-10 sm:col-span-12">
             <h3 className="text-4xl mb-4">Chỉnh sửa thông tin cá nhân</h3>
+            <div className="mb-12">
+              {isLoading && <LinearProgress color="secondary" />}
+            </div>
             <div className="bg-white py-12 px-8 rounded-lg">
               <Grid container spacing={2}>
                 <Grid item lg={4} md={12} sm={12} xs={12}>
                   <div className="flex flex-col">
-                    <label className="text-2xl ">Họ và tên</label>
+                    <label className="text-2xl ">Họ và tên đệm</label>
                     <TextField
-                      name="name"
+                      name="lastName"
                       className="input-field"
-                      placeholder="Họ và Tên"
+                      placeholder="Tên"
                       type="text"
                       fullWidth
                       margin="normal"
-                      value={formik.values.name}
+                      value={formik.values.lastName}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                     />
-                    {formik.touched.name && formik.errors.name ? (
-                      <span className="error">{formik.errors.name}</span>
+                    {formik.touched.lastName && formik.errors.lastName ? (
+                      <span className="error">{formik.errors.lastName}</span>
                     ) : null}
                   </div>
+                  <div className="flex flex-col">
+                    <label className="text-2xl ">Tên</label>
+                    <TextField
+                      name="firstName"
+                      className="input-field"
+                      placeholder="Tên"
+                      type="text"
+                      fullWidth
+                      margin="normal"
+                      value={formik.values.firstName}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.touched.firstName && formik.errors.firstName ? (
+                      <span className="error">{formik.errors.firstName}</span>
+                    ) : null}
+                  </div>
+
                   <div className="flex flex-col">
                     <label className="text-2xl mb-2">Giới tính</label>
                     <Select
@@ -112,28 +179,33 @@ function EditProfile() {
                     >
                       {genders.map((item, index) => {
                         return (
-                          <MenuItem key={index} value={item.value}>{item.gender}</MenuItem>
+                          <MenuItem key={index} value={item.value}>
+                            {item.gender}
+                          </MenuItem>
                         );
                       })}
                     </Select>
                   </div>
                   <div className="flex flex-col">
                     <label className="text-2xl mb-2">Ngày sinh</label>
-                    <LocalizationProvider
-                      dateAdapter={AdapterDayjs}
-                      locale="vi"
-                    >
-                      <DatePicker
-                        name="birthDate"
-                        value={selectedDate}
-                        onChange={handleDateChangeBirthDay}
-                        className="datepicker-container"
-                        inputClassName="datepicker-input"
-                        labelClassName="datepicker-label"
-                        format="DD/MM/YYYY"
-                        fullWidth
-                      />
-                    </LocalizationProvider>
+                    <div className="w-full h-[46px]">
+                      <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                        sx={{ height: "46px !important" }}
+                        locale="vi"
+                      >
+                        <DatePicker
+                          name="birthDate"
+                          value={selectedDate}
+                          onChange={handleDateChangeBirthDay}
+                          className="datepicker-container"
+                          inputClassName="datepicker-input"
+                          labelClassName="datepicker-label"
+                          format="DD/MM/YYYY"
+                          fullWidth
+                        />
+                      </LocalizationProvider>
+                    </div>
                   </div>
                 </Grid>
                 <Grid item lg={4} md={12} sm={12} xs={12}>
@@ -161,7 +233,7 @@ function EditProfile() {
                   </div>
                   <div className="w-[200px] h-[200px] rounded-full">
                     <UploadSingleImage
-                      imageProduct={AvatarEmpty}
+                      imageProduct={user !== null ? user?.image : AvatarEmpty}
                       open={open}
                       images={images}
                       name={"User"}
