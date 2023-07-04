@@ -2,253 +2,297 @@
 @tailwind components;
 @tailwind utilities;
 :root {
-    --primary-color: #f57224;
-    --white-color: #ffffff;
-    --text-color: #212121;
-    --title-color: #333;
-    --background: rgba(0, 0, 0, .03);
-    --text-navbar: #0F1568;
+  --primary-color: #f57224;
+  --white-color: #ffffff;
+  --text-color: #212121;
+  --title-color: #333;
+  --background: rgba(0, 0, 0, 0.03);
+  --text-navbar: #0f1568;
 
-    /*height*/
-    --top-navbar-height: 30px;
-    --height-header: 75px;
-    --height-navbar-wrapper: 34px;
-    --padding-top: 30px;
+  /*height*/
+  --top-navbar-height: 30px;
+  --height-header: 75px;
+  --height-navbar-wrapper: 34px;
+  --padding-top: 30px;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    font-size: 62.5%;
+  font-size: 62.5%;
 }
 
 body {
-    font-size: 1.6rem;
-    line-height: 1.6;
-    text-rendering: optimizeSpeed;
-    font-family: Helvetica Neue, Helvetica, Arial, 文泉驛正黑, WenQuanYi Zen Hei,
+  font-size: 1.6rem;
+  line-height: 1.6;
+  text-rendering: optimizeSpeed;
+  font-family: Helvetica Neue, Helvetica, Arial, 文泉驛正黑, WenQuanYi Zen Hei,
     Hiragino Sans GB, 儷黑 Pro, LiHei Pro, Heiti TC, 微軟正黑體,
     Microsoft JhengHei UI, Microsoft JhengHei, sans-serif;
-
 }
 
-h1.h2, h3, h4, h5, h6 {
-    margin: 0;
+h1.h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 input {
-    font-size: 1.6rem;
+  font-size: 1.6rem;
 }
 
-
 .box-shadow {
-    box-shadow: 0 3px 10px 0 rgb(22 13 13 / 14%);
+  box-shadow: 0 3px 10px 0 rgb(22 13 13 / 14%);
 }
 
 /* Scrollbar css */
 html *::-webkit-scrollbar {
-    border-radius: 0;
-    width: 8px;
+  border-radius: 0;
+  width: 8px;
 }
 
 html *::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(22, 24, 35, 0.06);
+  border-radius: 4px;
+  background-color: rgba(22, 24, 35, 0.06);
 }
 
 html *::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(22, 24, 35, 0.06);
+  border-radius: 4px;
+  background-color: rgba(22, 24, 35, 0.06);
 }
 
 html *::-webkit-scrollbar-track {
-    border-radius: 0;
-    background-color: rgba(0, 0, 0, 0);
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 /*class common*/
 
 .arrow {
-    content: "";
-    border-style: solid;
-    border-width: 0 10px 10px;
-    border-color: transparent transparent var(--primary-color);
-    position: absolute;
+  content: "";
+  border-style: solid;
+  border-width: 0 10px 10px;
+  border-color: transparent transparent var(--primary-color);
+  position: absolute;
 }
 
 .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .error {
-    color: #dc2626;
-    font-size: 1.4rem;
-    margin-bottom: 10px;
+  color: #dc2626;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
 }
 body .input-field {
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    margin-top: 2px;
-    padding: 6px 6px;
-   
-  }
-  body .select-field {
-    border-radius: 4px;
-    margin-bottom: 8px;
-    margin-top: 1px;
-    padding: 0 6px;
-    height: 45px;
-  }
-  body .select-field-disabled{
-    border-radius: 4px;
-    margin-bottom: 8px;
-    margin-top: 1px;
-    padding: 0 6px;
-    height: 45px;
-    cursor: not-allowed;
-    background-color: #f5f5f5;
-  }
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  margin-top: 2px;
+  padding: 6px 6px;
+}
+body .select-field {
+  border-radius: 4px;
+  margin-bottom: 8px;
+  margin-top: 1px;
+  padding: 0 6px;
+  height: 45px;
+}
+body .select-field-disabled {
+  border-radius: 4px;
+  margin-bottom: 8px;
+  margin-top: 1px;
+  padding: 0 6px;
+  height: 45px;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+}
 
 /*customer material ui*/
 body .MuiContainer-root.MuiContainer-maxWidthLg.css-1oqqzyl-MuiContainer-root {
-    max-width: 1480px;
+  max-width: 1480px;
 }
 
 body input.MuiInputBase-input.MuiInput-input {
-    font-size: 1.6rem;
+  font-size: 1.6rem;
 }
 
-body span.MuiBadge-badge.MuiBadge-standard.MuiBadge-anchorOriginTopRight.MuiBadge-anchorOriginTopRightRectangular.MuiBadge-overlapRectangular.MuiBadge-colorSecondary.css-jcn4dz-MuiBadge-badge {
-    font-size: 1.2rem;
-    background-color: var(--primary-color);
-
+body
+  span.MuiBadge-badge.MuiBadge-standard.MuiBadge-anchorOriginTopRight.MuiBadge-anchorOriginTopRightRectangular.MuiBadge-overlapRectangular.MuiBadge-colorSecondary.css-jcn4dz-MuiBadge-badge {
+  font-size: 1.2rem;
+  background-color: var(--primary-color);
 }
 
 body input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputAdornedEnd {
-    font-size: 1.6rem;
+  font-size: 1.6rem;
 }
 
-body li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button {
-    font-size: 1.6rem;
+body
+  li.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiListItem-gutters.MuiListItem-button {
+  font-size: 1.6rem;
 }
-
 
 body .MuiInput-underline:after {
-    border-bottom: 0 !important;
+  border-bottom: 0 !important;
 }
 
 body .MuiInput-underline:hover:not(.Mui-disabled):before {
-    border-bottom: 0;
+  border-bottom: 0;
 }
 
 body .MuiInput-underline:before {
-    border-bottom: 0;
+  border-bottom: 0;
 }
 
 body .MuiInput-underline:hover:not(.Mui-disabled):before {
-    display: none;
+  display: none;
 }
-
-
 
 @media only screen and (max-width: 375px) {
-    .css-1oqqzyl-MuiContainer-root {
-        padding-left: 8px !important;
-        padding-right: 8px !important;
-    }
+  .css-1oqqzyl-MuiContainer-root {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
 }
-body button.MuiButtonBase-root.MuiPaginationItem-root.MuiPaginationItem-sizeLarge.MuiPaginationItem-text.MuiPaginationItem-circular.MuiPaginationItem-textPrimary.Mui-selected.MuiPaginationItem-page.css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root {
-    font-size: 1.6rem;
+body
+  button.MuiButtonBase-root.MuiPaginationItem-root.MuiPaginationItem-sizeLarge.MuiPaginationItem-text.MuiPaginationItem-circular.MuiPaginationItem-textPrimary.Mui-selected.MuiPaginationItem-page.css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root {
+  font-size: 1.6rem;
 }
 body .css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
-    color: #fff;
-    background-color: var(--primary-color);
+  color: #fff;
+  background-color: var(--primary-color);
 }
-body button.MuiButtonBase-root.MuiPaginationItem-root.MuiPaginationItem-sizeLarge.MuiPaginationItem-text.MuiPaginationItem-circular.MuiPaginationItem-textPrimary.MuiPaginationItem-page.css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root {
-    font-size: 1.6rem;
+body
+  button.MuiButtonBase-root.MuiPaginationItem-root.MuiPaginationItem-sizeLarge.MuiPaginationItem-text.MuiPaginationItem-circular.MuiPaginationItem-textPrimary.MuiPaginationItem-page.css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root {
+  font-size: 1.6rem;
 }
-body svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.MuiPaginationItem-icon.css-n8417t-MuiSvgIcon-root-MuiPaginationItem-icon {
-    font-size: 2.6rem;
+body
+  svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.MuiPaginationItem-icon.css-n8417t-MuiSvgIcon-root-MuiPaginationItem-icon {
+  font-size: 2.6rem;
 }
-body .css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected:hover{
-    background-color: var(--primary-color);
+body .css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected:hover {
+  background-color: var(--primary-color);
 }
 h2.MuiTypography-root.MuiTypography-h6 {
-    font-size: 2rem !important;
+  font-size: 2rem !important;
 }
-body li.MuiButtonBase-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiMenuItem-root.MuiMenuItem-gutters.css-1km1ehz{
-    font-size: 1.6rem !important;
-
+body
+  li.MuiButtonBase-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiMenuItem-root.MuiMenuItem-gutters.css-1km1ehz {
+  font-size: 1.6rem !important;
 }
 
 p.MuiTypography-root.MuiDialogContentText-root.MuiTypography-body1.MuiTypography-colorTextSecondary {
-    font-size: 1.8rem !important;
+  font-size: 1.8rem !important;
 }
-body .MuiSelect-select.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
-    font-size: 1.6rem;
-    color:#929292;
-    display: flex;
-    align-items:center;
+body
+  .MuiSelect-select.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  font-size: 1.6rem;
+  color: #929292;
+  display: flex;
+  align-items: center;
 }
-body li.MuiButtonBase-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiMenuItem-root.MuiMenuItem-gutters.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root{
-    font-size: 1.6rem !important;
+body
+  li.MuiButtonBase-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiMenuItem-root.MuiMenuItem-gutters.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root {
+  font-size: 1.6rem !important;
 }
-body .MuiSelect-select.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-input.css-qiwgdb{
-    font-size: 1.4rem;
+body
+  .MuiSelect-select.MuiSelect-outlined.MuiInputBase-input.MuiOutlinedInput-input.css-qiwgdb {
+  font-size: 1.4rem;
 }
-body .MuiTypography-body2{
-    font-size: 1.6rem ;
+body .MuiTypography-body2 {
+  font-size: 1.6rem;
 }
-body svg.MuiSvgIcon-root.MuiSelect-icon.MuiTablePagination-selectIcon{
-    font-size: 2.6rem;
+body svg.MuiSvgIcon-root.MuiSelect-icon.MuiTablePagination-selectIcon {
+  font-size: 2.6rem;
 }
-body svg.MuiSvgIcon-root{
-    font-size: 2.6rem;
+body svg.MuiSvgIcon-root {
+  font-size: 2.6rem;
+}
+/* datepicker */
+body button.MuiPickersYear-yearButton.css-1beqopj-MuiPickersYear-yearButton {
+  font-size: 1.4rem;
+}
+body
+  .MuiPickersCalendarHeader-labelContainer.css-cyfsxc-MuiPickersCalendarHeader-labelContainer {
+  font-size: 1.4rem;
+}
+body
+  .MuiPickersCalendarHeader-label
+  .css-dplwbx-MuiPickersCalendarHeader-label {
+  font-size: 1.4rem;
+}
+body
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  font-size: 1.4rem;
+}
+body
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  padding: 0 12px;
+}
+body
+  span.MuiTypography-root.MuiTypography-caption.MuiDayCalendar-weekDayLabel.css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel {
+  font-size: 1.4rem;
+}
 
+body
+  button.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.css-qa7bje-MuiButtonBase-root-MuiPickersDay-root {
+  font-size: 1.4rem;
+}
+body .datepicker-container {
+}
+
+body .datepicker-input {
+  /* Thêm các luật CSS tùy chỉnh cho phần input của DatePicker */
+}
+
+body .datepicker-label {
+  /* Thêm các luật CSS tùy chỉnh cho nhãn (label) của DatePicker */
 }
 /*pro-sidebar customer*/
 span.ps-menu-label.ps-active.css-12w9als {
-    color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 
 /* customer react-toastify */
 body .Toastify__toast-body > div:last-child {
-    font-size: 1.4rem;
+  font-size: 1.4rem;
 }
 
 /*customer react-slick*/
 body.slick-slide.slick-active.slick-center.slick-current div {
-    display: flex !important;
+  display: flex !important;
 }
 
-body .image-gallery-thumbnail.active, .image-gallery-thumbnail:focus {
-    outline: none;
-    border: 4px solid var(--primary-color);
+body .image-gallery-thumbnail.active,
+.image-gallery-thumbnail:focus {
+  outline: none;
+  border: 4px solid var(--primary-color);
 }
 
 body .image-gallery-thumbnail {
-    max-width: 60px;
-
+  max-width: 60px;
 }
 
 .image-gallery-thumbnail:hover {
-    outline: none;
-    border: 4px solid transparent;
+  outline: none;
+  border: 4px solid transparent;
 }
 
 /*pro-sidebar customer*/
 span.ps-menu-label.ps-active.css-12w9als {
-    color: var(--primary-color) !important;
-  }
+  color: var(--primary-color) !important;
+}
