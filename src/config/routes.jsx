@@ -10,7 +10,7 @@ const routes = {
     checkout: "/checkout",
     order: "/check/order",
     editAddress: "/edit-address/:id",
-    editProfile: "/edit-profile",
+    editProfile: "/edit-profile/:id",
     updatePassword:"/update-password",
     createAddress: "/create-address",
     seller: "/seller",
