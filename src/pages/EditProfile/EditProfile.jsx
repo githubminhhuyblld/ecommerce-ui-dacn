@@ -64,7 +64,9 @@ function EditProfile() {
   const validationSchema = Yup.object({
     firstName: Yup.string().required("Vui lòng nhập tên"),
     lastName: Yup.string().required("Vui lòng nhập họ và tên đệm"),
-    phoneNumber: Yup.string().required("Vui lòng nhập số điện thoại"),
+    phoneNumber: Yup.string()
+    .required('Vui lòng nhập số điện thoại')
+    .matches(/^[0-9]{10,12}$/, 'Số điện thoại không hợp lệ'),
   });
   const formik = useFormik({
     initialValues: {
