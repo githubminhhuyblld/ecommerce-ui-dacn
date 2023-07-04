@@ -222,6 +222,10 @@ body svg.MuiSvgIcon-root.MuiSelect-icon.MuiTablePagination-selectIcon {
 body svg.MuiSvgIcon-root {
   font-size: 2.6rem;
 }
+body span.MuiBadge-badge.MuiBadge-anchorOriginTopRightRectangle.MuiBadge-colorSecondary {
+  background: var(--primary-color);
+  font-size: 1.4rem;
+}
 /* datepicker */
 body button.MuiPickersYear-yearButton.css-1beqopj-MuiPickersYear-yearButton {
   font-size: 1.4rem;
