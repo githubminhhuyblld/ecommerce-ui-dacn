@@ -24,12 +24,14 @@ import SidebarLeft from "~/layouts/components/SidebarLeft/SidebarLeft";
 import UploadSingleImage from "~/layouts/components/UploadSingleImage/UploadSingleImage";
 import AvatarEmpty from "~/assets/user/avatar.jpg";
 import { storage } from "~/firebase";
+import AuthService from "~/services/auth/AuthService";
 
 dayjs.locale("vi");
 
 function EditProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = JSON.parse(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(false);
   const [isChangeDate, setIsChangeDate] = useState(false);
   const [success, setsuccess] = useState(false);
@@ -37,6 +39,12 @@ function EditProfile() {
   const lastName = user !== null && user.lastName;
   const firstName = user !== null && user.firstName;
   const numberPhone = user !== null && user.numberPhone;
+  const email = user !== null && user.email;
+  useEffect(() => {
+    if (AuthService.isTokenExpired(token)) {
+      navigate(config.routes.login);
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(fetchUserInfo());
@@ -85,7 +93,6 @@ function EditProfile() {
     },
     onSubmit: async (values) => {
       setIsLoading(true);
-      const token = JSON.parse(localStorage.getItem("token"));
       let downloadURL = user?.image;
       if (images.length > 0) {
         const storageRef = ref(storage, `users/${images[0]?.file.name}`);
@@ -260,7 +267,7 @@ function EditProfile() {
                 <Grid item lg={4} md={12} sm={12} xs={12}>
                   <div className="flex flex-col">
                     <span className="text-2xl">Địa chỉ Email</span>
-                    <span className="font-bold">minhhuy1222001@gmail.com</span>
+                    <span className="font-bold">{email}</span>
                   </div>
                 </Grid>
               </Grid>
