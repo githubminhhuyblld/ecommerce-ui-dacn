@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { TextField } from "@material-ui/core";
-import { Container, Grid } from "@mui/material";
+import {  Grid } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -17,7 +16,6 @@ import {
   selectInfoShop,
   updateShop,
 } from "~/store/reducers/shopSlice";
-import { useNavigate } from "react-router-dom";
 import { fetchUserInfo, selectUser } from "~/store/reducers/userSlice";
 
 const EditShop = (props) => {

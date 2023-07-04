@@ -32,6 +32,23 @@ export const updatePassword = createAsyncThunk(
     }
   }
 );
+export const updateInfoUser = createAsyncThunk(
+  "user/updateInfoUser",
+  async ({ userId, body }, { rejectWithValue }) => {
+    try {
+      const response = await instance.put(
+        `/users/${userId}`,
+        body,
+        {
+          headers: authHeader(),
+        }
+      );
+      return response.status;
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -70,6 +87,17 @@ const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(updatePassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateInfoUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateInfoUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(updateInfoUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
