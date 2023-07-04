@@ -241,8 +241,10 @@ body
 }
 body
   .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
-  padding: 0 12px;
+  height: 46px;
+  padding: 0 6px;
 }
+
 body
   span.MuiTypography-root.MuiTypography-caption.MuiDayCalendar-weekDayLabel.css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel {
   font-size: 1.4rem;
