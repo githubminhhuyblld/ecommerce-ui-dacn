@@ -15,7 +15,11 @@ import { toast } from "react-toastify";
 import LinearProgress from "@mui/material/LinearProgress";
 
 import config from "~/config/index.jsx";
-import { selectUser, updateInfoUser } from "~/store/reducers/userSlice.js";
+import {
+  fetchUserInfo,
+  selectUser,
+  updateInfoUser,
+} from "~/store/reducers/userSlice.js";
 import SidebarLeft from "~/layouts/components/SidebarLeft/SidebarLeft";
 import UploadSingleImage from "~/layouts/components/UploadSingleImage/UploadSingleImage";
 import AvatarEmpty from "~/assets/user/avatar.jpg";
@@ -27,10 +31,16 @@ function EditProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isChangeDate, setIsChangeDate] = useState(false);
+  const [success, setsuccess] = useState(false);
   const user = useSelector(selectUser);
   const lastName = user !== null && user.lastName;
   const firstName = user !== null && user.firstName;
   const numberPhone = user !== null && user.numberPhone;
+
+  useEffect(() => {
+    dispatch(fetchUserInfo());
+  }, [success]);
   useEffect(() => {
     if (user !== null) {
       const defaultDate = dayjs.unix(user.dateOfBirth / 1000);
@@ -42,6 +52,7 @@ function EditProfile() {
   const [selectedDate, setSelectedDate] = useState(null);
   const handleDateChangeBirthDay = (date) => {
     setSelectedDate(date.valueOf());
+    setIsChangeDate(true);
   };
   const [isChangeImage, setIsChangeImage] = useState(false);
   const [showButton, setShowButton] = useState(true);
@@ -64,9 +75,7 @@ function EditProfile() {
   const validationSchema = Yup.object({
     firstName: Yup.string().required("Vui lòng nhập tên"),
     lastName: Yup.string().required("Vui lòng nhập họ và tên đệm"),
-    phoneNumber: Yup.string()
-    .required('Vui lòng nhập số điện thoại')
-    .matches(/^[0-9]{10,12}$/, 'Số điện thoại không hợp lệ'),
+    phoneNumber: Yup.string().required("Vui lòng nhập số điện thoại"),
   });
   const formik = useFormik({
     initialValues: {
@@ -84,7 +93,7 @@ function EditProfile() {
         downloadURL = await getDownloadURL(snapshot.ref);
       }
       const body = {
-        dateOfBirth: selectedDate,
+        dateOfBirth: isChangeDate ? selectedDate : user.dateOfBirth,
         firstName: values.firstName,
         lastName: values.lastName,
         gender: gender,
@@ -94,6 +103,7 @@ function EditProfile() {
       if (token) {
         dispatch(updateInfoUser({ userId: token.userId, body: body })).then(
           (response) => {
+            console.log(response);
             if (response.payload === 200) {
               toast.success("Cập nhật tông tin thành công!", {
                 position: toast.POSITION.TOP_RIGHT,
@@ -106,11 +116,13 @@ function EditProfile() {
               });
             }
             setIsLoading(false);
+            setsuccess((prev) => !prev);
           }
         );
       } else {
         navigate(config.routes.login);
         setIsLoading(false);
+        setsuccess((prev) => !prev);
       }
     },
     validationSchema: validationSchema,
@@ -252,11 +264,11 @@ function EditProfile() {
                   </div>
                 </Grid>
               </Grid>
-              <div className="mt-12">
+              <div className="mt-12 ">
                 <button
                   type="button"
                   onClick={formik.handleSubmit}
-                  className="py-6 px-16 uppercase hover:bg-green-700 bg-green-600 text-white rounded-3xl"
+                  className="py-6 px-16 text-2xl md:text-3xl uppercase hover:bg-green-700 bg-green-600 text-white rounded-3xl"
                 >
                   Lưu
                 </button>
