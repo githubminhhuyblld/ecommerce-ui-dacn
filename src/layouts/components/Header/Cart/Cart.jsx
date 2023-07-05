@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import classNames from "classnames/bind";
-import { Avatar, Badge, withStyles } from "@material-ui/core";
+import { Badge, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -52,17 +52,20 @@ function Cart(props) {
     <Fragment>
       {user !== null ? (
         <Link to={config.routes.checkout}>
-          <div className={cx("wrapper")}>
-            <Badge color="secondary" badgeContent={cartLength} max={99}>
-              <span className={cx("cart-wrapper")}>
-                <IoMdCart className={cx("cart-icon")} />
-              </span>
-            </Badge>
-          </div>
+          <StyledBadge
+            badgeContent={cartLength}
+            overlap="rectangular"
+            color="secondary"
+            max={99}
+          >
+            <span className={cx("cart-wrapper")}>
+              <IoMdCart className={cx("cart-icon")} />
+            </span>
+          </StyledBadge>
         </Link>
       ) : (
         <StyledBadge
-          badgeContent={cartLength}
+          badgeContent={0}
           overlap="rectangular"
           color="secondary"
           max={99}
