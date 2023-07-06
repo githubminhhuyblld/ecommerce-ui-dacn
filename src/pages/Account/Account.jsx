@@ -174,101 +174,109 @@ function Account() {
                             <Grid
                                 className={cx("items")}
                                 item
+                                container
                                 xl={8}
                                 lg={8}
                                 md={12}
                                 sm={12}
                                 xs={12}
                             >
-                                <div className={cx("item")}>
-                                    <div className={cx("flex")}>
-                                        <div className={cx("flexItem")}>
-                                            <div className={cx("title", "fontSize110")}>
-                                                {info_address}
-                                                <div className={cx("hl")}></div>
-                                                {address === null ? (
-                                                    <Link
-                                                        className={cx("edit", "fontSize70")}
-                                                        to={config.routes.createAddress}
-                                                    >
-                                                        {button_add_address}
-                                                    </Link>
-                                                ) : (
-                                                    <Link
-                                                        className={cx("edit", "fontSize70")}
-                                                        to={`/edit-address/${address?.[0]?.id}`}
-                                                    >
-                                                        {info_edit}
-                                                    </Link>
-                                                )}
-                                            </div>
-                                            <div
-                                                className={cx(
-                                                    "colorGray",
-                                                    "fontSize80",
-                                                    "padding-t-b-2",
-                                                    "colorGray-75"
-                                                )}
+                                <Grid className={cx('item')}
+                                      item
+                                      xl={6}
+                                      lg={6}
+                                      md={12}
+                                      sm={12}
+                                      xs={12}>
+                                    <div className={cx("title", "fontSize110")}>
+                                        {info_address}
+                                        <div className={cx("hl")}></div>
+                                        {address === null ? (
+                                            <Link
+                                                className={cx("edit", "fontSize70")}
+                                                to={config.routes.createAddress}
                                             >
-                                                {default_shipping_address}
-                                            </div>
-                                            {address?.length > 0 && (
-                                                <>
-                                                    <div className={cx("fontBold", "padding-t-b-2")}>
-                                                        {defaultAddress
-                                                            ? defaultAddress.fullName
-                                                            : address[0]?.fullName}
-                                                    </div>
-                                                    <div className={cx("fontSize80", "colorGray")}>
-                                                        {defaultAddress
-                                                            ? defaultAddress.fullAddress
-                                                            : address[0]?.fullAddress}
-                                                    </div>
-                                                    <div className={cx("fontSize80", "colorGray")}>
-                                                        (+84){" "}
-                                                        {defaultAddress
-                                                            ? defaultAddress.numberPhone
-                                                            : address[0]?.numberPhone}
-                                                    </div>
-                                                </>
-                                            )}
-                                        </div>
-                                        <div className={cx("hl-full")}></div>
-                                        <div className={cx("flexItem", "padding-l-20")}>
-                                            <div
-                                                className={cx(
-                                                    "colorGray",
-                                                    "fontSize80",
-                                                    "padding-t-b-2",
-                                                    "colorGray-75",
-                                                    "padding-t-50"
-                                                )}
+                                                {button_add_address}
+                                            </Link>
+                                        ) : (
+                                            <Link
+                                                className={cx("edit", "fontSize70")}
+                                                to={`/edit-address/${address?.[0]?.id}`}
                                             >
-                                                {default_billing_address}
-                                            </div>
-                                            {address?.length > 0 && (
-                                                <>
-                                                    <div className={cx("fontBold", "padding-t-b-2")}>
-                                                        {defaultAddress
-                                                            ? defaultAddress.fullName
-                                                            : address[0]?.fullName}
-                                                    </div>
-                                                    <div className={cx("fontSize80", "colorGray")}>
-                                                        {defaultAddress
-                                                            ? defaultAddress.fullAddress
-                                                            : address[0]?.fullAddress}
-                                                    </div>
-                                                    <div className={cx("fontSize80", "colorGray")}>
-                                                        (+84){" "}
-                                                        {defaultAddress
-                                                            ? defaultAddress.numberPhone
-                                                            : address[0]?.numberPhone}
-                                                    </div>
-                                                </>
-                                            )}
-                                        </div>
+                                                {info_edit}
+                                            </Link>
+                                        )}
                                     </div>
-                                </div>
+                                    <div
+                                        className={cx(
+                                            "colorGray",
+                                            "fontSize80",
+                                            "padding-t-b-2",
+                                            "colorGray-75"
+                                        )}
+                                    >
+                                        {default_shipping_address}
+                                    </div>
+                                    {address?.length > 0 && (
+                                        <>
+                                            <div className={cx("fontBold", "padding-t-b-2")}>
+                                                {defaultAddress
+                                                    ? defaultAddress.fullName
+                                                    : address[0]?.fullName}
+                                            </div>
+                                            <div className={cx("fontSize80", "colorGray")}>
+                                                {defaultAddress
+                                                    ? defaultAddress.fullAddress
+                                                    : address[0]?.fullAddress}
+                                            </div>
+                                            <div className={cx("fontSize80", "colorGray")}>
+                                                (+84){" "}
+                                                {defaultAddress
+                                                    ? defaultAddress.numberPhone
+                                                    : address[0]?.numberPhone}
+                                            </div>
+                                        </>
+                                    )}
+                                </Grid>
+                                <Grid className={cx('item')}
+                                      item
+                                      xl={6}
+                                      lg={6}
+                                      md={12}
+                                      sm={12}
+                                      xs={12}>
+                                    <div
+                                        className={cx(
+                                            "colorGray",
+                                            "fontSize80",
+                                            "padding-t-b-2",
+                                            "colorGray-75",
+                                            "padding-t-50"
+                                        )}
+                                    >
+                                        {default_billing_address}
+                                    </div>
+                                    {address?.length > 0 && (
+                                        <>
+                                            <div className={cx("fontBold", "padding-t-b-2")}>
+                                                {defaultAddress
+                                                    ? defaultAddress.fullName
+                                                    : address[0]?.fullName}
+                                            </div>
+                                            <div className={cx("fontSize80", "colorGray")}>
+                                                {defaultAddress
+                                                    ? defaultAddress.fullAddress
+                                                    : address[0]?.fullAddress}
+                                            </div>
+                                            <div className={cx("fontSize80", "colorGray")}>
+                                                (+84){" "}
+                                                {defaultAddress
+                                                    ? defaultAddress.numberPhone
+                                                    : address[0]?.numberPhone}
+                                            </div>
+                                        </>
+                                    )}
+                                </Grid>
                             </Grid>
                             <Grid
                                 className={cx("items")}
