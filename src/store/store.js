@@ -8,6 +8,9 @@ import cartReducer from '~/store/reducers/cartsSlice.js';
 import locationReducer from '~/store/reducers/locationSlice.js';
 import orderReducer from '~/store/reducers/orderSlice.js';
 import shopReducer from '~/store/reducers/shopSlice';
+import paymentReducer from '~/store/reducers/paymentSlice';
+
+
 
 const middleware = getDefaultMiddleware({
     serializableCheck: false,
@@ -25,6 +28,7 @@ const store = configureStore({
         location: locationReducer,
         order:orderReducer,
         shop: shopReducer,
+        payment:paymentReducer,
 
     },
     middleware,

@@ -39,9 +39,8 @@ import LanguageContext from "~/context/languageContext";
 const cx = classNames.bind(styles);
 
 const CheckoutTable = (props) => {
-
   const { languageData } = useContext(LanguageContext);
-  const {   
+  const {
     continue_to_buy,
     add_product_name,
     edit_product_quantity,
@@ -185,7 +184,7 @@ const CheckoutTable = (props) => {
                   style={{ whiteSpace: "nowrap" }}
                   className={classes.tableCell}
                 >
-                 {add_product_price}
+                  {add_product_price}
                 </TableCell>
                 <TableCell
                   style={{ whiteSpace: "nowrap" }}
@@ -193,12 +192,14 @@ const CheckoutTable = (props) => {
                 >
                   {product_quantity}
                 </TableCell>
-                <TableCell
-                  style={{ whiteSpace: "nowrap" }}
-                  className={classes.tableCell}
-                >
-                  {checkout_function}
-                </TableCell>
+                {!isOrder && (
+                  <TableCell
+                    style={{ whiteSpace: "nowrap" }}
+                    className={classes.tableCell}
+                  >
+                    {checkout_function}
+                  </TableCell>
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -228,20 +229,24 @@ const CheckoutTable = (props) => {
                     </TableCell>
                     <TableCell className={classes.tableCell}>
                       <div className={cx("function")}>
-                        <IconButton
-                          aria-label="delete"
-                          onClick={() => handleRemoveCartItem(item.productId)}
-                          className={classes.iconButton}
-                        >
-                          <BsTrash className={cx("icon-remove")} />
-                        </IconButton>
-                        <IconButton
-                          aria-label="update"
-                          className={classes.iconButton}
-                          onClick={() => handleClickOpen(item.productId)}
-                        >
-                          <FiEdit2 className={cx("icon-edit")} />
-                        </IconButton>
+                        {!isOrder && (
+                          <IconButton
+                            aria-label="delete"
+                            onClick={() => handleRemoveCartItem(item.productId)}
+                            className={classes.iconButton}
+                          >
+                            <BsTrash className={cx("icon-remove")} />
+                          </IconButton>
+                        )}
+                        {!isOrder && (
+                          <IconButton
+                            aria-label="update"
+                            className={classes.iconButton}
+                            onClick={() => handleClickOpen(item.productId)}
+                          >
+                            <FiEdit2 className={cx("icon-edit")} />
+                          </IconButton>
+                        )}
                       </div>
                     </TableCell>
                   </TableRow>

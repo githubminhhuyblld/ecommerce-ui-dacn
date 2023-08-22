@@ -7,7 +7,7 @@ export const createPayment = createAsyncThunk(
   async ({ amount, orderInfo }, { rejectWithValue }) => {
     try {
       const response = await instance.post(
-        `/create-payment?amount=${amount}&orderInfo=${orderInfo}`
+        `/payment/create-payment?amount=${amount}&orderInfo=${orderInfo}`
       );
       return response.data;
     } catch (error) {

@@ -24,6 +24,7 @@ import {
 import CheckoutTable from "../Checkout/CheckoutTable/CheckoutTable";
 import { createOrder } from "~/store/reducers/orderSlice";
 import LanguageContext from "~/context/languageContext";
+import { createPayment } from "~/store/reducers/paymentSlice";
 
 const cx = classNames.bind(styles);
 
@@ -127,8 +128,12 @@ function Order(props) {
       navigate(config.routes.login);
     } else if (address !== null) {
       if(selectedValue === "TRANSFER"){
+        dispatch(createPayment({amount:totalPrice,orderInfo:"64d5d31824c2060ebaddc899"})).then((response)=>{
+          if(response.payload.data !== null){
+            window.location.href= response.payload.data 
+          }
+        })
         
-        return ""
       }
       const body = {
         address: defaultAddress
