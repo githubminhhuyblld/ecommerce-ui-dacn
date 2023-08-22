@@ -24,6 +24,7 @@ const routes = {
     readyOrder:"/shop/orders/ready",
     lastedOrder:"/shop/orders/lasted",
     editShop:"/shop/edit",
+    vnpayPayment: "/vnpay-payment",
 
 
 };

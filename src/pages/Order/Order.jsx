@@ -80,7 +80,6 @@ function Order(props) {
   const getWardNameById = (wardId) => {
     return getItemNameById(wards?.wards, wardId);
   };
-
   const handleSaveAddress = (
     provinceId,
     districtId,
@@ -127,6 +126,10 @@ function Order(props) {
     if (user === null) {
       navigate(config.routes.login);
     } else if (address !== null) {
+      if(selectedValue === "TRANSFER"){
+        
+        return ""
+      }
       const body = {
         address: defaultAddress
           ? defaultAddress.fullAddress
@@ -139,6 +142,7 @@ function Order(props) {
         totalPrice: totalPrice,
         userId: userId,
         cartItems: cartItems,
+        paymentType:selectedValue
       };
       dispatch(createOrder({ userId: userId, body: body })).then((response) => {
         dispatch(setSuccess((prev) => !prev));

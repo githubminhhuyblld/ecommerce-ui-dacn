@@ -6,6 +6,7 @@ import { Container, Grid, Skeleton, Rating } from "@mui/material";
 import ReactImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { useDispatch, useSelector } from "react-redux";
+import { Avatar } from "@material-ui/core";
 import { toast } from "react-toastify";
 
 import styles from "./ProductDetail.module.scss";
@@ -23,6 +24,7 @@ import { addToCart, setSuccess } from "~/store/reducers/cartsSlice";
 import { selectProductsCategory } from "~/store/reducers/ProductsCategorySlice";
 import ProductItem from "../Product/ProductItem/ProductItem";
 import LanguageContext from "~/context/languageContext";
+import UserAvatar from "~/assets/user/avatar.jpg";
 
 const cx = classNames.bind(styles);
 
@@ -51,6 +53,12 @@ function ProductDetail(props) {
   const [size, setSize] = useState("");
   const [value, setValue] = useState(2);
   const products = useSelector(selectProductsCategory);
+  const [content, setContent] = useState("");
+
+  const handlePostComment = () => {
+
+    setContent("");
+  };
 
   const isLoading = !productDetail;
   useEffect(() => {
@@ -371,7 +379,9 @@ function ProductDetail(props) {
                     <div className={cx("options")}>
                       {colorOptions && colorOptions.length > 0 && (
                         <>
-                          <h3 className={cx("title")}>{product_detail_color}</h3>
+                          <h3 className={cx("title")}>
+                            {product_detail_color}
+                          </h3>
 
                           <ButtonList
                             options={colorOptions}
@@ -400,7 +410,9 @@ function ProductDetail(props) {
                     <div className={cx("options")}>
                       {sizeOptions && sizeOptions.length > 0 && (
                         <>
-                          <h3 className={cx("title")}>{product_detail_size}:</h3>
+                          <h3 className={cx("title")}>
+                            {product_detail_size}:
+                          </h3>
 
                           <ButtonList
                             options={sizeOptions}
@@ -516,9 +528,37 @@ function ProductDetail(props) {
             <h3 className="text-3xl p-8">
               Mô tả sản phẩm {productDetail?.name}
             </h3>
-            <p className="px-8 py-4">
-              {productDetail?.description}
-            </p>
+            <p className="px-8 py-4">{productDetail?.description}</p>
+          </div>
+
+          <div>
+            <div className=" bg-gray-200 p-8 mt-10">
+              <h3>Đánh giá và nhận xét của {productDetail?.name}</h3>
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-center p-4 bg-white rounded shadow">
+                <Avatar alt="Remy Sharp" src={UserAvatar} />
+                <span className="ml-3">Sản phẩm thật tuyệt vời !</span>
+              </div>
+            </div>
+
+            <div className="p-8">
+              <p className="text-3xl py-4">Nhận xét về sản phẩm</p>
+              <div className="bg-white rounded ">
+                <textarea
+                  className="w-full p-2 border rounded"
+                  placeholder="Your comment..."
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                ></textarea>
+                <button
+                  onClick={handlePostComment}
+                  className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                  Gửi tin nhắn
+                </button>
+              </div>
+            </div>
           </div>
           <div className="px-8 mt-20 bg-gray-200 p-8">
             <h3 className="text-4xl text-black mb-10">{from_the_same_shop}</h3>

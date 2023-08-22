@@ -22,6 +22,7 @@ import ManageLayoutLastedOrder from "~/pages/Seller/ShopOrder/LastedOrder/Manage
 import ManageLayoutReadyOrders from "~/pages/Seller/ShopOrder/ReadyOrder/ManageLayoutReadyOrders";
 import ManageLayoutEditShop from "~/pages/Seller/EditShop/ManageLayoutEditShop";
 import UpdatePassword from "~/pages/UpdatePassword/UpdatePassword";
+import VNPayment from "~/pages/VNPayment/VNPayment";
 
 
 const publicRoutes = [
@@ -49,6 +50,7 @@ const publicRoutes = [
     {path: config.routes.processingOrder, component: ManageLayoutProcessingOrders, layout: null},
     {path: config.routes.lastedOrder, component: ManageLayoutLastedOrder, layout: null},
     {path: config.routes.editShop, component: ManageLayoutEditShop, layout: null},
+    {path: config.routes.vnpayPayment, component: VNPayment},
 
 ];
 const privateRoutes = [];
