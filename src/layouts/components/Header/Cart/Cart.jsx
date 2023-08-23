@@ -40,7 +40,7 @@ function Cart(props) {
           setCartLength(0);
           dispatch(clearCart());
         } else {
-          setCartLength(response.payload?.data[0]?.cartItems?.length);
+          setCartLength(response.payload?.data?.length);
         }
       });
     } else if (!token) {

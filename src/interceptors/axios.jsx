@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const BASE_URL = "https://ecommerce-dacn.site:8443/ecommerce-api/api/v1";
+// export const BASE_URL = "https://ecommerce-dacn.site:8443/ecommerce-api/api/v1";
 // export const BASE_URL = "https://ecommerce-dacn-service.onrender.com/ecommerce-api/api/v1"
-// export const BASE_URL= "http://localhost:8087/ecommerce-api/api/v1"
+export const BASE_URL= "http://localhost:8087/ecommerce-api/api/v1"
 const PROVINCES_URL = "https://provinces.open-api.vn/api";
 const instance = axios.create({
   baseURL: BASE_URL,

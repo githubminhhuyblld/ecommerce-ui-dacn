@@ -10,7 +10,12 @@ import styles from "./Order.module.scss";
 import CreateAddress from "~/layouts/components/CreateAddress/CreateAddress";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { GiCircle } from "react-icons/gi";
-import { selectCartItems, setSuccess } from "~/store/reducers/cartsSlice";
+import {
+  clearCartItem,
+  selectCartItems,
+  selectedProducts,
+  setSuccess,
+} from "~/store/reducers/cartsSlice";
 import { convertCurrency } from "~/untils/convertCurrency";
 import { selectUser } from "~/store/reducers/userSlice";
 import config from "~/config";
@@ -54,12 +59,14 @@ function Order(props) {
   const districts = useSelector(selectDistricts);
   const wards = useSelector(selectWards);
   const carts = useSelector(selectCartItems);
-  const totalPrice = carts?.data?.[0]?.totalPrice;
-  const cartItems = carts?.data?.[0]?.cartItems;
   const user = useSelector(selectUser);
   const address = user !== null && user?.address;
   const email = user !== null && user?.email;
   const userId = user !== null && user?.id;
+  const cartItems = useSelector(selectedProducts);
+  const totalPrice = cartItems.reduce((acc, item) => {
+    return acc + item.newPrice * item.amount;
+  }, 0);
   const defaultAddress =
     Array.isArray(address) && address?.find((item) => item.type === "DEFAULT");
 
@@ -127,14 +134,6 @@ function Order(props) {
     if (user === null) {
       navigate(config.routes.login);
     } else if (address !== null) {
-      if(selectedValue === "TRANSFER"){
-        dispatch(createPayment({amount:totalPrice,orderInfo:"64d5d31824c2060ebaddc899"})).then((response)=>{
-          if(response.payload.data !== null){
-            window.location.href= response.payload.data 
-          }
-        })
-        
-      }
       const body = {
         address: defaultAddress
           ? defaultAddress.fullAddress
@@ -147,11 +146,12 @@ function Order(props) {
         totalPrice: totalPrice,
         userId: userId,
         cartItems: cartItems,
-        paymentType:selectedValue
+        paymentType: selectedValue,
       };
       dispatch(createOrder({ userId: userId, body: body })).then((response) => {
-        dispatch(setSuccess((prev) => !prev));
-        if (response.payload === 200) {
+        console.log(response);
+        if (response.payload.data !== null) {
+         if(selectedValue === "PAYMENT_ON_DELIVERY"){
           toast.success("Đặt đơn hàng thành công", {
             position: toast.POSITION.TOP_LEFT,
             autoClose: 5000,
@@ -162,7 +162,20 @@ function Order(props) {
             progress: undefined,
             bodyClassName: "toast-message",
           });
+         }
         }
+        const orderId = response.payload.data;
+        if (selectedValue === "TRANSFER") {
+          dispatch(
+            createPayment({ amount: totalPrice, orderInfo: orderId })
+          ).then((paymentResponse) => {
+            if (paymentResponse.payload.data !== null) {
+              window.location.href = paymentResponse.payload.data;
+            }
+          });
+        }
+        dispatch(clearCartItem())
+        dispatch(setSuccess((prev) => !prev));
       });
     } else {
       toast.warning("Lưu địa chỉ trước khi đặt hàng", {
@@ -221,7 +234,7 @@ function Order(props) {
                   </div>
                 </div>
                 <div className="w-full bg-white mt-6 p-6">
-                  <CheckoutTable carts={carts} isOrder={true} />
+                  <CheckoutTable carts={cartItems} isOrder={true} />
                 </div>
               </div>
             ) : (
@@ -300,7 +313,10 @@ function Order(props) {
               </ul>
               <h3 className="text-4xl px-4">{order_information}</h3>
               <div className="flex justify-between px-4 py-6 text-gray-500">
-                <p>{temporary_calculation} ({cartItems?.length} {cart_name_product})</p>
+                <p>
+                  {temporary_calculation} ({cartItems?.length}{" "}
+                  {cart_name_product})
+                </p>
                 <span className="text-3xl text-black">
                   {convertCurrency(totalPrice)}
                 </span>

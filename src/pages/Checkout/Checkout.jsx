@@ -9,6 +9,7 @@ import { selectProducts } from "~/store/reducers/productsSlice";
 import { fetchProducts } from "~/services/workspacesService";
 import ProductItem from "../Product/ProductItem/ProductItem";
 import LanguageContext from "~/context/languageContext";
+import CheckoutNormal from "./CheckoutTable/CheckoutNormal";
 
 Checkout.propTypes = {};
 
@@ -36,7 +37,8 @@ function Checkout(props) {
     <div>
       <Container>
         <h3 className="text-5xl py-6 text-primary">{cart_title}</h3>
-        <CheckoutTable carts={carts} isOrder={false} />
+        <CheckoutNormal carts={carts}/>
+        {/* <CheckoutTable carts={carts} isOrder={false} /> */}
         <div className="mt-12">
           <h3 className="text-4xl p-4 bg-sky-300 mb-12 text-white rounded-lg">
             {latest_product}
