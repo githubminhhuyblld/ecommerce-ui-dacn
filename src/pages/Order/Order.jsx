@@ -50,6 +50,7 @@ function Order(props) {
     button_put_order,
     info_edit,
     info_home,
+    td_order_total_price,
   } = languageData;
 
   const navigate = useNavigate();

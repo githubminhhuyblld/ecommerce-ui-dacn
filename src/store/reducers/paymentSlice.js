@@ -15,6 +15,23 @@ export const createPayment = createAsyncThunk(
     }
   }
 );
+
+export const confirmPayment = createAsyncThunk(
+  "payment/confirmPayment",
+  async (
+    { vnp_Amount, vnp_BankCode, vnp_OrderInfo, vnp_ResponseCode },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await instance.get(
+        `/payment/payment-info?vnp_Amount=${vnp_Amount}&vnp_BankCode=${vnp_BankCode}&vnp_OrderInfo=${vnp_OrderInfo}&vnp_ResponseCode=${vnp_ResponseCode}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 const paymentSlice = createSlice({
   name: "payment",
   initialState: {
@@ -35,6 +52,18 @@ const paymentSlice = createSlice({
         state.paymentUrl = action.payload;
       })
       .addCase(createPayment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(confirmPayment.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(confirmPayment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(confirmPayment.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
