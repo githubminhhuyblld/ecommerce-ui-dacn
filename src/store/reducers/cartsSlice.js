@@ -48,7 +48,7 @@ export const removeCartItem = createAsyncThunk(
 );
 export const updateQuantityCartItem = createAsyncThunk(
   "cart/updateQuantityCartItem",
-  async ({ productId, amount,userId }, { rejectWithValue }) => {
+  async ({ productId, amount, userId }, { rejectWithValue }) => {
     try {
       const response = await instance.put(
         `/cart/update/items/${productId}?amount=${amount}&userId=${userId}`,
@@ -70,6 +70,7 @@ const cartSlice = createSlice({
     error: null,
     success: false,
     cartItems: [],
+    selectedItems: JSON.parse(localStorage.getItem("selectedItems") || "[]"),
   },
   reducers: {
     setSuccess: (state, action) => {
@@ -77,6 +78,36 @@ const cartSlice = createSlice({
     },
     clearCart: (state) => {
       state.cartItems = [];
+      state.success = false;
+    },
+    addSelectedItem: (state, action) => {
+      const exists = state.selectedItems.some(
+        (item) => item.productId === action.payload.productId
+      );
+      if (!exists) {
+        state.selectedItems.push(action.payload);
+        localStorage.setItem(
+          "selectedItems",
+          JSON.stringify(state.selectedItems)
+        );
+      }
+    },
+    removeSelectedItem: (state, action) => {
+      const index = state.selectedItems.findIndex(
+        (item) => item.productId === action.payload.productId
+      );
+      if (index !== -1) {
+        state.selectedItems.splice(index, 1);
+        localStorage.setItem(
+          "selectedItems",
+          JSON.stringify(state.selectedItems)
+        );
+      }
+    },
+    clearCartItem: (state) => {
+      state.cartItems = [];
+      state.selectedItems = [];
+      localStorage.removeItem("selectedItems");
       state.success = false;
     },
   },
@@ -144,7 +175,14 @@ const cartSlice = createSlice({
 });
 export const selectCartItems = (state) => state.cart.cartItems;
 export const selectSuccess = (state) => state.cart.success;
+export const selectedProducts = (state) => state.cart.selectedItems;
 
-export const { setSuccess, clearCart } = cartSlice.actions;
+export const {
+  setSuccess,
+  clearCart,
+  addSelectedItem,
+  removeSelectedItem,
+  clearCartItem,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

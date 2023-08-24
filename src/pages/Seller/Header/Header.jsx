@@ -18,7 +18,7 @@ import {
   selectUser,
   setAuthenticated,
 } from "~/store/reducers/userSlice";
-import { clearCart, setSuccess } from "~/store/reducers/cartsSlice";
+import { clearCart, clearCartItem, setSuccess } from "~/store/reducers/cartsSlice";
 import AuthService from "~/services/auth/AuthService";
 import LanguageContext from "~/context/languageContext";
 import Language from "~/layouts/components/Header/Language/Language";
@@ -67,6 +67,7 @@ function Header(props) {
     dispatch(setSuccess(false));
     dispatch(clearCart());
     dispatch(resetUser());
+    dispatch(clearCartItem())
     localStorage.removeItem("shopInfo");
     navigate(config.routes.login);
     setIsDrawerOpen(false);

@@ -23,7 +23,7 @@ import {
   resetUser,
 } from "~/store/reducers/userSlice.js";
 import AuthService from "~/services/auth/AuthService.jsx";
-import { clearCart, setSuccess } from "~/store/reducers/cartsSlice";
+import { clearCart, clearCartItem, setSuccess } from "~/store/reducers/cartsSlice";
 import { selectSuccessAddress } from "~/store/reducers/locationSlice";
 import LanguageContext from "~/context/languageContext";
 import Language from "~/layouts/components/Header/Language/Language.jsx";
@@ -70,6 +70,7 @@ function TopNavBar(props) {
     dispatch(setSuccess(false));
     dispatch(clearCart());
     dispatch(resetUser());
+    dispatch(clearCartItem())
     localStorage.removeItem("shopInfo");
     navigate(config.routes.login);
     setIsDrawerOpen(false)

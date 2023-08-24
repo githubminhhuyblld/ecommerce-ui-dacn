@@ -9,7 +9,7 @@ export const createOrder = createAsyncThunk(
       const response = await instance.post(`/order?userId=${userId}`, body, {
         headers: authHeader(),
       });
-      return response.status;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.status);
     }

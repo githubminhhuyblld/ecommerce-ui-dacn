@@ -74,7 +74,7 @@ const CheckoutTable = (props) => {
     setOpen(false);
   };
   const handleClickOpen = (id) => {
-    const cart = carts?.data?.[0]?.cartItems.find(
+    const cart = carts?.data?.cartItems.find(
       (item) => item.productId === id
     );
     if (cart) {
@@ -114,7 +114,7 @@ const CheckoutTable = (props) => {
     onSubmit: handleAgree,
   });
 
-  return carts?.data?.[0]?.cartItems?.length > 0 ? (
+  return carts.length > 0 ? (
     <div className={cx("checkout")}>
       {!isOrder && (
         <Link
@@ -203,7 +203,7 @@ const CheckoutTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {carts?.data?.[0]?.cartItems?.map((item, index) => {
+              {carts.map((item, index) => {
                 return (
                   <TableRow
                     key={index}

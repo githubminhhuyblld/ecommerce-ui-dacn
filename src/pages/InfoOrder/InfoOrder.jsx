@@ -26,6 +26,7 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import SidebarLeft from "~/layouts/components/SidebarLeft/SidebarLeft";
 import { CiDeliveryTruck } from "react-icons/ci";
 import LanguageContext from "~/context/languageContext";
+import { createPayment } from "~/store/reducers/paymentSlice";
 
 const cx = classNames.bind(styles);
 
@@ -62,6 +63,7 @@ function InfoOrder(props) {
   const user = useSelector(selectUser);
   const userId = user !== null && user?.id;
   const success = useSelector(selectOrderSuccess);
+  console.log(orders);
   useEffect(() => {
     dispatch(fetchOrdersByUserId(userId));
   }, [dispatch, userId, success]);
@@ -86,6 +88,15 @@ function InfoOrder(props) {
             draggable: true,
             progress: undefined,
           });
+        }
+      }
+    );
+  };
+  const handlePaymentOrder = (orderId, totalPrice) => {
+    dispatch(createPayment({ amount: totalPrice, orderInfo: orderId })).then(
+      (paymentResponse) => {
+        if (paymentResponse.payload.data !== null) {
+          window.location.href = paymentResponse.payload.data;
         }
       }
     );
@@ -152,6 +163,12 @@ function InfoOrder(props) {
                                       ? `${confirmed} `
                                       : order.orderStatus === "CANCELED"
                                       ? `${canceled}`
+                                      : order.paymentType === "TRANSFER" &&
+                                        order.orderStatus === "UNPAID"
+                                      ? `Đang chờ thanh toán`
+                                      : order.orderStatus === "READY" &&
+                                        order.paymentStatus === "PAID"
+                                      ? `Chờ nhận hàng`
                                       : ""}
                                   </p>
                                 </div>
@@ -241,6 +258,21 @@ function InfoOrder(props) {
                                   </span>
                                 </div>
                               ))}
+                            {order.orderStatus === "UNPAID" && (
+                              <div className="my-8">
+                                <span
+                                  onClick={() =>
+                                    handlePaymentOrder(
+                                      order.id,
+                                      order.totalPrice
+                                    )
+                                  }
+                                  className="bg-green-500 p-4 text-white cursor-pointer hover:bg-green-700 rounded-xl"
+                                >
+                                  Thanh toán ngay
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
