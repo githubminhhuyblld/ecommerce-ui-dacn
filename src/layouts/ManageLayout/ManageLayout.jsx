@@ -71,6 +71,10 @@ function ManageLayout({ children }) {
           to: config.routes.allOrder,
         },
         {
+          name: "Tất cả chưa thanh toán",
+          to: config.routes.unpaidOrder,
+        },
+        {
           name: "Đơn hàng chờ xác nhận",
           to: config.routes.processingOrder,
         },

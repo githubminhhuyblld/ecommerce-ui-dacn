@@ -9,6 +9,9 @@ import "moment-timezone";
 import Avatar from "@mui/material/Avatar";
 import { toast } from "react-toastify";
 import { animateScroll as scroll } from "react-scroll";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
 
 import styles from "./InfoOrder.module.scss";
 import { RiMessage2Line } from "react-icons/ri";
@@ -27,10 +30,12 @@ import SidebarLeft from "~/layouts/components/SidebarLeft/SidebarLeft";
 import { CiDeliveryTruck } from "react-icons/ci";
 import LanguageContext from "~/context/languageContext";
 import { createPayment } from "~/store/reducers/paymentSlice";
+import { Box } from "@material-ui/core";
 
 const cx = classNames.bind(styles);
 
 InfoOrder.propTypes = {};
+const steps = ["Chờ xác nhận", "Đang giao hàng", "Đã giao hàng"];
 
 function InfoOrder(props) {
   const { languageData } = useContext(LanguageContext);
@@ -92,6 +97,20 @@ function InfoOrder(props) {
       }
     );
   };
+  const handleStepper = (order) =>{
+    if(order.orderStatus === "PROCESSING"){
+      return 0
+    }
+    if(order.orderStatus === "READY"){
+      return 1
+    }
+
+    if(order.orderStatus === "DELIVERED"){
+      return 2
+    }
+    
+
+  }
   const handlePaymentOrder = (orderId, totalPrice) => {
     dispatch(createPayment({ amount: totalPrice, orderInfo: orderId })).then(
       (paymentResponse) => {
@@ -246,7 +265,19 @@ function InfoOrder(props) {
                               </span>
                             </div>
                             <p className="text-2xl flex-1">{order.address}</p>
+
                             <span>(84+) {order.numberPhone}</span>
+                            <div className="my-6">
+                              <Box sx={{ width: "100%" }}>
+                                <Stepper activeStep={handleStepper(order)} alternativeLabel>
+                                  {steps.map((label) => (
+                                    <Step key={label}>
+                                      <StepLabel>{label}</StepLabel>
+                                    </Step>
+                                  ))}
+                                </Stepper>
+                              </Box>
+                            </div>
                             {order.orderStatus === "READY" ||
                               (order.orderStatus === "PROCESSING" && (
                                 <div className="my-8">

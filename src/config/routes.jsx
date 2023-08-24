@@ -20,6 +20,7 @@ const routes = {
     editProduct: "/shop/edit-product/:id",
     allOrder: "/shop/orders/all",
     cancelOrder:"/shop/orders/cancel",
+    unpaidOrder:"/shop/orders/unpaid",
     processingOrder:"/shop/orders/processing",
     readyOrder:"/shop/orders/ready",
     lastedOrder:"/shop/orders/lasted",

@@ -6,6 +6,7 @@ import "moment-timezone";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
+
 import styles from "./OrdersTable.module.scss";
 import { AiFillDollarCircle } from "react-icons/ai";
 import { convertCurrency } from "~/untils/convertCurrency";
@@ -20,8 +21,8 @@ const cx = classNames.bind(styles);
 
 OrdersTable.propTypes = {
   title: PropTypes.string.isRequired,
+  orders: PropTypes.array,
 };
-
 function OrdersTable(props) {
   const { title, orders } = props;
   const dispatch = useDispatch();
@@ -124,6 +125,9 @@ function OrdersTable(props) {
                       ? "Đã xác nhận"
                       : order.orderStatus === "CANCELED"
                       ? "Đã hủy đơn"
+                      : order.paymentType === "TRANSFER" &&
+                        order.orderStatus === "UNPAID"
+                      ? `Đang chờ thanh toán`
                       : ""}
                   </span>
                 </div>
