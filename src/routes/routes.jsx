@@ -20,6 +20,7 @@ import ManageLayoutCanelOrders from "~/pages/Seller/ShopOrder/CancelOrder/Manage
 import ManageLayoutProcessingOrders from "~/pages/Seller/ShopOrder/ProcessingOrder/ManageLayoutProcessingOrders";
 import ManageLayoutLastedOrder from "~/pages/Seller/ShopOrder/LastedOrder/ManageLayoutLastedOrder";
 import ManageLayoutReadyOrders from "~/pages/Seller/ShopOrder/ReadyOrder/ManageLayoutReadyOrders";
+import ManageLayoutUnpaidOrder from "~/pages/Seller/ShopOrder/UnpaidOrder/ManageLayoutUnpaidOrder";
 import ManageLayoutEditShop from "~/pages/Seller/EditShop/ManageLayoutEditShop";
 import UpdatePassword from "~/pages/UpdatePassword/UpdatePassword";
 import VNPayment from "~/pages/VNPayment/VNPayment";
@@ -46,6 +47,7 @@ const publicRoutes = [
     {path: config.routes.editProduct, component: ManageLayoutEditProduct, layout: null},
     {path: config.routes.allOrder, component: ManageLayoutAllOrder, layout: null},
     {path: config.routes.cancelOrder, component: ManageLayoutCanelOrders, layout: null},
+    {path: config.routes.unpaidOrder, component: ManageLayoutUnpaidOrder, layout: null},
     {path: config.routes.readyOrder, component: ManageLayoutReadyOrders, layout: null},
     {path: config.routes.processingOrder, component: ManageLayoutProcessingOrders, layout: null},
     {path: config.routes.lastedOrder, component: ManageLayoutLastedOrder, layout: null},
