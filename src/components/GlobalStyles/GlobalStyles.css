@@ -98,6 +98,12 @@ html *::-webkit-scrollbar-track {
   font-size: 1.4rem;
   margin-bottom: 10px;
 }
+.input-update {
+  border: 1px solid #ccc;
+  padding: 6px 6px;
+  border-radius: 4px;
+  font-size: 2rem;
+}
 body .input-field {
   border: 1px solid #cccccc;
   border-radius: 4px;

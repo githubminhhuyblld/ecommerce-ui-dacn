@@ -1,9 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Avatar, Checkbox, IconButton } from "@material-ui/core";
+import {
+  Avatar,
+  Checkbox,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  InputBase,
+  Tooltip,
+} from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
 
 import { BsTrash } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
@@ -16,9 +28,11 @@ import {
   removeSelectedItem,
   selectCartItems,
   selectedProducts,
+  updateQuantityCartItem,
 } from "~/store/reducers/cartsSlice";
 import LanguageContext from "~/context/languageContext";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { useFormik } from "formik";
 
 CheckoutNormal.propTypes = {
   carts: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
@@ -32,34 +46,82 @@ function CheckoutNormal(props) {
     order_confirmation,
     continue_to_buy,
     cart_title_no_product,
+    edit_product_quantity,
+    button_cancel,
+    button_confirm,
   } = languageData;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
+  const [productId, setProductId] = useState(null);
+  const [cartItem, setCartItem] = useState({});
+  const [open, setOpen] = useState(false);
   const selectedItems = useSelector(selectedProducts);
-  const [checkedItems, setCheckedItems] = useState(
-    carts?.data?.map((cart) =>
-      selectedItems.some(
-        (selectedItem) => selectedItem.productId === cart.cartItem.productId
-      )
-    ) || []
+  const initialCheckedItems = JSON.parse(
+    localStorage.getItem("checkedItems") || "{}"
   );
+  const [checkedItems, setCheckedItems] = useState(initialCheckedItems);
+
   const handleRemoveSelectedItems = () => {
-    const productsToDelete = selectedItems.filter(
-      (item, index) => checkedItems[index]
+    const idsToDelete = Object.keys(checkedItems).filter(
+      (id) => checkedItems[id]
     );
-    const user = JSON.parse(localStorage.getItem("token"));
-    productsToDelete.forEach((product) => {
-      dispatch(
-        removeCartItem({
-          userId: user.userId,
-          itemId: product.productId,
-        })
-      );
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    idsToDelete.forEach((id) => {
+      const itemToRemove = carts?.data?.find((cart) => cart.id === id);
+      if (itemToRemove) {
+        dispatch(removeSelectedItem(itemToRemove.cartItem));
+      }
+      dispatch(removeCartItem({ userId: token.userId, itemId: id }));
     });
+
+    const updatedCheckedItems = { ...checkedItems };
+    idsToDelete.forEach((id) => delete updatedCheckedItems[id]);
+    setCheckedItems(updatedCheckedItems);
   };
 
+  const handleChange = (index) => (event) => {
+    const currentCart = carts?.data?.find((cart) => cart.id === index);
+    if (!currentCart) return;
+
+    if (event.target.checked) {
+      if (selectedItems.length > 0) {
+        const isSameShop = selectedItems.every(
+          (item) => item.shop.id === currentCart.cartItem.shop.id
+        );
+        if (!isSameShop) {
+          alert(
+            "Bạn chỉ có thể chọn các sản phẩm từ cùng một cửa hàng để thanh toán trước."
+          );
+          return;
+        }
+      }
+    }
+
+    const updatedCheckedItems = { ...checkedItems };
+    updatedCheckedItems[currentCart.id] = event.target.checked;
+    setCheckedItems(updatedCheckedItems);
+    localStorage.setItem("checkedItems", JSON.stringify(updatedCheckedItems));
+
+    if (event.target.checked) {
+      dispatch(addSelectedItem(currentCart.cartItem));
+    } else {
+      dispatch(removeSelectedItem(currentCart.cartItem));
+    }
+  };
+  const totalCheckedPrice = carts?.data?.reduce((acc, cart) => {
+    const cartId = cart.id;
+    if (checkedItems && checkedItems[cartId]) {
+      return acc + cart.cartItem.newPrice * cart.cartItem.amount;
+    }
+    return acc;
+  }, 0);
   const handleConfirmOrder = () => {
-    const hasCheckedItems = checkedItems.some((item) => item === true);
+    const hasCheckedItems = Object.values(checkedItems).some(
+      (value) => value === true
+    );
+
     if (!hasCheckedItems) {
       toast.warning("Vui lòng chọn đơn hàng để đăt hàng!", {
         position: toast.POSITION.TOP_RIGHT,
@@ -76,39 +138,64 @@ function CheckoutNormal(props) {
     }
   };
 
-  const handleChange = (index) => (event) => {
-    const currentCart = carts?.data[index];
-    if (event.target.checked) {
-      if (selectedItems.length > 0) {
-        const isSameShop = selectedItems.every(
-          (item) => item.shop.id === currentCart.cartItem.shop.id
-        );
-        if (!isSameShop) {
-          alert(
-            "Bạn chỉ có thể chọn các sản phẩm từ cùng một cửa hàng để thanh toán trước."
-          );
-          return;
-        }
-      }
-    }
+  const validationSchema = Yup.object().shape({
+    quantity: Yup.number()
+      .min(1, "Số lượng không được nhỏ hơn 1")
+      .max(20, "Số lượng không quá 20")
+      .required("Số lượng cập nhật là bắt buộc"),
+  });
 
-    const updatedCheckedItems = [...checkedItems];
-    updatedCheckedItems[index] = event.target.checked;
-    setCheckedItems(updatedCheckedItems);
-
-    if (event.target.checked) {
-      dispatch(addSelectedItem(currentCart.cartItem));
-    } else {
-      dispatch(removeSelectedItem(currentCart.cartItem));
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleClickOpen = (id) => {
+    const cart = carts?.data?.find((item) => item.cartItem.productId === id);
+    console.log(cart);
+    if (cart) {
+      setProductId(id);
+      setCartItem(cart);
+      setQuantity(cart.amount);
+      setOpen(true);
     }
   };
+  const handleRemoveCartItem = () => {
+    const productsToDelete = selectedItems.filter(
+      (item) => checkedItems[item.id]
+    );
+    const user = JSON.parse(localStorage.getItem("token"));
+    productsToDelete.forEach((product) => {
+      dispatch(
+        removeCartItem({
+          userId: user.userId,
+          itemId: product.productId,
+        })
+      );
+    });
+  };
 
-  const totalCheckedPrice = carts?.data?.reduce((acc, cart, index) => {
-    if (checkedItems[index]) {
-      return acc + cart.cartItem.newPrice * cart.cartItem.amount;
-    }
-    return acc;
-  }, 0);
+  const handleAgree = () => {
+    const user = JSON.parse(localStorage.getItem("token"));
+    dispatch(
+      updateQuantityCartItem({
+        productId: productId,
+        amount: formik.values.quantity,
+        userId: user.userId,
+      })
+    ).then((response) => {
+      console.log(response);
+      if (response.payload === 200) {
+        setOpen(false);
+      }
+    });
+  };
+  const formik = useFormik({
+    initialValues: {
+      quantity: quantity,
+    },
+    enableReinitialize: true,
+    validationSchema: validationSchema,
+    onSubmit: handleAgree,
+  });
 
   return (
     <div>
@@ -120,21 +207,60 @@ function CheckoutNormal(props) {
               onClick={() => handleRemoveSelectedItems()}
               className={""}
             >
-              <BsTrash />
-            </IconButton>
-            <IconButton
-              aria-label="update"
-              className={""}
-              // onClick={() => handleClickOpen(item.productId)}
-            >
-              <FiEdit2 />
+              <Tooltip title="Xóa sản phẩm khỏi giỏ hàng">
+                <BsTrash />
+              </Tooltip>
             </IconButton>
           </div>
+          <Dialog open={open} onClose={handleClose}>
+            <DialogTitle>{edit_product_quantity}</DialogTitle>
+            <DialogContent>
+              <DialogContentText>{cartItem?.cartItem?.name}</DialogContentText>
+              <InputBase
+                autoFocus
+                className="input-update"
+                margin="dense"
+                style={{ fontSize: "16px" }}
+                name="quantity"
+                inputProps={{
+                  min: 1,
+                  max: 10,
+                  step: 1,
+                }}
+                value={formik.values.quantity}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                type="number"
+                fullWidth
+                variant="standard"
+              />
+              {formik.touched.quantity && formik.errors.quantity ? (
+                <span className="text-red-300">{formik.errors.quantity}</span>
+              ) : null}
+            </DialogContent>
+            <DialogActions style={{ paddingRight: "12px" }}>
+              <button
+                className="bg-red-400 p-2 text-white hover:bg-red-700 rounded-lg"
+                onClick={handleClose}
+              >
+                {button_cancel}
+              </button>
+              <button
+                className="bg-green-500 hover:bg-green-700 p-2 rounded-lg text-white"
+                onClick={handleAgree}
+              >
+                {button_confirm}
+              </button>
+            </DialogActions>
+          </Dialog>
           {carts?.data?.map((item, index) => {
             return (
-              <div key={item.cartItem.productId} className="py-3 shadow-md">
+              <div
+                key={item.cartItem.productId}
+                className="py-3 shadow-md relative"
+              >
                 <div className="flex items-center my-3">
-                  <span className="text-lg p-2 mr-2 bg-orange-400 text-white">
+                  <span className="text-lg p-2 mx-3 mr-2 bg-orange-400 text-white">
                     Yêu thích
                   </span>
                   <Avatar
@@ -145,8 +271,8 @@ function CheckoutNormal(props) {
                 </div>
                 <div className="flex ">
                   <Checkbox
-                    checked={checkedItems[index]}
-                    onChange={handleChange(index)}
+                    checked={checkedItems[item.id] || false}
+                    onChange={handleChange(item.id)}
                     inputProps={{ "aria-label": "controlled" }}
                   />
                   <div className="w-40 h-40">
@@ -158,18 +284,27 @@ function CheckoutNormal(props) {
                     <span>x {item.cartItem.amount}</span>
                   </div>
                 </div>
+                <div className="absolute top-0 right-0">
+                  <IconButton
+                    aria-label="update"
+                    className={""}
+                    onClick={() => handleClickOpen(item.cartItem.productId)}
+                  >
+                    <Tooltip title="Sửa thông tin sản phẩm">
+                      <FiEdit2 />
+                    </Tooltip>
+                  </IconButton>
+                </div>
               </div>
             );
           })}
           <div className="mt-12 flex items-center justify-between flex-row-reverse">
             <div className="flex items-center justify-start">
-              <div className="bg-sky-500 hover:bg-sky-700 p-4">
-                <span
-                  className="text-white cursor-pointer"
-                  onClick={handleConfirmOrder}
-                >
-                  {order_confirmation}
-                </span>
+              <div
+                onClick={handleConfirmOrder}
+                className="bg-sky-500 hover:bg-sky-700 p-4 cursor-pointer"
+              >
+                <span className="text-white">{order_confirmation}</span>
               </div>
             </div>
             <div className="flex items-center justify-end">

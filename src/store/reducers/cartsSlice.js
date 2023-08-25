@@ -80,6 +80,9 @@ const cartSlice = createSlice({
       state.cartItems = [];
       state.success = false;
     },
+    setSelectedItems: (state, action) => {
+      state.selectedItems = action.payload;
+    },
     addSelectedItem: (state, action) => {
       const exists = state.selectedItems.some(
         (item) => item.productId === action.payload.productId
@@ -183,6 +186,7 @@ export const {
   addSelectedItem,
   removeSelectedItem,
   clearCartItem,
+  setSelectedItems
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
