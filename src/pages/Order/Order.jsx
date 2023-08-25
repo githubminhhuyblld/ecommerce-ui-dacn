@@ -150,20 +150,19 @@ function Order(props) {
         paymentType: selectedValue,
       };
       dispatch(createOrder({ userId: userId, body: body })).then((response) => {
-        console.log(response);
         if (response.payload.data !== null) {
-         if(selectedValue === "PAYMENT_ON_DELIVERY"){
-          toast.success("Đặt đơn hàng thành công", {
-            position: toast.POSITION.TOP_LEFT,
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            bodyClassName: "toast-message",
-          });
-         }
+          if (selectedValue === "PAYMENT_ON_DELIVERY") {
+            toast.success("Đặt đơn hàng thành công", {
+              position: toast.POSITION.TOP_LEFT,
+              autoClose: 5000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              bodyClassName: "toast-message",
+            });
+          }
         }
         const orderId = response.payload.data;
         if (selectedValue === "TRANSFER") {
@@ -172,11 +171,16 @@ function Order(props) {
           ).then((paymentResponse) => {
             if (paymentResponse.payload.data !== null) {
               window.location.href = paymentResponse.payload.data;
+              setTimeout(() => {
+                dispatch(clearCartItem());
+                dispatch(setSuccess((prev) => !prev));
+              }, 5000);
             }
           });
+        } else {
+          dispatch(clearCartItem());
+          dispatch(setSuccess((prev) => !prev));
         }
-        dispatch(clearCartItem())
-        dispatch(setSuccess((prev) => !prev));
       });
     } else {
       toast.warning("Lưu địa chỉ trước khi đặt hàng", {

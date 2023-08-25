@@ -68,7 +68,6 @@ function InfoOrder(props) {
   const user = useSelector(selectUser);
   const userId = user !== null && user?.id;
   const success = useSelector(selectOrderSuccess);
-  console.log(orders);
   useEffect(() => {
     dispatch(fetchOrdersByUserId(userId));
   }, [dispatch, userId, success]);
