@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
 import { Container } from "@mui/material";
@@ -12,6 +12,8 @@ import { animateScroll as scroll } from "react-scroll";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
+import { Box } from "@material-ui/core";
+import Rating from "@mui/material/Rating";
 
 import styles from "./InfoOrder.module.scss";
 import { RiMessage2Line } from "react-icons/ri";
@@ -30,7 +32,7 @@ import SidebarLeft from "~/layouts/components/SidebarLeft/SidebarLeft";
 import { CiDeliveryTruck } from "react-icons/ci";
 import LanguageContext from "~/context/languageContext";
 import { createPayment } from "~/store/reducers/paymentSlice";
-import { Box } from "@material-ui/core";
+import { createComment } from "~/store/reducers/commentSlice";
 
 const cx = classNames.bind(styles);
 
@@ -96,20 +98,18 @@ function InfoOrder(props) {
       }
     );
   };
-  const handleStepper = (order) =>{
-    if(order.orderStatus === "PROCESSING"){
-      return 0
+  const handleStepper = (order) => {
+    if (order.orderStatus === "PROCESSING") {
+      return 0;
     }
-    if(order.orderStatus === "READY"){
-      return 1
+    if (order.orderStatus === "READY") {
+      return 1;
     }
 
-    if(order.orderStatus === "DELIVERED"){
-      return 2
+    if (order.orderStatus === "DELIVERED") {
+      return 2;
     }
-    
-
-  }
+  };
   const handlePaymentOrder = (orderId, totalPrice) => {
     dispatch(createPayment({ amount: totalPrice, orderInfo: orderId })).then(
       (paymentResponse) => {
@@ -125,6 +125,27 @@ function InfoOrder(props) {
       scroll.scrollToTop();
     }, 100);
   };
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [hasReviewed, setHasReviewed] = useState(false);
+
+  const handleSubmit = (productId, orderId) => {
+    const body = {
+      productId: productId,
+      content: comment,
+      userId: userId,
+      rating: rating,
+      orderId: orderId,
+    };
+    console.log(body);
+    dispatch(createComment({ body: body })).then((response) => {
+      console.log(response);
+      if (response.payload === 200) {
+        alert("Bạn đã đánh giá thành công!");
+        setHasReviewed(true);
+      }
+    });
+  };
 
   return (
     <div className="w-full bg-gray-200 p-8">
@@ -138,7 +159,7 @@ function InfoOrder(props) {
               <h3 className="text-5xl mb-10">{order_detail}</h3>
               {orders.map((order, index) => {
                 return (
-                  <div key={order.id} className="mt-10">
+                  <div key={index} className="mt-10">
                     {order.cartItems.map((item, index) => {
                       return (
                         <div key={index} className="w-full">
@@ -171,6 +192,8 @@ function InfoOrder(props) {
                                   className={`p-2 flex items-center justify-center ${
                                     order.orderStatus === "CANCELED"
                                       ? "bg-red-500"
+                                      : order.orderStatus === "DELIVERED"
+                                      ? "bg-green-500"
                                       : "bg-sky-400"
                                   }   rounded-full`}
                                 >
@@ -179,6 +202,8 @@ function InfoOrder(props) {
                                       ? `${wait_for_confirmation}`
                                       : order.orderStatus === "READY"
                                       ? `${confirmed} `
+                                      : order.orderStatus === "DELIVERED"
+                                      ? `Đã giao hàng `
                                       : order.orderStatus === "CANCELED"
                                       ? `${canceled}`
                                       : order.paymentType === "TRANSFER" &&
@@ -249,7 +274,10 @@ function InfoOrder(props) {
                           {set_date} {convertTimeStamp(order.createAt)}
                         </p>
                         <p className="text-2xl text-gray-800 mt-2">
-                          {method_pay_receive}
+                          method_pay_receive
+                          {order.paymentType === "PAYMENT_ON_DELIVERY"
+                            ? `${method_pay_receive}`
+                            : "Thanh toán bằng tài khoản"}
                         </p>
                       </div>
                     </div>
@@ -266,17 +294,23 @@ function InfoOrder(props) {
                             <p className="text-2xl flex-1">{order.address}</p>
 
                             <span>(84+) {order.numberPhone}</span>
-                            <div className="my-6">
-                              <Box sx={{ width: "100%" }}>
-                                <Stepper activeStep={handleStepper(order)} alternativeLabel>
-                                  {steps.map((label) => (
-                                    <Step key={label}>
-                                      <StepLabel>{label}</StepLabel>
-                                    </Step>
-                                  ))}
-                                </Stepper>
-                              </Box>
-                            </div>
+                            {order.orderStatus === "DELIVERED" && (
+                              <div className="my-6">
+                                <Box sx={{ width: "100%" }}>
+                                  <Stepper
+                                    activeStep={handleStepper(order)}
+                                    alternativeLabel
+                                  >
+                                    {steps.map((label) => (
+                                      <Step key={label}>
+                                        <StepLabel>{label}</StepLabel>
+                                      </Step>
+                                    ))}
+                                  </Stepper>
+                                </Box>
+                              </div>
+                            )}
+
                             {order.orderStatus === "READY" ||
                               (order.orderStatus === "PROCESSING" && (
                                 <div className="my-8">
@@ -332,6 +366,48 @@ function InfoOrder(props) {
                           </span>
                         </div>
                       </div>
+                      {order.cartItems[0].comment === "UNCOMMENTED" &&
+                        order.orderStatus === "DELIVERED" &&
+                        !hasReviewed && (
+                          <div className="bg-white col-span-12 flex flex-col   ">
+                            <div className="px-6">
+                              <h1 className="mb-4 text-xl font-bold mt-4">
+                                Đánh giá sản phẩm
+                              </h1>
+
+                              <div className="mb-4 text-4xl">
+                                <Rating
+                                  name="simple-controlled"
+                                  value={rating}
+                                  onChange={(event, newValue) => {
+                                    setRating(newValue);
+                                  }}
+                                />
+                              </div>
+                            </div>
+                            <div className="w-full p-6">
+                              <textarea
+                                className="mb-4 p-2 w-full border rounded "
+                                rows={4}
+                                placeholder="Nhận xét của bạn"
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                              />
+                            </div>
+
+                            <button
+                              className="px-4  m-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
+                              onClick={() =>
+                                handleSubmit(
+                                  order.cartItems[0].productId,
+                                  order.id
+                                )
+                              }
+                            >
+                              Gửi đánh giá
+                            </button>
+                          </div>
+                        )}
                     </div>
                   </div>
                 );

@@ -9,6 +9,7 @@ import locationReducer from '~/store/reducers/locationSlice.js';
 import orderReducer from '~/store/reducers/orderSlice.js';
 import shopReducer from '~/store/reducers/shopSlice';
 import paymentReducer from '~/store/reducers/paymentSlice';
+import commentReducer from '~/store/reducers/commentSlice';
 
 
 
@@ -29,6 +30,7 @@ const store = configureStore({
         order:orderReducer,
         shop: shopReducer,
         payment:paymentReducer,
+        comment:commentReducer,
 
     },
     middleware,

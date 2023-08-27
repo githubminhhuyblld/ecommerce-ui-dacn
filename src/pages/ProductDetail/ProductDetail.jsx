@@ -25,6 +25,10 @@ import { selectProductsCategory } from "~/store/reducers/ProductsCategorySlice";
 import ProductItem from "../Product/ProductItem/ProductItem";
 import LanguageContext from "~/context/languageContext";
 import UserAvatar from "~/assets/user/avatar.jpg";
+import {
+  fetchCommentsByProductId,
+  selectCommentsByProductId,
+} from "~/store/reducers/commentSlice";
 
 const cx = classNames.bind(styles);
 
@@ -51,14 +55,13 @@ function ProductDetail(props) {
   const [count, setCount] = useState(1);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
-  const [value, setValue] = useState(2);
   const products = useSelector(selectProductsCategory);
-  const [content, setContent] = useState("");
+  const comments = useSelector(selectCommentsByProductId);
 
-  const handlePostComment = () => {
+  useEffect(() => {
+    dispatch(fetchCommentsByProductId(id));
+  }, [dispatch, id]);
 
-    setContent("");
-  };
 
   const isLoading = !productDetail;
   useEffect(() => {
@@ -536,28 +539,27 @@ function ProductDetail(props) {
               <h3>Đánh giá và nhận xét của {productDetail?.name}</h3>
             </div>
             <div className="space-y-4">
-              <div className="flex items-center p-4 bg-white rounded shadow">
-                <Avatar alt="Remy Sharp" src={UserAvatar} />
-                <span className="ml-3">Sản phẩm thật tuyệt vời !</span>
-              </div>
-            </div>
-
-            <div className="p-8">
-              <p className="text-3xl py-4">Nhận xét về sản phẩm</p>
-              <div className="bg-white rounded ">
-                <textarea
-                  className="w-full p-2 border rounded"
-                  placeholder="Your comment..."
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                ></textarea>
-                <button
-                  onClick={handlePostComment}
-                  className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                  Gửi tin nhắn
-                </button>
-              </div>
+              {comments?.data?.map((comment, index) => {
+                return (
+                  <div key={comment.id}>
+                    <div className="flex  flex-col p-4 bg-white rounded shadow">
+                      <Rating
+                        name="half-rating-read"
+                        className={cx("star")}
+                        defaultValue={comment.rating}
+                        readOnly
+                      />
+                      <div>
+                        <img src={comment.productImage} className="w-48 h-48" />
+                      </div>
+                      <div className="flex items-center mt-6">
+                        <Avatar alt="Remy Sharp" src={comment.avatar} />
+                        <span className="ml-3">{comment.comment}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div className="px-8 mt-20 bg-gray-200 p-8">
