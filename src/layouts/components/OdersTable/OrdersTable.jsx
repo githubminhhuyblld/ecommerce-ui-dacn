@@ -6,7 +6,6 @@ import "moment-timezone";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-
 import styles from "./OrdersTable.module.scss";
 import { AiFillDollarCircle } from "react-icons/ai";
 import { convertCurrency } from "~/untils/convertCurrency";
@@ -116,13 +115,17 @@ function OrdersTable(props) {
                     className={`py-2 px-4 text-white text-xl md:text-3xl rounded-full  ${
                       order.orderStatus === "CANCELED"
                         ? "bg-red-500"
-                        : "bg-sky-400"
+                        : order.orderStatus === "DELIVERED"
+                        ? "bg-green-500"
+                        : "bg-sky-500"
                     }`}
                   >
                     {order.orderStatus === "PROCESSING"
                       ? "Chờ xác nhận"
                       : order.orderStatus === "READY"
                       ? "Đã xác nhận"
+                      : order.orderStatus === "DELIVERED"
+                      ? "Đã giao hàng"
                       : order.orderStatus === "CANCELED"
                       ? "Đã hủy đơn"
                       : order.paymentType === "TRANSFER" &&

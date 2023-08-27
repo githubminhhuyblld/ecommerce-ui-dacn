@@ -59,6 +59,7 @@ function AllOrder(props) {
       })
     );
   };
+  console.log(shopOrders?.content);
 
 
   return (
