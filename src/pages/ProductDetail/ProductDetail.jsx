@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import styles from "./ProductDetail.module.scss";
 import ButtonList from "~/layouts/components/ButtonList/ButtonList.jsx";
 import { AiOutlinePlus } from "react-icons/ai";
+import { BsShieldFillCheck } from "react-icons/bs";
 import { IoMdRemove } from "react-icons/io";
 import {
   fetchProductsByCategoryId,
@@ -61,7 +62,6 @@ function ProductDetail(props) {
   useEffect(() => {
     dispatch(fetchCommentsByProductId(id));
   }, [dispatch, id]);
-
 
   const isLoading = !productDetail;
   useEffect(() => {
@@ -543,6 +543,12 @@ function ProductDetail(props) {
                 return (
                   <div key={comment.id}>
                     <div className="flex  flex-col p-4 bg-white rounded shadow">
+                      <div className="flex items-center ">
+                        <BsShieldFillCheck className="text-green-500 text-4xl mb-2"/>
+                        <span className="bg-green-500 ml-3 px-2 rounded-sm text-white">
+                          Chứng nhận đã mua hàng
+                        </span>
+                      </div>
                       <Rating
                         name="half-rating-read"
                         className={cx("star")}
