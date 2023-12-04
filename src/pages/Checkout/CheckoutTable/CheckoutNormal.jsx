@@ -150,7 +150,6 @@ function CheckoutNormal(props) {
   };
   const handleClickOpen = (id) => {
     const cart = carts?.data?.find((item) => item.cartItem.productId === id);
-    console.log(cart);
     if (cart) {
       setProductId(id);
       setCartItem(cart);

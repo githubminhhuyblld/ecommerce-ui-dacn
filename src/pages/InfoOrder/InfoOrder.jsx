@@ -14,6 +14,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { Box } from "@material-ui/core";
 import Rating from "@mui/material/Rating";
+import { Pagination } from "@mui/material";
 
 import styles from "./InfoOrder.module.scss";
 import { RiMessage2Line } from "react-icons/ri";
@@ -33,11 +34,13 @@ import { CiDeliveryTruck } from "react-icons/ci";
 import LanguageContext from "~/context/languageContext";
 import { createPayment } from "~/store/reducers/paymentSlice";
 import { createComment } from "~/store/reducers/commentSlice";
+import AuthService from "~/services/auth/AuthService";
 
 const cx = classNames.bind(styles);
 
 InfoOrder.propTypes = {};
 const steps = ["Chờ xác nhận", "Đang giao hàng", "Đã giao hàng"];
+const PAGE_SIZE = 2;
 
 function InfoOrder(props) {
   const { languageData } = useContext(LanguageContext);
@@ -71,8 +74,18 @@ function InfoOrder(props) {
   const userId = user !== null && user?.id;
   const success = useSelector(selectOrderSuccess);
   useEffect(() => {
-    dispatch(fetchOrdersByUserId(userId));
+    if (AuthService.getCurrentUserId() !== null) {
+      dispatch(
+        fetchOrdersByUserId({
+          userId: AuthService.getCurrentUserId(),
+          page: 0,
+          size: PAGE_SIZE,
+        })
+      );
+    }
   }, [dispatch, userId, success]);
+
+  // console.log(user);
 
   const convertTimeStamp = (timestamp) => {
     const formattedDate = moment(timestamp)
@@ -80,23 +93,27 @@ function InfoOrder(props) {
       .format("DD [tháng] MM YYYY HH:mm:ss");
     return formattedDate;
   };
+
   const handleCancelOrder = (orderId) => {
-    dispatch(updateOrderCanceled({ userId: userId, orderId: orderId })).then(
-      (response) => {
-        if (response.payload === 200) {
-          dispatch(setOrderStatusSuccess((prev) => !prev));
-          toast.success("Hủy đơn hàng thành công thành công", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-          });
-        }
+    dispatch(
+      updateOrderCanceled({
+        userId: AuthService.getCurrentUserId(),
+        orderId: orderId,
+      })
+    ).then((response) => {
+      if (response.payload === 200) {
+        dispatch(setOrderStatusSuccess((prev) => !prev));
+        toast.success("Hủy đơn hàng thành công thành công", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+        });
       }
-    );
+    });
   };
   const handleStepper = (order) => {
     if (order.orderStatus === "PROCESSING") {
@@ -137,7 +154,6 @@ function InfoOrder(props) {
       rating: rating,
       orderId: orderId,
     };
-    console.log(body);
     dispatch(createComment({ body: body })).then((response) => {
       console.log(response);
       if (response.payload === 200) {
@@ -147,6 +163,21 @@ function InfoOrder(props) {
     });
   };
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const totalItems = orders?.totalElements;
+  const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+  const handleChangePage = (event, newPage) => {
+    setCurrentPage(newPage);
+    dispatch(
+      fetchOrdersByUserId({
+        userId: AuthService.getCurrentUserId(),
+        page: newPage,
+        size: PAGE_SIZE,
+      })
+    );
+    scroll.scrollToTop();
+  };
+
   return (
     <div className="w-full bg-gray-200 p-8">
       <Container>
@@ -154,10 +185,10 @@ function InfoOrder(props) {
           <div className="md:col-span-3 px-2 lg:col-span-2 hidden md:block">
             <SidebarLeft />
           </div>
-          {orders.length > 0 ? (
+          {orders?.content?.length > 0 ? (
             <div className="col-span-12 md:col-span-9 lg:col-span-10 sm:col-span-12">
               <h3 className="text-5xl mb-10">{order_detail}</h3>
-              {orders.map((order, index) => {
+              {orders?.content?.map((order, index) => {
                 return (
                   <div key={index} className="mt-10">
                     {order.cartItems.map((item, index) => {
@@ -294,7 +325,7 @@ function InfoOrder(props) {
                             <p className="text-2xl flex-1">{order.address}</p>
 
                             <span>(84+) {order.numberPhone}</span>
-                            {order.orderStatus === "DELIVERED" && (
+                            {order.orderStatus === "DELIVERED" || order.orderStatus === "READY" && (
                               <div className="my-6">
                                 <Box sx={{ width: "100%" }}>
                                   <Stepper
@@ -412,6 +443,17 @@ function InfoOrder(props) {
                   </div>
                 );
               })}
+              <div className="py-20 bg-white flex justify-center items-center">
+                <Pagination
+                  count={totalPages || 0}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handleChangePage(event, newPage - 1)
+                  }
+                  size="large"
+                  color="primary"
+                />
+              </div>
             </div>
           ) : (
             <div className="md:col-span-9 lg:col-span-10 sm:col-span-12 xs:col-span-12 col-span-12">
