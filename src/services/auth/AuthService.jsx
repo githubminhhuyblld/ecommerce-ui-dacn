@@ -60,6 +60,11 @@ const isTokenExpired = (token) => {
     return currentTime > expireTime;
 };
 
+const getCurrentUserId = () => {
+    const tokenData = JSON.parse(localStorage.getItem("token"));
+    return tokenData ? tokenData.userId : null;
+};
+
 
 const AuthService = {
     login,
@@ -67,7 +72,8 @@ const AuthService = {
     getCurrentUser,
     logout,
     register,
-    isTokenExpired
+    isTokenExpired,
+    getCurrentUserId
 
 };
 export default AuthService;

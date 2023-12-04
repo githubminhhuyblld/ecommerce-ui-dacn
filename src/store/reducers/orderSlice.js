@@ -17,9 +17,9 @@ export const createOrder = createAsyncThunk(
 );
 export const fetchOrdersByUserId = createAsyncThunk(
   "order/fetchOrdersByUserId",
-  async (userId, { rejectWithValue }) => {
+  async ({userId, page, size}, { rejectWithValue }) => {
     try {
-      const response = await instance.get(`/order/${userId}`, {
+      const response = await instance.get(`/order/${userId}?page=${page}&size=${size}`, {
         headers: authHeader(),
       });
       return response.data.data;

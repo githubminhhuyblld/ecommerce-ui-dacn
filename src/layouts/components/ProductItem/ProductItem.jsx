@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Typography, Card, CardContent, Skeleton } from "@mui/material";
 import { animateScroll as scroll } from "react-scroll";
@@ -22,7 +22,6 @@ function ProductItem(props) {
   const { quantity_remaining } = languageData;
 
   const { product } = props;
-  const navigate = useNavigate();
   const loading = useSelector(selectLoading);
   const handleProductClick = () => {
     scroll.scrollToTop();
@@ -77,11 +76,15 @@ function ProductItem(props) {
                 </Typography>
               </div>
               <Typography variant="body2">
-                <span className={cx("quantity")}>
-                  {quantity_remaining} {product.quantity}
-                </span>
+                <span className={cx("sale")}>- {product.sale}%</span>
               </Typography>
             </div>
+            <Typography variant="body2">
+              <span className={cx("quantity")}>
+                {quantity_remaining}
+                {product.quantity}
+              </span>
+            </Typography>
           </div>
         </CardContent>
       </Card>

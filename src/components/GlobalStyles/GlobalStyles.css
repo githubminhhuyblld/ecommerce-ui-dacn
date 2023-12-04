@@ -130,7 +130,7 @@ body .select-field-disabled {
 
 /*customer material ui*/
 body .MuiContainer-root.MuiContainer-maxWidthLg.css-1oqqzyl-MuiContainer-root {
-  max-width: 1480px;
+    max-width: 1180px;
 }
 
 body input.MuiInputBase-input.MuiInput-input {

@@ -162,6 +162,7 @@ function Order(props) {
               progress: undefined,
               bodyClassName: "toast-message",
             });
+            navigate(config.routes.infoOrder);
           }
         }
         const orderId = response.payload.data;
@@ -170,6 +171,7 @@ function Order(props) {
             createPayment({ amount: totalPrice, orderInfo: orderId })
           ).then((paymentResponse) => {
             if (paymentResponse.payload.data !== null) {
+              console.log(paymentResponse);
               window.location.href = paymentResponse.payload.data;
               setTimeout(() => {
                 dispatch(clearCartItem());
