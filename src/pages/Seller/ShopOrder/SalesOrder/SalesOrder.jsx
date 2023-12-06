@@ -23,6 +23,7 @@ import { MenuItem, FormControl, Select, InputLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { fetchUserInfo, selectUser } from "~/store/reducers/userSlice";
+import { convertCurrency } from "~/untils/convertCurrency";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.2rem",
   },
 }));
-function OrderTrend(props) {
+function SalesOrder(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [timePeriod, setTimePeriod] = useState("SIX_MONTH");
@@ -72,12 +73,17 @@ function OrderTrend(props) {
   const data = selectedOrders.map((item, index) => {
     return {
       name: item.fromTo,
-      sold: item.soldOrder.length,
-      cancelled: item.cancelOrder.length,
+      TotalSale: item.totalSale,
     };
   });
+  console.log(selectedOrders);
 
-  
+  const formatTotalSale = (value) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(value);
+  };
 
   const handleChange = (event) => {
     setTimePeriod(event.target.value);
@@ -86,7 +92,7 @@ function OrderTrend(props) {
     <div className="w-full bg-background h-[100vh] ">
       <div className="flex item-center justify-end mb-10 p-4 mr-10">
         <FormControl variant="outlined" className={classes.formControl}>
-          <InputLabel style={{fontSize:16}} id="time-period-select-label">
+          <InputLabel style={{ fontSize: 16 }} id="time-period-select-label">
             Khoảng Thời Gian
           </InputLabel>
           <Select
@@ -111,36 +117,23 @@ function OrderTrend(props) {
       </div>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
-          width={500}
-          height={300}
           data={data}
           margin={{
             top: 5,
-            right: 5,
-            left: 0,
+            left: 20,
             bottom: 5,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />
-          <Tooltip />
+          <Tooltip formatter={formatTotalSale} />
           <Legend />
-          <Bar
-            dataKey="sold"
-            fill="#82ca9d"
-            activeBar={<Rectangle fill="pink" stroke="blue" />}
-          />
-          <Bar
-            dataKey="cancelled"
-            fill="#8884d8"
-            activeBar={<Rectangle fill="gold" stroke="purple" />}
-          />
-       
+          <Bar dataKey="TotalSale" fill="#82ca9d" />
         </BarChart>
       </ResponsiveContainer>
     </div>
   );
 }
 
-export default OrderTrend;
+export default SalesOrder;

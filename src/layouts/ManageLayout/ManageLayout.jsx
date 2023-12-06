@@ -41,8 +41,12 @@ function ManageLayout({ children }) {
       icon: <FaHeart />,
       items: [
         {
-          name: "Thống kê",
+          name: "Thống kê đơn hàng",
           to: config.routes.orderTrend,
+        },
+        {
+          name: "Thống kê doanh thu",
+          to: config.routes.salesOrder,
         },
         {
           name: "Tất cả Đơn hàng",

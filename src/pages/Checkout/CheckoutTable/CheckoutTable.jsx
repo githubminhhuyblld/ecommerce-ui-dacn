@@ -62,6 +62,7 @@ const CheckoutTable = (props) => {
   const [productId, setProductId] = useState(null);
   const [cartItem, setCartItem] = useState({});
   const [open, setOpen] = useState(false);
+  console.log(carts);
 
   const validationSchema = Yup.object().shape({
     quantity: Yup.number()

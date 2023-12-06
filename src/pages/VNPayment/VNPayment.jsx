@@ -6,6 +6,7 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { useDispatch } from "react-redux";
 import { confirmPayment } from "~/store/reducers/paymentSlice";
 import config from "~/config";
+import { clearSelectedItems } from "~/store/reducers/cartsSlice";
 
 function VNPayment(props) {
   const query = new URLSearchParams(useLocation().search);
@@ -28,6 +29,7 @@ function VNPayment(props) {
     ).then((resultAction) => {
       console.log(resultAction);
       if(resultAction.payload.status === "oke"){
+        dispatch(clearSelectedItems());
         setIsPaid(true)
       }
       else{

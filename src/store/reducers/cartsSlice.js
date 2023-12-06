@@ -113,6 +113,10 @@ const cartSlice = createSlice({
       localStorage.removeItem("selectedItems");
       state.success = false;
     },
+    clearSelectedItems: (state) => {
+      state.selectedItems = [];
+      localStorage.removeItem("selectedItems");
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -186,7 +190,8 @@ export const {
   addSelectedItem,
   removeSelectedItem,
   clearCartItem,
-  setSelectedItems
+  setSelectedItems,
+  clearSelectedItems
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

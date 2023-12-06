@@ -71,9 +71,6 @@ function ProductItem(props) {
                     {convertCurrency(product.oldPrice)}
                   </span>
                 </Typography>
-                <Typography variant="body2">
-                  <span className={cx("sale")}>- {product.sale}%off</span>
-                </Typography>
               </div>
               <Typography variant="body2">
                 <span className={cx("sale")}>- {product.sale}%</span>
