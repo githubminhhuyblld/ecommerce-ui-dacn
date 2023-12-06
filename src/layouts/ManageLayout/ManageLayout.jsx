@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 
 import styles from "./ManageLayout.module.scss";
 import { BiDownArrowCircle } from "react-icons/bi";
-import { FaHeart, FaUserFriends } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import config from "~/config";
 import AuthService from "~/services/auth/AuthService";
 import { setAuthenticated } from "~/store/reducers/userSlice";
@@ -37,35 +37,13 @@ function ManageLayout({ children }) {
   const categories = [
     {
       id: 1,
-      label: "Địa chỉ Shop",
-      icon: <CiLocationOn/>,
-      items: [
-        {
-          name: "Địa chỉ",
-          to: config.routes.editShop,
-        },
-      ],
-    },
-    {
-      id: 2,
-      label: "Quản lý Sản phẩm",
-      icon: <BiDownArrowCircle />,
-      items: [
-        {
-          name: "Tất cả sản phẩm",
-          to: config.routes.seller,
-        },
-        {
-          name: "Thêm sản phẩm",
-          to: config.routes.addProduct,
-        },
-      ],
-    },
-    {
-      id: 3,
       label: "Quản lý Đơn hàng",
       icon: <FaHeart />,
       items: [
+        {
+          name: "Thống kê",
+          to: config.routes.orderTrend,
+        },
         {
           name: "Tất cả Đơn hàng",
           to: config.routes.allOrder,
@@ -90,6 +68,32 @@ function ManageLayout({ children }) {
         {
           name: "Đơn hàng mới nhất",
           to: config.routes.lastedOrder,
+        },
+      ],
+    },
+    {
+      id: 2,
+      label: "Quản lý Sản phẩm",
+      icon: <BiDownArrowCircle />,
+      items: [
+        {
+          name: "Tất cả sản phẩm",
+          to: config.routes.seller,
+        },
+        {
+          name: "Thêm sản phẩm",
+          to: config.routes.addProduct,
+        },
+      ],
+    },
+    {
+      id: 3,
+      label: "Địa chỉ Shop",
+      icon: <CiLocationOn />,
+      items: [
+        {
+          name: "Địa chỉ",
+          to: config.routes.editShop,
         },
       ],
     },
@@ -120,7 +124,7 @@ function ManageLayout({ children }) {
                 <SubMenu
                   label={category.label}
                   defaultOpen={!isTablet}
-                  className="text-3xl "
+                  className="text-2xl "
                   key={category.id}
                   icon={category.icon}
                 >

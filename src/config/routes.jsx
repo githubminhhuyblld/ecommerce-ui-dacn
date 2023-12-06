@@ -18,6 +18,7 @@ const routes = {
     activeAddress: "/shop/address/active",
     addProduct: "/shop/add-product",
     editProduct: "/shop/edit-product/:id",
+    orderTrend:"/shop/orders/trend",
     allOrder: "/shop/orders/all",
     cancelOrder:"/shop/orders/cancel",
     unpaidOrder:"/shop/orders/unpaid",

@@ -24,6 +24,7 @@ import ManageLayoutUnpaidOrder from "~/pages/Seller/ShopOrder/UnpaidOrder/Manage
 import ManageLayoutEditShop from "~/pages/Seller/EditShop/ManageLayoutEditShop";
 import UpdatePassword from "~/pages/UpdatePassword/UpdatePassword";
 import VNPayment from "~/pages/VNPayment/VNPayment";
+import ManageLayoutOrderTrend from "~/pages/Seller/ShopOrder/OrderTrend/ManageLayoutOrderTrend";
 
 
 const publicRoutes = [
@@ -45,6 +46,7 @@ const publicRoutes = [
     {path: config.routes.activeAddress, component: WatingShopRegister},
     {path: config.routes.addProduct, component: ManageLayoutAddProduct, layout: null},
     {path: config.routes.editProduct, component: ManageLayoutEditProduct, layout: null},
+    {path: config.routes.orderTrend, component: ManageLayoutOrderTrend, layout: null},
     {path: config.routes.allOrder, component: ManageLayoutAllOrder, layout: null},
     {path: config.routes.cancelOrder, component: ManageLayoutCanelOrders, layout: null},
     {path: config.routes.unpaidOrder, component: ManageLayoutUnpaidOrder, layout: null},
