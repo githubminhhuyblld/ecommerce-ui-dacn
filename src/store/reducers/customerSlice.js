@@ -18,9 +18,9 @@ export const createCustomer = createAsyncThunk(
 
 export const fetchCustomers = createAsyncThunk(
   "customer/fetchCustomers",
-  async (_, { rejectWithValue }) => {
+  async ({shopId}, { rejectWithValue }) => {
     try {
-      const response = await instance.get("/customers", {
+      const response = await instance.get(`/customers/shop/${shopId}`, {
         headers: authHeader(),
       });
       return response.data;
