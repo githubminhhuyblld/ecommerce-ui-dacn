@@ -1,0 +1,187 @@
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames/bind";
+import { toast } from "react-toastify";
+import {
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Tooltip,
+  colors,
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import { tooltipClasses } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import LinearProgress from "@mui/material/LinearProgress";
+
+import styles from "~/pages/Seller/ShopProduct/AllProduct/ShopAllProduct.module.scss";
+import { useTableStyles } from "~/layouts/components/CustomerMaterial";
+import {
+  selectProductsByShopIdLoading,
+} from "~/store/reducers/shopSlice";
+
+const cx = classNames.bind(styles);
+
+AllCustomer.propTypes = {
+  data: PropTypes.array.isRequired,
+};
+
+function AllCustomer(props) {
+  // const { data } = props;
+  const data = [
+    {
+      id: 1,
+      name: "Khách hàng 1",
+      phone: "123-456-7890",
+      email: "customer1@example.com",
+      address: "123 Main Street",
+    },
+    {
+      id: 2,
+      name: "Khách hàng 2",
+      phone: "987-654-3210",
+      email: "customer2@example.com",
+      address: "456 Elm Street",
+    },
+    // Thêm nhiều bản ghi khách hàng khác ở đây nếu cần
+  ];
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  const classes = useTableStyles();
+  const dispatch = useDispatch();
+  const token = JSON.parse(localStorage.getItem("token"));
+  const LightTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      fontSize: 16,
+    },
+  }));
+  const loading = useSelector(selectProductsByShopIdLoading);
+  
+  return (
+    <div className={cx("wrapper")}>
+      <h3 className="relative p-4 bg-sky-200 rounded-lg text-4xl text-gray-700 mb-4">
+        Tất cả sản phẩm
+      </h3>
+
+      {data.length !== 0 && (
+        <div className={cx("manage")}>
+          <Paper sx={{ width: "100%" }}>
+            <TableContainer
+              component={Paper}
+              className={classes.tableContainer}
+              sx={{ maxHeight: 440 }}
+            >
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell
+                      style={{ whiteSpace: "nowrap" }}
+                      className={classes.tableCell}
+                    >
+                      Tên khách hàng
+                    </TableCell>
+                    <TableCell
+                      style={{ whiteSpace: "nowrap" }}
+                      className={classes.tableCell}
+                    >
+                      Số điện thoại
+                    </TableCell>
+                    <TableCell
+                      style={{ whiteSpace: "nowrap" }}
+                      className={classes.tableCell}
+                    >
+                      Email
+                    </TableCell>
+                    <TableCell
+                      style={{ whiteSpace: "nowrap" }}
+                      className={classes.tableCell}
+                    >
+                      Địa chỉ
+                    </TableCell>
+                    <TableCell
+                      style={{ whiteSpace: "nowrap" }}
+                      className={classes.tableCell}
+                    >
+                      Chức năng
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data
+                    ?.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                    .map((item, index) => {
+                      return (
+                        <TableRow key={item.id} className={classes.evenRow}>
+                          <TableCell className={classes.tableCell}>
+                            {item.name}
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                          {item.phone}
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                          {item.email}
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                            {item.address}
+                          </TableCell>
+                          <TableCell className={classes.tableCell}>
+                            <a style={{textDecoration:"underline",color:"blue"}} href="">Xem lịch sử đặt hàng</a>
+                          </TableCell>
+                      
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            {data.length !== 0 && (
+              <TablePagination
+                sx={{
+                  fontWeight: "bold",
+                  mx: 0.5,
+                  fontSize: 22,
+                }}
+                rowsPerPageOptions={[5, 10, 20]}
+                component="div"
+                count={data?.length || 0}
+                rowsPerPage={rowsPerPage}
+                labelRowsPerPage="Lựa chọn số lượng sản phẩm"
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
+          </Paper>
+        </div>
+      )}
+      {data.length === 0 && (
+        <div className="p-4 text-3xl">
+          <p>Chưa có sản phẩm bán nào</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default AllCustomer;

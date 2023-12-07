@@ -26,38 +26,86 @@ import UpdatePassword from "~/pages/UpdatePassword/UpdatePassword";
 import VNPayment from "~/pages/VNPayment/VNPayment";
 import ManageLayoutOrderTrend from "~/pages/Seller/ShopOrder/OrderTrend/ManageLayoutOrderTrend";
 import ManageLayoutSalesOrder from "~/pages/Seller/ShopOrder/SalesOrder/ManageLayoutSaleOrders";
-
+import ManageLayoutAllCustomer from "~/pages/Seller/Customer/ManageLayoutAllCustomer";
 
 const publicRoutes = [
-    {path: "/", component: Home},
-    {path: config.routes.home, component: Home},
-    {path: config.routes.productDetail, component: ProductDetail},
-    {path: config.routes.login, component: Login},
-    {path: config.routes.register, component: Register},
-    {path: config.routes.product, component: Product},
-    {path: config.routes.account, component: Account},
-    {path: config.routes.infoOrder, component: InfoOrder},
-    {path: config.routes.checkout, component: Checkout},
-    {path: config.routes.order, component: Order},
-    {path: config.routes.editAddress, component: EditAddress},
-    {path: config.routes.editProfile, component: EditProfile},
-    {path: config.routes.updatePassword, component: UpdatePassword},
-    {path: config.routes.createAddress, component: CreateAddressPage},
-    {path: config.routes.seller, component: Seller, layout: null},
-    {path: config.routes.activeAddress, component: WatingShopRegister},
-    {path: config.routes.addProduct, component: ManageLayoutAddProduct, layout: null},
-    {path: config.routes.editProduct, component: ManageLayoutEditProduct, layout: null},
-    {path: config.routes.orderTrend, component: ManageLayoutOrderTrend, layout: null},
-    {path: config.routes.salesOrder, component: ManageLayoutSalesOrder, layout: null},
-    {path: config.routes.allOrder, component: ManageLayoutAllOrder, layout: null},
-    {path: config.routes.cancelOrder, component: ManageLayoutCanelOrders, layout: null},
-    {path: config.routes.unpaidOrder, component: ManageLayoutUnpaidOrder, layout: null},
-    {path: config.routes.readyOrder, component: ManageLayoutReadyOrders, layout: null},
-    {path: config.routes.processingOrder, component: ManageLayoutProcessingOrders, layout: null},
-    {path: config.routes.lastedOrder, component: ManageLayoutLastedOrder, layout: null},
-    {path: config.routes.editShop, component: ManageLayoutEditShop, layout: null},
-    {path: config.routes.vnpayPayment, component: VNPayment},
-
+  { path: "/", component: Home },
+  { path: config.routes.home, component: Home },
+  { path: config.routes.productDetail, component: ProductDetail },
+  { path: config.routes.login, component: Login },
+  { path: config.routes.register, component: Register },
+  { path: config.routes.product, component: Product },
+  { path: config.routes.account, component: Account },
+  { path: config.routes.infoOrder, component: InfoOrder },
+  { path: config.routes.checkout, component: Checkout },
+  { path: config.routes.order, component: Order },
+  { path: config.routes.editAddress, component: EditAddress },
+  { path: config.routes.editProfile, component: EditProfile },
+  { path: config.routes.updatePassword, component: UpdatePassword },
+  { path: config.routes.createAddress, component: CreateAddressPage },
+  { path: config.routes.seller, component: Seller, layout: null },
+  { path: config.routes.activeAddress, component: WatingShopRegister },
+  { path: config.routes.vnpayPayment, component: VNPayment },
+  {
+    path: config.routes.addProduct,
+    component: ManageLayoutAddProduct,
+    layout: null,
+  },
+  {
+    path: config.routes.editProduct,
+    component: ManageLayoutEditProduct,
+    layout: null,
+  },
+  {
+    path: config.routes.orderTrend,
+    component: ManageLayoutOrderTrend,
+    layout: null,
+  },
+  {
+    path: config.routes.salesOrder,
+    component: ManageLayoutSalesOrder,
+    layout: null,
+  },
+  {
+    path: config.routes.allOrder,
+    component: ManageLayoutAllOrder,
+    layout: null,
+  },
+  {
+    path: config.routes.cancelOrder,
+    component: ManageLayoutCanelOrders,
+    layout: null,
+  },
+  {
+    path: config.routes.unpaidOrder,
+    component: ManageLayoutUnpaidOrder,
+    layout: null,
+  },
+  {
+    path: config.routes.readyOrder,
+    component: ManageLayoutReadyOrders,
+    layout: null,
+  },
+  {
+    path: config.routes.processingOrder,
+    component: ManageLayoutProcessingOrders,
+    layout: null,
+  },
+  {
+    path: config.routes.lastedOrder,
+    component: ManageLayoutLastedOrder,
+    layout: null,
+  },
+  {
+    path: config.routes.editShop,
+    component: ManageLayoutEditShop,
+    layout: null,
+  },
+  {
+    path: config.routes.allCustomer,
+    component: ManageLayoutAllCustomer,
+    layout: null,
+  },
 ];
 const privateRoutes = [];
-export {publicRoutes, privateRoutes};
+export { publicRoutes, privateRoutes };

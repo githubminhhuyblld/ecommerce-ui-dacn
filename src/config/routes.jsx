@@ -28,6 +28,7 @@ const routes = {
     lastedOrder:"/shop/orders/lasted",
     editShop:"/shop/edit",
     vnpayPayment: "/vnpay-payment",
+    allCustomer: "/customers",
 
 
 };

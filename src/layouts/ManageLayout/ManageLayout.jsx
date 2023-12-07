@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 
 import styles from "./ManageLayout.module.scss";
 import { BiDownArrowCircle } from "react-icons/bi";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart,FaUserCheck  } from "react-icons/fa";
 import config from "~/config";
 import AuthService from "~/services/auth/AuthService";
 import { setAuthenticated } from "~/store/reducers/userSlice";
@@ -92,6 +92,18 @@ function ManageLayout({ children }) {
     },
     {
       id: 3,
+      label: "Quản lý khách hàng",
+      icon: <FaUserCheck />,
+      items: [
+        {
+          name: "Tất cả khách hàng",
+          to: config.routes.allCustomer,
+        },
+        
+      ],
+    },
+    {
+      id: 4,
       label: "Địa chỉ Shop",
       icon: <CiLocationOn />,
       items: [

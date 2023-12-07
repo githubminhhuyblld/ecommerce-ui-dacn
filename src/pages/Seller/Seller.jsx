@@ -19,12 +19,10 @@ import {
   resetProducts,
   selectInfoShop,
   selectProductsByShopId,
-  selectRegisterStatus,
 } from "~/store/reducers/shopSlice";
 import Header from "~/layouts/components/Header/Header";
 import WatingShopRegister from "./WatingShopRegister/WatingShopRegister";
 import Footer from "~/layouts/components/Footer/Footer.jsx";
-// import { Header as HeaderWrapper } from "~/layouts/components/Header/Header.jsx";
 import config from "~/config";
 
 const cx = classNames.bind(styles);
