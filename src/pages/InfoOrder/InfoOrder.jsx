@@ -85,7 +85,6 @@ function InfoOrder(props) {
     }
   }, [dispatch, userId, success]);
 
-  // console.log(user);
 
   const convertTimeStamp = (timestamp) => {
     const formattedDate = moment(timestamp)
@@ -147,20 +146,24 @@ function InfoOrder(props) {
   const [hasReviewed, setHasReviewed] = useState(false);
 
   const handleSubmit = (productId, orderId) => {
-    const body = {
-      productId: productId,
-      content: comment,
-      userId: userId,
-      rating: rating,
-      orderId: orderId,
-    };
-    dispatch(createComment({ body: body })).then((response) => {
-      console.log(response);
-      if (response.payload === 200) {
-        alert("Bạn đã đánh giá thành công!");
-        setHasReviewed(true);
-      }
-    });
+    if(AuthService.getCurrentUser() != null){
+      const body = {
+        productId: productId,
+        content: comment,
+        userId: userId,
+        rating: rating,
+        orderId: orderId,
+      };
+      dispatch(createComment({ body: body })).then((response) => {
+        if (response.payload === 200) {
+          alert("Bạn đã đánh giá thành công!");
+          setHasReviewed(true);
+        }
+      });
+    }
+    else{
+      navigate(config.routes.login);
+    }
   };
 
   const [currentPage, setCurrentPage] = useState(0);

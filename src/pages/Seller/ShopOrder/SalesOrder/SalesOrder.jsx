@@ -23,7 +23,6 @@ import { MenuItem, FormControl, Select, InputLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { fetchUserInfo, selectUser } from "~/store/reducers/userSlice";
-import { convertCurrency } from "~/untils/convertCurrency";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -76,7 +75,6 @@ function SalesOrder(props) {
       TotalSale: item.totalSale,
     };
   });
-  console.log(selectedOrders);
 
   const formatTotalSale = (value) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -129,7 +127,7 @@ function SalesOrder(props) {
           <YAxis />
           <Tooltip formatter={formatTotalSale} />
           <Legend />
-          <Bar dataKey="TotalSale" fill="#82ca9d" />
+          <Bar dataKey="TotalSale" fill="#82ca9d" width={20} barSpacing={10} />
         </BarChart>
       </ResponsiveContainer>
     </div>

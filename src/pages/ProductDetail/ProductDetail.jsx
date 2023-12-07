@@ -413,9 +413,7 @@ function ProductDetail(props) {
                     <div className={cx("options")}>
                       {sizeOptions && sizeOptions.length > 0 && (
                         <>
-                          <h3 className={cx("title")}>
-                            {product_detail_size}:
-                          </h3>
+                          <h3 className={cx("title")}>{product_detail_size}</h3>
 
                           <ButtonList
                             options={sizeOptions}
@@ -511,15 +509,23 @@ function ProductDetail(props) {
                       </>
                     ) : (
                       <>
-                        <button className={`btn ${cx("btn-buy-now")}`}>
+                        {/* <button className={`btn ${cx("btn-buy-now")}`}>
                           {buy_now}
-                        </button>
-                        <button
-                          onClick={handleAddToCart}
-                          className={`btn ${cx("btn-add-cart")}`}
-                        >
-                          {add_to_cart}
-                        </button>
+                        </button> */}
+                        {productDetail?.quantity > 1 ? (
+                          <button
+                            onClick={handleAddToCart}
+                            className={`btn ${cx("btn-add-cart")}`}
+                          >
+                            {add_to_cart}
+                          </button>
+                        ) : (
+                          <div className=" p-6 bg-sky-300 rounded">
+                            <h3 className="text-4xl text-white">
+                              Sản phẩm đã hết hàng
+                            </h3>
+                          </div>
+                        )}
                       </>
                     )}
                   </div>
@@ -544,7 +550,7 @@ function ProductDetail(props) {
                   <div key={comment.id}>
                     <div className="flex  flex-col p-4 bg-white rounded shadow">
                       <div className="flex items-center ">
-                        <BsShieldFillCheck className="text-green-500 text-4xl mb-2"/>
+                        <BsShieldFillCheck className="text-green-500 text-4xl mb-2" />
                         <span className="bg-green-500 ml-3 px-2 rounded-sm text-white">
                           Chứng nhận đã mua hàng
                         </span>
