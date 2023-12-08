@@ -23,7 +23,7 @@ import {
   fetchCustomers,
   selectCustomers,
   selectCustomersLoading,
-} from "~/store/reducers/CustomerSlice";
+} from "~/store/reducers/customerSlice";
 import { fetchUserInfo, selectUser } from "~/store/reducers/userSlice";
 import AuthService from "~/services/auth/AuthService";
 import { Link } from "react-router-dom";
