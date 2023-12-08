@@ -182,6 +182,20 @@ export const fetchOrdersMonth = createAsyncThunk(
   }
 );
 
+export const fetchOrdersByShopAndEmail = createAsyncThunk(
+  "order/fetchOrdersByShopAndEmail",
+  async ({ shopId, email }, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(`/order/shop/${shopId}/email/${encodeURIComponent(email)}`, {
+        headers: authHeader(),
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   loading: false,
   error: null,
@@ -193,7 +207,8 @@ const initialState = {
   lastedOrder: [],
   orderSixMonths: [],
   ordersWeek:[],
-  ordersMonth:[]
+  ordersMonth:[],
+  ordersByEmail:[]
 };
 
 const orderSlice = createSlice({
@@ -349,9 +364,23 @@ const orderSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(fetchOrdersByShopAndEmail.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchOrdersByShopAndEmail.fulfilled, (state, action) => {
+        state.ordersByEmail = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(fetchOrdersByShopAndEmail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
+export const selectError = (state) => state.order.error;
 export const selectOrdersLoading = (state) => state.order.loading;
 export const selectOrdersByUserId = (state) => state.order.orders;
 export const selectOrderStatus = (state) => state.order.orderStatus;
@@ -361,6 +390,7 @@ export const selectOrderSuccess = (state) => state.order.success;
 export const selectOrderBySixMonth = (state) => state.order.orderSixMonths;
 export const selectOrderByWeek = (state) => state.order.ordersWeek;
 export const selectOrderByMonth = (state) => state.order.ordersMonth;
+export const selectOrderByEmail = (state) => state.order.ordersByEmail;
 export const { setOrderStatusSuccess, resetData } = orderSlice.actions;
 
 export default orderSlice.reducer;

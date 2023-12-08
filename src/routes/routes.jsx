@@ -26,7 +26,8 @@ import UpdatePassword from "~/pages/UpdatePassword/UpdatePassword";
 import VNPayment from "~/pages/VNPayment/VNPayment";
 import ManageLayoutOrderTrend from "~/pages/Seller/ShopOrder/OrderTrend/ManageLayoutOrderTrend";
 import ManageLayoutSalesOrder from "~/pages/Seller/ShopOrder/SalesOrder/ManageLayoutSaleOrders";
-import ManageLayoutAllCustomer from "~/pages/Seller/Customer/ManageLayoutAllCustomer";
+import ManageLayoutAllCustomer from "~/pages/Seller/Customer/AllCustomer/ManageLayoutAllCustomer";
+import ManageLayoutHistoryOrder from "~/pages/Seller/Customer/HistoryOrder/ManageLayoutHistoryOrder";
 
 const publicRoutes = [
   { path: "/", component: Home },
@@ -89,6 +90,11 @@ const publicRoutes = [
   {
     path: config.routes.processingOrder,
     component: ManageLayoutProcessingOrders,
+    layout: null,
+  },
+  {
+    path: config.routes.historyOrder,
+    component: ManageLayoutHistoryOrder,
     layout: null,
   },
   {

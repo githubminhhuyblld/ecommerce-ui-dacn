@@ -26,6 +26,7 @@ import {
 } from "~/store/reducers/CustomerSlice";
 import { fetchUserInfo, selectUser } from "~/store/reducers/userSlice";
 import AuthService from "~/services/auth/AuthService";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -137,15 +138,15 @@ function AllCustomer(props) {
                               {item.address}
                             </TableCell>
                             <TableCell className={classes.tableCell}>
-                              <a
+                              <Link
                                 style={{
                                   textDecoration: "underline",
                                   color: "blue",
                                 }}
-                                href=""
+                                to={`/orders/history/${item.email}`}
                               >
                                 Xem lịch sử
-                              </a>
+                              </Link>
                             </TableCell>
                           </TableRow>
                         );

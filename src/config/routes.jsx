@@ -29,6 +29,7 @@ const routes = {
     editShop:"/shop/edit",
     vnpayPayment: "/vnpay-payment",
     allCustomer: "/customers",
+    historyOrder: "/orders/history/:email",
 
 
 };
