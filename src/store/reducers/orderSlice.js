@@ -189,7 +189,7 @@ export const fetchOrdersByShopAndEmail = createAsyncThunk(
       const response = await instance.get(`/order/shop/${shopId}/email/${encodeURIComponent(email)}`, {
         headers: authHeader(),
       });
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

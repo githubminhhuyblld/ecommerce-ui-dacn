@@ -35,6 +35,7 @@ import LanguageContext from "~/context/languageContext";
 import { createPayment } from "~/store/reducers/paymentSlice";
 import { createComment } from "~/store/reducers/commentSlice";
 import AuthService from "~/services/auth/AuthService";
+import convertTimeStamp from "~/untils/convertTimeStamp";
 
 const cx = classNames.bind(styles);
 
@@ -84,14 +85,6 @@ function InfoOrder(props) {
       );
     }
   }, [dispatch, userId, success]);
-
-
-  const convertTimeStamp = (timestamp) => {
-    const formattedDate = moment(timestamp)
-      .tz("Asia/Ho_Chi_Minh")
-      .format("DD [tháng] MM YYYY HH:mm:ss");
-    return formattedDate;
-  };
 
   const handleCancelOrder = (orderId) => {
     dispatch(

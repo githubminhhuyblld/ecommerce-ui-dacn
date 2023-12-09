@@ -63,8 +63,6 @@ function AllCustomer(props) {
       dispatch(fetchCustomers({ shopId: user.shopId }));
     }
   }, [dispatch, user]);
-
-  console.log(customers);
   return (
     <div className={cx("wrapper")}>
       <h3 className="relative p-4 bg-sky-200 rounded-lg text-4xl text-gray-700 mb-4">
